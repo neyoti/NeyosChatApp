@@ -5,16 +5,14 @@ import { useState } from "react";
 
 import { Button, Form } from "react-bootstrap"
 
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 import { useConnection } from "./components/ConnectionContext";
 import { useMessage } from './components/MessageContext';
 
-import { useEffect } from "react";
 import { useRecipientProfile } from './components/RecipientProfileContext';
-
-import Sidebar from './Sidebar';
+import { useUser } from './components/UsernameContext';
 
 const UserTab = ({ username, onTabClick }) => {
     return (
@@ -37,8 +35,8 @@ const UserTab = ({ username, onTabClick }) => {
 
 const ChatPortal = () => {
 
-    const location = useLocation();
-    const { username } = location.state || {};
+    //const location = useLocation();
+    //const { username } = location.state || {};
 
     const { setConnection } = useConnection();
     const [connectionVariant, setConnectionVariant] = useState();
@@ -46,6 +44,7 @@ const ChatPortal = () => {
     const [onlineUsers, setOnlineUsers] = useState([]);
 
     const { setFirstName, setLastName, setStatus } = useRecipientProfile();
+    const { username, setUsername } = useUser();  // Get Username
 
     // const [firstName, setFirstName] = useState('');
     // const [lastName, setLastName] = useState('');
@@ -97,7 +96,7 @@ const ChatPortal = () => {
                 const parsedData = JSON.parse(data);
                 console.log("Type of data: ", typeof parsedData);
                 console.log("Recipient Data: ", parsedData);
-        
+
                 setFirstName(parsedData[0]['FirstName']);
                 setLastName(parsedData[0]['LastName']);
                 setStatus(parsedData[0]['Status']);
@@ -105,7 +104,7 @@ const ChatPortal = () => {
 
             connection.onclose(e => {
                 setConnection();
-                //setMessages([]);
+                // setMessages([]);
                 setOnlineUsers([]);
             })
 
@@ -118,19 +117,21 @@ const ChatPortal = () => {
         }
     }
 
-    // const closeConnection = async () => {
-    //     try {
-    //         await connection.stop();
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
-    useEffect(() => {
-        console.log("Messages updated:", messages);
-    }, [messages]);
+    // useEffect(() => {
+    //     console.log("Messages updated:", messages);
+    // }, [messages]);
 
     const navigate = useNavigate();
+
+    const logOutSession = async () => {
+        try {
+            alert("Your logged in session will be closed!!!");
+            setUsername('');
+            navigate("/");
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     const handleTabClick = async (recipient) => {
         if (!connectionVariant) {
@@ -151,51 +152,39 @@ const ChatPortal = () => {
         navigate('/chat', { state: { username, recipient } });
     };
 
-    const [sidebarWidth, setSidebarWidth] = useState('250px');
+    const [sidebarWidth] = useState('250px');
 
     return (
+        <div className="main-content" style={{ marginLeft: sidebarWidth }}>
+            <div>
+                <button onClick={() => logOutSession()} >LogOut</button>
 
-    //     <div style={{ display: 'flex', height: '100vh'}}>
-    //   <Sidebar sidebarWidth={sidebarWidth} />
-    //   <div className="main-content" style={{ marginLeft: sidebarWidth }}>
-    //     <div className="banner">
-    //       <h2>Banner Content</h2>
-    //       <button className="connect-button">Connect</button>
-    //     </div>
-    //     <div className="user-list">User List</div>
-    //   </div>
-    //</div>
+                <Form //className="lobby"
+                    onSubmit={e => {
+                        e.preventDefault();
+                        joinChatLobby(username);
+                    }} >
+                    <Button variant="success" type="submit" className='connect-button' disabled={!username}>Connect</Button>
+                </Form>
 
-    <div className="main-content" style={{ marginLeft: sidebarWidth }}>
-        <div>
-            <button>LogOut</button>
-
-            <Form //className="lobby"
-                onSubmit={e => {
-                    e.preventDefault();
-                    joinChatLobby(username);
-                }} >
-                <Button variant="success" type="submit" className='connect-button' disabled={!username}>Connect</Button>
-            </Form>
-
-            <div className="user-list">
-                <h1>Yooo<br></br>
-                    .<br></br>
-                    .<br></br>
-                    .<br></br>
-                    .<br></br>
-                    .<br></br>
-                    .<br></br>
-                    .<br></br>
-                </h1>
-                <h4>Online Users</h4>
-                {onlineUsers.map((u) =>
-                    <div style={{ margin: "20px" }} key={u}>
-                        <UserTab username={u} onTabClick={() => handleTabClick(u)} />
-                    </div>
-                )}
+                <div className="user-list">
+                    <h1>Yooo<br></br>
+                        .<br></br>
+                        .<br></br>
+                        .<br></br>
+                        .<br></br>
+                        .<br></br>
+                        .<br></br>
+                        .<br></br>
+                    </h1>
+                    <h4>Online Users</h4>
+                    {onlineUsers.map((u) =>
+                        <div style={{ margin: "20px" }} key={u}>
+                            <UserTab username={u} onTabClick={() => handleTabClick(u)} />
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
         </div>
     );
 }

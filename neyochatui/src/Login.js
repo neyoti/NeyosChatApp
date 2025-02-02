@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './components/UsernameContext';
 
-const Login = ({ onLoginSuccess }) => {
+const Login = () => {
     const [formData, setFormData] = useState({
         username: "",
         password: ""
     });
+
+    const { setUsername, setIsAuthenticated } = useUser();  // Set Username
 
     const navigate = useNavigate();
 
@@ -23,8 +26,10 @@ const Login = ({ onLoginSuccess }) => {
                 const response = await axios.post("https://localhost:7085/UserAuth/login", formData);
                 localStorage.setItem("token", response.data.token);
                 alert("Welcome " + formData.username);
-                onLoginSuccess();
-                navigate('/chatportal', { state: { username: formData.username } });
+                //onLoginSuccess(isAuthenticated);
+                setIsAuthenticated(isAuthenticated);
+                setUsername(formData.username);
+                navigate('/chatportal');
             }
         } catch (error) {
             alert("Invalid credentials");

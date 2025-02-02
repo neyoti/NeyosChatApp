@@ -13,6 +13,8 @@ import { RecipientProfileProvider } from './components/RecipientProfileContext';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
 import {useState} from "react";
+import { UserNameProvider } from './components/UsernameContext';
+import { useUser } from './components/UsernameContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -27,25 +29,33 @@ const Dashboard = () => {
 };
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  //const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const { isAuthenticated } = useUser();  // Set Username
 
   return (
     <Router>
       <ConnectionProvider>
+        <UserNameProvider>
         {isAuthenticated && <Sidebar />}
         <div className='banner'>
           <MessageProvider>
             <RecipientProfileProvider>
               <Routes>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/login" element={<Login onLoginSuccess={() => setIsAuthenticated(true)} />} />
+                {/* <Route path="/signup" element={<SignUp onLoginSuccess={(e) => setIsAuthenticated(e)} />} />
+                <Route path="/login" element={<Login onLoginSuccess={(e) => setIsAuthenticated(e)} />} /> */}
+
+                <Route path="/signup" />
+                <Route path="/login" />
+
                 <Route path="/chatportal" element={isAuthenticated ? <ChatPortal /> : <Dashboard />} />
                 <Route path="/chat" element={isAuthenticated ? <Chat /> : <Dashboard />} />
               </Routes>
             </RecipientProfileProvider>
           </MessageProvider>
         </div>
+        </UserNameProvider>
       </ConnectionProvider>
     </Router>
   );

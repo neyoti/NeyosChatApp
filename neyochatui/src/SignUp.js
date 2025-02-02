@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './components/UsernameContext';
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const SignUp = () => {
     });
 
     const navigate = useNavigate();
+    const { setUsername } = useUser();  // Set Username
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +27,9 @@ const SignUp = () => {
             if (isAuthenticated) {
                 await axios.post("https://localhost:7085/UserAuth/signup", formData, { withCredentials: true });
                 alert("User registered successfully");
-                navigate('/chatportal', { state: { username: formData.username } });
+                //onLoginSuccess(isAuthenticated);
+                setUsername(formData.username);
+                navigate('/chatportal');
             }
         } catch (error) {
             alert(error.response?.data.message || "An error occurred");
