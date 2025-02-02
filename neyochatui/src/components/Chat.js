@@ -48,7 +48,7 @@ const Chat = () => {
         }
     }
 
-    return <div className="chat-platform" >
+    return <div >
         {
             !connection ? <h4>Connection Lost!!!</h4> :
                 <div>
