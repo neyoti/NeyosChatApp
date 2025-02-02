@@ -14,6 +14,8 @@ import { useMessage } from './components/MessageContext';
 import { useEffect } from "react";
 import { useRecipientProfile } from './components/RecipientProfileContext';
 
+import Sidebar from './Sidebar';
+
 const UserTab = ({ username, onTabClick }) => {
     return (
         <div
@@ -149,7 +151,22 @@ const ChatPortal = () => {
         navigate('/chat', { state: { username, recipient } });
     };
 
+    const [sidebarWidth, setSidebarWidth] = useState('250px');
+
     return (
+
+    //     <div style={{ display: 'flex', height: '100vh'}}>
+    //   <Sidebar sidebarWidth={sidebarWidth} />
+    //   <div className="main-content" style={{ marginLeft: sidebarWidth }}>
+    //     <div className="banner">
+    //       <h2>Banner Content</h2>
+    //       <button className="connect-button">Connect</button>
+    //     </div>
+    //     <div className="user-list">User List</div>
+    //   </div>
+    //</div>
+
+    <div className="main-content" style={{ marginLeft: sidebarWidth }}>
         <div>
             <button>LogOut</button>
 
@@ -178,6 +195,7 @@ const ChatPortal = () => {
                     </div>
                 )}
             </div>
+        </div>
         </div>
     );
 }

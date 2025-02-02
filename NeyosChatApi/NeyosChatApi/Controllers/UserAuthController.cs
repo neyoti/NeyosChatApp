@@ -43,7 +43,7 @@ namespace NeyosChatApi.Controllers
             }
 			catch (Exception ex)
 			{
-				Console.WriteLine("Exception: ", ex);
+				Console.WriteLine($"Exception: {ex}");
 			}
 
 			return Ok();
@@ -87,7 +87,7 @@ namespace NeyosChatApi.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception: ", ex);
+                Console.WriteLine($"Exception: {ex}");
             }
 
 			return Ok();

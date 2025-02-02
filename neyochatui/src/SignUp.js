@@ -20,15 +20,20 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("https://localhost:7085/UserAuth/signup", formData, { withCredentials: true});
-            alert("User registered successfully");
-            navigate('/chatportal', { state: { username: formData.username } });
+            const isAuthenticated = true;
+
+            if (isAuthenticated) {
+                await axios.post("https://localhost:7085/UserAuth/signup", formData, { withCredentials: true });
+                alert("User registered successfully");
+                navigate('/chatportal', { state: { username: formData.username } });
+            }
         } catch (error) {
             alert(error.response?.data.message || "An error occurred");
         }
     };
 
     return (
+        <div>
         <form onSubmit={handleSubmit}>
             <input name="firstName" placeholder="First Name" onChange={handleChange} />
             <input name="lastName" placeholder="Last Name" onChange={handleChange} />
@@ -36,6 +41,8 @@ const SignUp = () => {
             <input name="password" type="password" placeholder="Password" onChange={handleChange} />
             <button type="submit">Sign Up</button>
         </form>
+        <button onClick={() => {navigate(-1)} }>Back to Dashboard</button>
+        </div>
     );
 };
 
