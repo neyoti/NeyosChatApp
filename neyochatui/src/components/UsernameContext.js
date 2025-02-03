@@ -9,7 +9,6 @@ export const useUser = () => useContext(UserNameContext);
 export const UserNameProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   return (
     <UserNameContext.Provider value={{ username, setUsername, isAuthenticated, setIsAuthenticated }}>
       {children}

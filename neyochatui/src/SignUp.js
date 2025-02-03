@@ -13,7 +13,7 @@ const SignUp = () => {
     });
 
     const navigate = useNavigate();
-    const { setUsername } = useUser();  // Set Username
+    const { setUsername, setIsAuthenticated } = useUser();  // Set Username
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +27,7 @@ const SignUp = () => {
             if (isAuthenticated) {
                 await axios.post("https://localhost:7085/UserAuth/signup", formData, { withCredentials: true });
                 alert("User registered successfully");
-                //onLoginSuccess(isAuthenticated);
+                setIsAuthenticated(isAuthenticated);
                 setUsername(formData.username);
                 navigate('/chatportal');
             }

@@ -66,12 +66,12 @@ const Sidebar = ({ sidebarWidth }) => {
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
             <NavLink to="/" className={({ isActive }) => (isActive ? 'activeClicked' : '')} onClick={() => dashBoard()}>
-              <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="home">Dashboard</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/chatportal" className={({ isActive }) => (isActive ? 'activeClicked' : '')} onClick={() => handleChatLobbyClick()} >
               <CDBSidebarMenuItem icon="table">Chat Lobby</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/profile" className={({ isActive }) => (isActive ? 'activeClicked' : '')}>
+            <NavLink to="/userprofile" className={({ isActive }) => (isActive ? 'activeClicked' : '')}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
             <NavLink

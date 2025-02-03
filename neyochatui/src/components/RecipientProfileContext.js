@@ -5,10 +5,10 @@ const RecipientProfileContext = createContext();
 export const RecipientProfileProvider = ({ children }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [status, setStatus] = useState('');
+    const [bio, setBio] = useState('');
 
     return (
-        <RecipientProfileContext.Provider value={{ firstName, lastName, status, setFirstName, setLastName, setStatus }}>
+        <RecipientProfileContext.Provider value={{ firstName, lastName, bio, setFirstName, setLastName, setBio }}>
             {children}
         </RecipientProfileContext.Provider>
     );

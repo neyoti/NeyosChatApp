@@ -224,6 +224,7 @@ hr.line {
   width: 1015px;
   margin-right: 65px;
   height: 100vh ;
+  padding-left: 4px;
 }
 
 .profile-banner{
@@ -322,8 +323,8 @@ hr.line {
 .input-grp{
   display: flex;
   flex-direction: row;
-  width:132vh ;
-  padding-left: 3px;
+  width:131vh ;
+  padding-left: 45px;
 }
 
 .input-grp input {

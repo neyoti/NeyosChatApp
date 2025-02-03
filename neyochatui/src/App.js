@@ -6,14 +6,14 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import ChatPortal from "./ChatLobby";
 import Chat from './components/Chat';
+import UserProfile from './components/UserProfile';
 import { ConnectionProvider } from "./components/ConnectionContext";
 import { MessageProvider } from './components/MessageContext';
 import { RecipientProfileProvider } from './components/RecipientProfileContext';
+import { UserProfileProvider } from './components/UserProfileContext';
 
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
-import {useState} from "react";
-import { UserNameProvider } from './components/UsernameContext';
 import { useUser } from './components/UsernameContext';
 
 const Dashboard = () => {
@@ -29,33 +29,35 @@ const Dashboard = () => {
 };
 
 const App = () => {
-  //const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const { isAuthenticated } = useUser();
 
-  const { isAuthenticated } = useUser();  // Set Username
+  const userContext = useUser();
+  const isAuthenticated = userContext?.isAuthenticated ?? false;
 
   return (
     <Router>
       <ConnectionProvider>
-        <UserNameProvider>
         {isAuthenticated && <Sidebar />}
         <div className='banner'>
           <MessageProvider>
-            <RecipientProfileProvider>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                {/* <Route path="/signup" element={<SignUp onLoginSuccess={(e) => setIsAuthenticated(e)} />} />
+            <UserProfileProvider>
+              <RecipientProfileProvider>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  {/* <Route path="/signup" element={<SignUp onLoginSuccess={(e) => setIsAuthenticated(e)} />} />
                 <Route path="/login" element={<Login onLoginSuccess={(e) => setIsAuthenticated(e)} />} /> */}
 
-                <Route path="/signup" />
-                <Route path="/login" />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/login" element={<Login />} />
 
-                <Route path="/chatportal" element={isAuthenticated ? <ChatPortal /> : <Dashboard />} />
-                <Route path="/chat" element={isAuthenticated ? <Chat /> : <Dashboard />} />
-              </Routes>
-            </RecipientProfileProvider>
+                  <Route path="/chatportal" element={isAuthenticated ? <ChatPortal /> : <Dashboard />} />
+                  <Route path="/chat" element={isAuthenticated ? <Chat /> : <Dashboard />} />
+                  <Route path="/userprofile" element={isAuthenticated ? <UserProfile /> : <Dashboard />} />
+                </Routes>
+              </RecipientProfileProvider>
+            </UserProfileProvider>
           </MessageProvider>
         </div>
-        </UserNameProvider>
       </ConnectionProvider>
     </Router>
   );
@@ -66,25 +68,25 @@ const App = () => {
 // const App = () => {
 
 
-  // <div className='dashboard'>
-  //   <Router>
-  //   <ConnectionProvider>
-  //     <Sidebar />
-  //     <div className='banner'>
-  //       <MessageProvider>
-  //         <RecipientProfileProvider>
-  //           <Routes>
-  //             {/* <Route path="/signup" element={<SignUp />} />
-  //             <Route path="/login" element={<Login />} /> */}
-  //             <Route path="/chatportal" element={<ChatPortal />} />
-  //             <Route path="/chat" element={<Chat />} />
-  //           </Routes>
-  //         </RecipientProfileProvider>
-  //       </MessageProvider>
-  //     </div>
-  //     </ConnectionProvider>
-  //   </Router>
-  // </div>
+// <div className='dashboard'>
+//   <Router>
+//   <ConnectionProvider>
+//     <Sidebar />
+//     <div className='banner'>
+//       <MessageProvider>
+//         <RecipientProfileProvider>
+//           <Routes>
+//             {/* <Route path="/signup" element={<SignUp />} />
+//             <Route path="/login" element={<Login />} /> */}
+//             <Route path="/chatportal" element={<ChatPortal />} />
+//             <Route path="/chat" element={<Chat />} />
+//           </Routes>
+//         </RecipientProfileProvider>
+//       </MessageProvider>
+//     </div>
+//     </ConnectionProvider>
+//   </Router>
+// </div>
 //}
 
 export default App;
