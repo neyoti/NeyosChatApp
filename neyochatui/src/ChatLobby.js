@@ -12,6 +12,7 @@ import { useConnection } from "./components/ConnectionContext";
 import { useMessage } from './components/MessageContext';
 
 import { useRecipientProfile } from './components/RecipientProfileContext';
+import { useUserProfile } from './components/UserProfileContext';
 import { useUser } from './components/UsernameContext';
 
 const UserTab = ({ username, onTabClick }) => {
@@ -43,12 +44,9 @@ const ChatPortal = () => {
     const { messages, addMessage, setNewMessages } = useMessage();
     const [onlineUsers, setOnlineUsers] = useState([]);
 
-    const { setFirstName, setLastName, setStatus } = useRecipientProfile();
-    const { username, setUsername } = useUser();  // Get Username
-
-    // const [firstName, setFirstName] = useState('');
-    // const [lastName, setLastName] = useState('');
-    // const [status, setStatus] = useState('');
+    const { setFirstName, setLastName, setBio } = useRecipientProfile();
+    const { setUserFirstName, setUserLastName, setUserBio } = useUserProfile();
+    const { username, setUsername, setIsAuthenticated } = useUser();  // Get Username
 
     const joinChatLobby = async (user) => {
         try {
@@ -99,7 +97,18 @@ const ChatPortal = () => {
 
                 setFirstName(parsedData[0]['FirstName']);
                 setLastName(parsedData[0]['LastName']);
-                setStatus(parsedData[0]['Status']);
+                setBio(parsedData[0]['Bio']);
+            })
+
+            connection.on("UserProfileData", (data) => {
+                console.log("In UserProfileData");
+                const parsedData = JSON.parse(data);
+                console.log("Type of data: ", typeof parsedData);
+                console.log("User Data: ", parsedData);
+
+                setUserFirstName(parsedData[0]['FirstName']);
+                setUserLastName(parsedData[0]['LastName']);
+                setUserBio(parsedData[0]['Bio']);
             })
 
             connection.onclose(e => {
@@ -126,6 +135,15 @@ const ChatPortal = () => {
     const logOutSession = async () => {
         try {
             alert("Your logged in session will be closed!!!");
+            if (!connectionVariant) {
+                console.error("Connection is not established yet.");
+                return;
+            }
+            else {
+                console.log("It's Fineeeee");
+            }
+            await connectionVariant.invoke("SetUserStatus", username, false);
+            setIsAuthenticated(false);
             setUsername('');
             navigate("/");
         } catch (e) {

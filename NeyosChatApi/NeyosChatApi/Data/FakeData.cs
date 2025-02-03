@@ -26,6 +26,7 @@ namespace NeyosChatApi.Data
                 FirstName = "Amit",
                 LastName = "Shinde",
                 UserName = "Neyo",
+                Bio = "Yat Bhavo, Tat Bhavati",
                 Status = true
             }
         };
@@ -52,6 +53,15 @@ namespace NeyosChatApi.Data
             foreach(var i in userProfile)
                 Console.WriteLine($"UserProfile::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Status}");
             return userProfile.Where(x => x.UserName == userName).ToList();
+        }
+
+        public void setUserProfile(UserProfile profile, string userName)
+        {
+            var user = userProfile.FirstOrDefault(x => x.UserName == userName);
+            user.Status = profile.Status;
+
+            foreach (var i in userProfile)
+                Console.WriteLine($"UserProfile::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Status}");
         }
 
         public void SaveChats(string conversationId, List<string?> chatList)

@@ -26,7 +26,6 @@ const Login = () => {
                 const response = await axios.post("https://localhost:7085/UserAuth/login", formData);
                 localStorage.setItem("token", response.data.token);
                 alert("Welcome " + formData.username);
-                //onLoginSuccess(isAuthenticated);
                 setIsAuthenticated(isAuthenticated);
                 setUsername(formData.username);
                 navigate('/chatportal');

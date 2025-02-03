@@ -158,7 +158,7 @@ namespace NeyosChatApi.Hubs
                 List<UserProfile> userProfile = _fakeData.getUserProfile(username);
 
                 foreach (var i in userProfile)
-                    Console.WriteLine($"UserProfileInGetUserProfileData::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Status}");
+                    Console.WriteLine($"UserProfileInGetUserProfileData::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Bio}, {i.Status}");
 
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(userProfile);
@@ -199,10 +199,16 @@ namespace NeyosChatApi.Hubs
 
                 await Clients.Group(conversationId).SendAsync("ReceiveMessage", _botUser, $"{sender} has joined the Chat");
 
-                // Code to get chats for User Profile data
-                string userProfileJsonElement = GetUserProfileData(recipient);
+                // Code to get Recipient Profile data
+                string recipientProfileJsonElement = GetUserProfileData(recipient);
 
-                await Clients.Client(Context.ConnectionId).SendAsync("RecipientProfileData", userProfileJsonElement);
+                await Clients.Client(Context.ConnectionId).SendAsync("RecipientProfileData", recipientProfileJsonElement);
+                // end here
+
+                // Code to get User Profile data
+                string userProfileJsonElement = GetUserProfileData(sender);
+
+                await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
                 // end here
 
 
@@ -232,6 +238,15 @@ namespace NeyosChatApi.Hubs
             await SendOnlineUsers();
 
             await SendConnectedUsers(userConnection.User);
+        }
+
+        public async Task SetUserStatus(string sender, bool userStatus)
+        {
+            _fakeData.setUserProfile(
+                new UserProfile()
+                {
+                    Status = userStatus
+                }, sender);
         }
 
         public Task SendConnectedUsers(string username)
