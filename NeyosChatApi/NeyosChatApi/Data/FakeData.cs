@@ -43,9 +43,9 @@ namespace NeyosChatApi.Data
             return userProfile;
         }
 
-        public List<UserData> getUserData(string userName)
+        public UserData getUserNameData(string userName)
         {
-            return userData.Where(x => x.UserName == userName).ToList();
+            return userData.FirstOrDefault(x => x.UserName == userName);// Where(x => x.UserName == userName).ToList();
         }
 
         public List<UserProfile> getUserProfile(string userName)

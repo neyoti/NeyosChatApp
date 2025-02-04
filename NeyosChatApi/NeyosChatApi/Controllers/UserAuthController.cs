@@ -34,7 +34,7 @@ namespace NeyosChatApi.Controllers
 
 				//return Ok($"Welcome, {user.FirstName}");
 
-				var user = _fakeData.getUserData().Where(u => u.UserName == profile.UserName).FirstOrDefault();
+				var user = _fakeData.getUserNameData(profile.UserName); //getUserData().Where(u => u.UserName == profile.UserName).FirstOrDefault();
                 if (user == null || !_passwordService.VerifyPassword(user.HashedPassword, profile.Password))
                     return Unauthorized("Invalid Credentials");
 

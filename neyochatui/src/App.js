@@ -37,10 +37,10 @@ const App = () => {
   return (
     <Router>
       <ConnectionProvider>
+      <UserProfileProvider>
         {isAuthenticated && <Sidebar />}
         <div className='banner'>
           <MessageProvider>
-            <UserProfileProvider>
               <RecipientProfileProvider>
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
@@ -55,9 +55,9 @@ const App = () => {
                   <Route path="/userprofile" element={isAuthenticated ? <UserProfile /> : <Dashboard />} />
                 </Routes>
               </RecipientProfileProvider>
-            </UserProfileProvider>
           </MessageProvider>
         </div>
+        </UserProfileProvider>
       </ConnectionProvider>
     </Router>
   );
