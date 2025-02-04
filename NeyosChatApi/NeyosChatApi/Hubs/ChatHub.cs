@@ -6,6 +6,7 @@ using NeyosChatApi.Services;
 using System.Text.Json;
 using NeyosChatApi.Data;
 using System.Diagnostics.Metrics;
+using System.Reflection;
 
 namespace NeyosChatApi.Hubs
 {
@@ -232,6 +233,12 @@ namespace NeyosChatApi.Hubs
             //_conn[Context.ConnectionId] = userConnection;
             Console.WriteLine($"Conn Id:{Context.ConnectionId}, user: {userConnection.User}");
             _conn[Context.ConnectionId] = new UserConn { User = userConnection.User, ConnectionId = Context.ConnectionId };
+
+            _fakeData.setUserProfile(
+                new UserProfile()
+                {
+                    Status = true
+                }, userConnection.User);
 
             //await Clients.All.SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has joined the Chat");
 

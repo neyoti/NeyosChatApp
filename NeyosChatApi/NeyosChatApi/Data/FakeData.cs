@@ -14,7 +14,7 @@ namespace NeyosChatApi.Data
 				FirstName = "Amit",
 				LastName = "Shinde",
 				UserName = "Neyo",
-				HashedPassword = "123",
+				HashedPassword = "AQAAAAEAACcQAAAAELB95Zl3Akly90gb6GfvshO6StaT9qu/XndDS1VwjinPhTYZBM9ChGZyZBNW9wiVQw==",
 			}
 		};
 

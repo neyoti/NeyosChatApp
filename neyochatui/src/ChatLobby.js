@@ -63,6 +63,7 @@ const ChatPortal = () => {
             // })
 
             setConnectionVariant(connection);
+            console.log("Connection:", connection);
 
             connection.on("OnlineUsers", (onlineUsers) => {
                 setOnlineUsers(onlineUsers);
