@@ -6,6 +6,7 @@ using NeyosChatApi.Services;
 using System.Text.Json;
 using NeyosChatApi.Data;
 using System.Diagnostics.Metrics;
+using System.Reflection;
 
 namespace NeyosChatApi.Hubs
 {
@@ -155,10 +156,10 @@ namespace NeyosChatApi.Hubs
             try
             {
                 // Step 1: Create a List<string>
-                List<UserProfile> userProfile = _fakeData.getUserProfile(username);
+                UserProfile userProfile = _fakeData.getUserProfile(username);
 
-                foreach (var i in userProfile)
-                    Console.WriteLine($"UserProfileInGetUserProfileData::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Bio}, {i.Status}");
+                //foreach (var i in userProfile)
+                Console.WriteLine($"UserProfileInGetUserProfileData::{userProfile.FirstName}, {userProfile.LastName}, {userProfile.UserName}, {userProfile.Status}");
 
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(userProfile);
@@ -205,11 +206,11 @@ namespace NeyosChatApi.Hubs
                 await Clients.Client(Context.ConnectionId).SendAsync("RecipientProfileData", recipientProfileJsonElement);
                 // end here
 
-                // Code to get User Profile data
-                string userProfileJsonElement = GetUserProfileData(sender);
+                //// Code to get User Profile data
+                //string userProfileJsonElement = GetUserProfileData(sender);
 
-                await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
-                // end here
+                //await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
+                //// end here
 
 
                 // Code to get chats for conversation id
@@ -232,6 +233,18 @@ namespace NeyosChatApi.Hubs
             //_conn[Context.ConnectionId] = userConnection;
             Console.WriteLine($"Conn Id:{Context.ConnectionId}, user: {userConnection.User}");
             _conn[Context.ConnectionId] = new UserConn { User = userConnection.User, ConnectionId = Context.ConnectionId };
+
+            _fakeData.setUserProfile(
+                new UserProfile()
+                {
+                    Status = true
+                }, userConnection.User);
+
+            // Code to get User Profile data
+            string userProfileJsonElement = GetUserProfileData(userConnection.User);
+
+            await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
+            // end here
 
             //await Clients.All.SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has joined the Chat");
 

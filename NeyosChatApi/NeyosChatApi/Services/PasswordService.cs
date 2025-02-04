@@ -15,7 +15,15 @@ namespace NeyosChatApi.Services
 
         public bool VerifyPassword(string hashedPassword, string providedPassword)
         {
-            return _passwordHasher.VerifyHashedPassword(null, hashedPassword, providedPassword) == PasswordVerificationResult.Success;
+            try
+            {
+                return _passwordHasher.VerifyHashedPassword(null, hashedPassword, providedPassword) == PasswordVerificationResult.Success;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Exception in VerifyPassword: {ex}");
+            }
+            return false;
         }
     }
 }

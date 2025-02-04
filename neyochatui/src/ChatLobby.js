@@ -34,6 +34,7 @@ const UserTab = ({ username, onTabClick }) => {
     );
 };
 
+var chatLobbyFlag = false;
 const ChatPortal = () => {
 
     //const location = useLocation();
@@ -50,7 +51,7 @@ const ChatPortal = () => {
 
     const joinChatLobby = async (user) => {
         try {
-
+            chatLobbyFlag = true;
             const connection = new HubConnectionBuilder()
                 .withUrl("https://localhost:7085/chatportal", {
                     withCredentials: true,
@@ -63,6 +64,7 @@ const ChatPortal = () => {
             // })
 
             setConnectionVariant(connection);
+            console.log("Connection:", connection);
 
             connection.on("OnlineUsers", (onlineUsers) => {
                 setOnlineUsers(onlineUsers);
@@ -95,9 +97,9 @@ const ChatPortal = () => {
                 console.log("Type of data: ", typeof parsedData);
                 console.log("Recipient Data: ", parsedData);
 
-                setFirstName(parsedData[0]['FirstName']);
-                setLastName(parsedData[0]['LastName']);
-                setBio(parsedData[0]['Bio']);
+                setFirstName(parsedData['FirstName']);
+                setLastName(parsedData['LastName']);
+                setBio(parsedData['Bio']);
             })
 
             connection.on("UserProfileData", (data) => {
@@ -106,9 +108,9 @@ const ChatPortal = () => {
                 console.log("Type of data: ", typeof parsedData);
                 console.log("User Data: ", parsedData);
 
-                setUserFirstName(parsedData[0]['FirstName']);
-                setUserLastName(parsedData[0]['LastName']);
-                setUserBio(parsedData[0]['Bio']);
+                setUserFirstName(parsedData['FirstName']);
+                setUserLastName(parsedData['LastName']);
+                setUserBio(parsedData['Bio']);
             })
 
             connection.onclose(e => {
@@ -171,6 +173,9 @@ const ChatPortal = () => {
     };
 
     const [sidebarWidth] = useState('250px');
+    
+    if(!chatLobbyFlag)
+        joinChatLobby(username);
 
     return (
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>
