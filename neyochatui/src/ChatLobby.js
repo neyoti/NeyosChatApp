@@ -34,6 +34,7 @@ const UserTab = ({ username, onTabClick }) => {
     );
 };
 
+var chatLobbyFlag = false;
 const ChatPortal = () => {
 
     //const location = useLocation();
@@ -50,7 +51,7 @@ const ChatPortal = () => {
 
     const joinChatLobby = async (user) => {
         try {
-
+            chatLobbyFlag = true;
             const connection = new HubConnectionBuilder()
                 .withUrl("https://localhost:7085/chatportal", {
                     withCredentials: true,
@@ -172,6 +173,9 @@ const ChatPortal = () => {
     };
 
     const [sidebarWidth] = useState('250px');
+    
+    if(!chatLobbyFlag)
+        joinChatLobby(username);
 
     return (
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>

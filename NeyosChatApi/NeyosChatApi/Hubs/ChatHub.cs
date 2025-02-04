@@ -206,11 +206,11 @@ namespace NeyosChatApi.Hubs
                 await Clients.Client(Context.ConnectionId).SendAsync("RecipientProfileData", recipientProfileJsonElement);
                 // end here
 
-                // Code to get User Profile data
-                string userProfileJsonElement = GetUserProfileData(sender);
+                //// Code to get User Profile data
+                //string userProfileJsonElement = GetUserProfileData(sender);
 
-                await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
-                // end here
+                //await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
+                //// end here
 
 
                 // Code to get chats for conversation id
@@ -239,6 +239,12 @@ namespace NeyosChatApi.Hubs
                 {
                     Status = true
                 }, userConnection.User);
+
+            // Code to get User Profile data
+            string userProfileJsonElement = GetUserProfileData(userConnection.User);
+
+            await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
+            // end here
 
             //await Clients.All.SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has joined the Chat");
 
