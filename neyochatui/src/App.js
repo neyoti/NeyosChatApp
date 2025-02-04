@@ -7,6 +7,7 @@ import Login from "./Login";
 import ChatPortal from "./ChatLobby";
 import Chat from './components/Chat';
 import UserProfile from './components/UserProfile';
+import EditProfilePage from './components/EditProfilePage';
 import { ConnectionProvider } from "./components/ConnectionContext";
 import { MessageProvider } from './components/MessageContext';
 import { RecipientProfileProvider } from './components/RecipientProfileContext';
@@ -53,6 +54,8 @@ const App = () => {
                   <Route path="/chatportal" element={isAuthenticated ? <ChatPortal /> : <Dashboard />} />
                   <Route path="/chat" element={isAuthenticated ? <Chat /> : <Dashboard />} />
                   <Route path="/userprofile" element={isAuthenticated ? <UserProfile /> : <Dashboard />} />
+                  <Route path="/updateuserprofile" element={isAuthenticated ? <EditProfilePage /> : <Dashboard />} />
+                  
                 </Routes>
               </RecipientProfileProvider>
           </MessageProvider>

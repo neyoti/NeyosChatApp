@@ -156,10 +156,10 @@ namespace NeyosChatApi.Hubs
             try
             {
                 // Step 1: Create a List<string>
-                List<UserProfile> userProfile = _fakeData.getUserProfile(username);
+                UserProfile userProfile = _fakeData.getUserProfile(username);
 
-                foreach (var i in userProfile)
-                    Console.WriteLine($"UserProfileInGetUserProfileData::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Bio}, {i.Status}");
+                //foreach (var i in userProfile)
+                Console.WriteLine($"UserProfileInGetUserProfileData::{userProfile.FirstName}, {userProfile.LastName}, {userProfile.UserName}, {userProfile.Status}");
 
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(userProfile);

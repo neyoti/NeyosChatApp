@@ -97,9 +97,9 @@ const ChatPortal = () => {
                 console.log("Type of data: ", typeof parsedData);
                 console.log("Recipient Data: ", parsedData);
 
-                setFirstName(parsedData[0]['FirstName']);
-                setLastName(parsedData[0]['LastName']);
-                setBio(parsedData[0]['Bio']);
+                setFirstName(parsedData['FirstName']);
+                setLastName(parsedData['LastName']);
+                setBio(parsedData['Bio']);
             })
 
             connection.on("UserProfileData", (data) => {
@@ -108,9 +108,9 @@ const ChatPortal = () => {
                 console.log("Type of data: ", typeof parsedData);
                 console.log("User Data: ", parsedData);
 
-                setUserFirstName(parsedData[0]['FirstName']);
-                setUserLastName(parsedData[0]['LastName']);
-                setUserBio(parsedData[0]['Bio']);
+                setUserFirstName(parsedData['FirstName']);
+                setUserLastName(parsedData['LastName']);
+                setUserBio(parsedData['Bio']);
             })
 
             connection.onclose(e => {

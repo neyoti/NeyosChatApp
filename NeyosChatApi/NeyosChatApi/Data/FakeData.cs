@@ -48,11 +48,12 @@ namespace NeyosChatApi.Data
             return userData.FirstOrDefault(x => x.UserName == userName);// Where(x => x.UserName == userName).ToList();
         }
 
-        public List<UserProfile> getUserProfile(string userName)
+        public UserProfile getUserProfile(string userName)
         {
-            foreach(var i in userProfile)
-                Console.WriteLine($"UserProfile::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Status}");
-            return userProfile.Where(x => x.UserName == userName).ToList();
+            //foreach(var i in userProfile)
+            var user = userProfile.FirstOrDefault(x => x.UserName == userName);
+            Console.WriteLine($"UserProfile::{user.FirstName}, {user.LastName}, {user.UserName}, {user.Status}");
+            return user;
         }
 
         public void setUserProfile(UserProfile profile, string userName)
