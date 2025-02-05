@@ -99,14 +99,14 @@ namespace NeyosChatApi.Controllers
             return _fakeData.getUserProfile();
         }
 
-		[HttpPut("updateuserprofile")]
+		[HttpPost("updateuserprofile")]
 		public async Task<ActionResult> UpdateUserProfile([FromBody] UserProfile profile)
 		{
             try
             {
                 //if (await _userProfileContext.UserProfile.AnyAsync(u => u.UserName == profile.UserName))
                 //	return BadRequest("Username is already registered.");
-
+                Console.WriteLine($"In UpdateUserProfile: {profile.UserName}");
                 if (_fakeData.getUserProfile(profile.UserName) == null)
                     return BadRequest("User does not exist.");
 
@@ -128,7 +128,7 @@ namespace NeyosChatApi.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex}");
+                Console.WriteLine($"Exception in UpdateUserProfile: {ex}");
             }
 
             return Ok();

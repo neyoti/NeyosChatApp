@@ -32,7 +32,7 @@ const UserProfile = () => {
 
             console.log("In handlerEditProfile");
 
-            navigate("/updateuserprofile");
+            navigate("/edituserprofile");
 
             // <Form noValidate validated={validated} onSubmit={handleSubmit}>
             //     <Row className="mb-3">

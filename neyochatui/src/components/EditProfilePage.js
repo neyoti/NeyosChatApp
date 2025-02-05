@@ -21,9 +21,11 @@ const EditProfilePage = () => {
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
+            console.log(form.checkValidity());
         }
 
         setValidated(true);
@@ -32,15 +34,22 @@ const EditProfilePage = () => {
         setUserBio(form.userbio);
 
         const userProfile = {
-            FirstName : form.userfirstName,
-            LastName : form.userlastName,
-            UserName : form.username,
-            Bio : form.userbio
+            FirstName: form.elements["userfirstName"].value,
+            LastName: form.elements["userlastName"].value,
+            UserName: form.elements["username"].value,
+            Bio: form.elements["userbio"].value
         }
 
-        await axios.put("https://localhost:7085/UserAuth/updateuserprofile", userProfile, { withCredentials: true });
-        alert("User profile updated successfully");
-        //navigate(-1);
+        console.log("Sending User Profile:", userProfile);
+
+        try {
+            await axios.post("https://localhost:7085/UserAuth/updateuserprofile", userProfile, { withCredentials: true });
+            alert("User profile updated successfully");
+            navigate(-1);
+        } catch (error) {
+            console.error("Error updating profile:", error.response?.data?.message || error.message);
+            alert(error.response?.data?.message || "An error occurred while updating the profile.");
+        }
     };
 
     return (
@@ -53,6 +62,7 @@ const EditProfilePage = () => {
                         type="text"
                         placeholder="First name"
                         defaultValue={userfirstName}
+                        name="userfirstName"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -63,6 +73,7 @@ const EditProfilePage = () => {
                         type="text"
                         placeholder="Last name"
                         defaultValue={userlastName}
+                        name="userlastName"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -87,15 +98,21 @@ const EditProfilePage = () => {
                     <Form.Control
                         type="text"
                         placeholder={username}
+                        value={username}
                         aria-label=""
-                        readOnly
+                        required
+                        name="username"
                     />
                 </Form.Group>
             </Row>
             <Row className="mb-3">
                 <Form.Group as={Col} md="6" controlId="validationCustom03">
                     <Form.Label>Bio</Form.Label>
-                    <Form.Control type="text" placeholder={userbio} required />
+                    <Form.Control
+                        type="text"
+                        placeholder={userbio}
+                        name="userbio"
+                    />
                     {/* <Form.Control.Feedback type="invalid">
                             Please provide a valid Bio.
                         </Form.Control.Feedback> */}

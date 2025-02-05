@@ -1,24 +1,43 @@
 ﻿<Properties StartupConfiguration="{A24EBB0C-C09E-4328-9F53-4331F61051A8}|Default">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.NeyosChatApi PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.Workbench ActiveDocument="NeyosChatApi/Hubs/ChatHub.cs">
     <Files>
-      <File FileName="NeyosChatApi/Program.cs" />
-      <File FileName="NeyosChatApi/Models/UserProfile.cs" Line="4" Column="2" />
-      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" />
-      <File FileName="NeyosChatApi/Data/FakeData.cs" Line="29" Column="48" />
-      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="48" Column="1" />
-      <File FileName="NeyosChatApi/Services/OnlineUsersService.cs" Line="11" Column="53" />
+      <File FileName="NeyosChatApi/Program.cs" Line="17" Column="43" />
+      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" Line="124" Column="64" />
+      <File FileName="NeyosChatApi/Data/FakeData.cs" />
+      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="56" Column="10" />
+      <File FileName="NeyosChatApi/Services/OnlineUsersService.cs" />
       <File FileName="NeyosChatApi/Services/PasswordService.cs" />
       <File FileName="NeyosChatApi/Models/UserConn.cs" />
       <File FileName="NeyosChatApi/Services/CustomerUserIdProvider.cs" />
       <File FileName="NeyosChatApi/Services/ConversationService.cs" />
       <File FileName="NeyosChatApi/Models/MessageModel.cs" />
+      <File FileName="NeyosChatApi/Models/UserProfile.cs" />
+      <File FileName="NeyosChatApi/Models/UserData.cs" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="NeyosChatApi">
+            <Node name="NeyosChatApi" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True" />
+              <Node name="Hubs" expanded="True">
+                <Node name="ChatHub.cs" selected="True" />
+              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Services" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.NeyosChatApi PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
