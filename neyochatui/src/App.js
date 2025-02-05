@@ -54,7 +54,7 @@ const App = () => {
                   <Route path="/chatportal" element={isAuthenticated ? <ChatPortal /> : <Dashboard />} />
                   <Route path="/chat" element={isAuthenticated ? <Chat /> : <Dashboard />} />
                   <Route path="/userprofile" element={isAuthenticated ? <UserProfile /> : <Dashboard />} />
-                  <Route path="/updateuserprofile" element={isAuthenticated ? <EditProfilePage /> : <Dashboard />} />
+                  <Route path="/edituserprofile" element={isAuthenticated ? <EditProfilePage /> : <Dashboard />} />
                   
                 </Routes>
               </RecipientProfileProvider>

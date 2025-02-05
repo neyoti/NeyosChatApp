@@ -25,7 +25,7 @@ const EditProfilePage = () => {
             event.preventDefault();
             event.stopPropagation();
         }
-
+        event.preventDefault();
         setValidated(true);
         setUserFirstName(form.userfirstName);
         setUserLastName(form.userlastName);
@@ -38,8 +38,13 @@ const EditProfilePage = () => {
             Bio : form.userbio
         }
 
-        await axios.put("https://localhost:7085/UserAuth/updateuserprofile", userProfile, { withCredentials: true });
-        alert("User profile updated successfully");
+        try {
+            await axios.post("https://localhost:7085/UserAuth/updateuserprofile", userProfile, { withCredentials: true });
+            alert("User profile updated successfully");
+        } catch (error) {
+            console.error("Error updating profile:", error.response?.data?.message || error.message);
+            alert(error.response?.data?.message || "An error occurred while updating the profile.");
+        }        
         //navigate(-1);
     };
 
