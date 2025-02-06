@@ -51,6 +51,8 @@ const ChatPortal = () => {
     const { setUserFirstName, setUserLastName, setUserBio } = useUserProfile();
     const { username, setUsername, setIsAuthenticated } = useUser();  // Get Username
 
+    const [recipientArray, setRecipientArray] = useState([]);
+
     const joinChatLobby = async (user) => {
         try {
             chatLobbyFlag = true;
@@ -91,6 +93,14 @@ const ChatPortal = () => {
                 );
                 console.log("MSG Array:", messagesArray);
                 setNewMessages(messagesArray);
+            })
+
+            connection.on("OldChatRecipientsList", (usersList) => {
+                console.log("In OldChatRecipientsList");
+                const parsedData = JSON.parse(usersList);
+                console.log("usersArray: ", parsedData);
+
+                setRecipientArray(parsedData);
             })
 
             connection.on("RecipientProfileData", (data) => {
@@ -198,9 +208,6 @@ const ChatPortal = () => {
     if (!chatLobbyFlag)
         joinChatLobby(username);
 
-    const users = messages.map(msg => msg.user);
-    console.log("Users:", users);
-
     return (
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>
             <div>
@@ -233,13 +240,11 @@ const ChatPortal = () => {
                 </div>
 
                 <div>
-                    <Row>
-                        {users.map((user, index) => (
-                            <Col key={index} md={4}>
-                                <div className="user-box">{user}</div>
-                            </Col>
-                        ))}
-                    </Row>
+                    {recipientArray.map((user, index) => (
+                        <Row key={index} md={4}>
+                            <div className="user-box">{user}</div>
+                        </Row>
+                    ))}
                 </div>
             </div>
         </div>

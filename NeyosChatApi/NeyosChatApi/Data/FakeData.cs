@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using NeyosChatApi.Models;
 
 namespace NeyosChatApi.Data
@@ -89,6 +90,24 @@ namespace NeyosChatApi.Data
 
                 return list;
 			}
+        }
+
+        public List<string> GetOldChatRecipientsOfUser(string username)
+        {
+            List<string> matchingKeys = userChatList.Keys.Where(key => key.Contains(username)).ToList();
+
+            List<string> usersList = new List<string>();
+            Console.WriteLine("Matching keys:");
+            foreach (var key in matchingKeys)
+            {
+                Console.WriteLine(key);
+                if (key.Contains($"-{username}"))
+                    usersList.Add(key.Replace($"-{username}", ""));
+                else if (key.Contains($"{username}-"))
+                    usersList.Add(key.Replace($"{username}-", ""));
+            }
+
+            return usersList;
         }
     }
 }

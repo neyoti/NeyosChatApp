@@ -151,6 +151,33 @@ namespace NeyosChatApi.Hubs
             return string.Empty;
         }
 
+        public string GetOldChatRecipients(string username)
+        {
+            try
+            {
+                // Step 1: Create a List<string>
+                List<string> chatList = _fakeData.GetOldChatRecipientsOfUser(username);
+
+                // Step 2: Serialize the list to JSON
+                string jsonString = JsonSerializer.Serialize(chatList);
+
+                // Step 3: Parse the JSON string into a JsonDocument
+                using JsonDocument doc = JsonDocument.Parse(jsonString);
+
+                using (JsonDocument d = JsonDocument.Parse(jsonString))
+                {
+                    Console.WriteLine("JsonElement got it");
+                    return d.RootElement.GetRawText();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception in GetChatMessages:", ex.ToString());
+                Console.WriteLine(ex.StackTrace);
+            }
+            return string.Empty;
+        }
+
         public string GetUserProfileData(string username)
         {
             try
@@ -245,6 +272,14 @@ namespace NeyosChatApi.Hubs
 
             await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
             // end here
+
+
+            // Code to get chats for conversation id
+            string jsonElement = GetOldChatRecipients(userConnection.User);
+
+            await Clients.Client(Context.ConnectionId).SendAsync("OldChatRecipientsList", jsonElement);
+            // end here
+
 
             //await Clients.All.SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has joined the Chat");
 
