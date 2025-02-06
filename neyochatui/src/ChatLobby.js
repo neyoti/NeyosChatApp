@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { useState } from "react";
 
-import { Button, Form } from "react-bootstrap"
+import { Button, Form, Row, Col } from "react-bootstrap"
 
 //import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,8 @@ import { useMessage } from './components/MessageContext';
 import { useRecipientProfile } from './components/RecipientProfileContext';
 import { useUserProfile } from './components/UserProfileContext';
 import { useUser } from './components/UsernameContext';
+
+import { useEffect } from "react";
 
 const UserTab = ({ username, onTabClick }) => {
     return (
@@ -128,6 +130,25 @@ const ChatPortal = () => {
         }
     }
 
+    useEffect(() => {
+        if (!chatLobbyFlag) {
+            console.log("In useEffect");
+            joinChatLobby(username);
+
+            console.log("UserMessages:", messages);
+        }
+    });
+
+    useEffect(() => {
+        return async () => {
+            if (connectionVariant) {
+                console.log("ChatLobbyFlagBefore:", chatLobbyFlag);
+                chatLobbyFlag = false;
+                console.log("Chat lobby status updated before leaving the page.", chatLobbyFlag);
+            }
+        };
+    }, []);
+
     // useEffect(() => {
     //     console.log("Messages updated:", messages);
     // }, [messages]);
@@ -173,9 +194,12 @@ const ChatPortal = () => {
     };
 
     const [sidebarWidth] = useState('250px');
-    
-    if(!chatLobbyFlag)
+
+    if (!chatLobbyFlag)
         joinChatLobby(username);
+
+    const users = messages.map(msg => msg.user);
+    console.log("Users:", users);
 
     return (
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>
@@ -206,6 +230,16 @@ const ChatPortal = () => {
                             <UserTab username={u} onTabClick={() => handleTabClick(u)} />
                         </div>
                     )}
+                </div>
+
+                <div>
+                    <Row>
+                        {users.map((user, index) => (
+                            <Col key={index} md={4}>
+                                <div className="user-box">{user}</div>
+                            </Col>
+                        ))}
+                    </Row>
                 </div>
             </div>
         </div>

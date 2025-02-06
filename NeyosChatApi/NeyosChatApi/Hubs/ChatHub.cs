@@ -46,7 +46,7 @@ namespace NeyosChatApi.Hubs
 			{
                 Console.WriteLine($"Conn Id:{Context.ConnectionId}, user: {userConnection.User}");
                 _conn.Remove(Context.ConnectionId);
-				Clients.Group(userConnection.Room).SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has left the chat.");
+				//Clients.Group(userConnection.Room).SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has left the chat.");
 
                 //SendConnectedUsers(userConnection.Room);
                 SendOnlineUsers();

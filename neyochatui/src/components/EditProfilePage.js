@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
 import { useUserProfile } from './UserProfileContext';
@@ -17,7 +16,11 @@ const EditProfilePage = () => {
     const [validated, setValidated] = useState(false);
 
     const { userfirstName, userlastName, userbio, setUserFirstName, setUserLastName, setUserBio } = useUserProfile();
-    const { username, setUsername, setIsAuthenticated } = useUser();  // Get Username
+    const { username } = useUser();  // Get Username
+
+    const [firstName, setFirstName] = useState(userfirstName || "");
+    const [lastName, setLastName] = useState(userlastName || "");
+    const [bio, setBio] = useState(userbio || "");
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
@@ -26,21 +29,23 @@ const EditProfilePage = () => {
         if (form.checkValidity() === false) {
             event.stopPropagation();
             console.log(form.checkValidity());
+            return;
         }
 
         setValidated(true);
-        setUserFirstName(form.userfirstName);
-        setUserLastName(form.userlastName);
-        setUserBio(form.userbio);
 
         const userProfile = {
-            FirstName: form.elements["userfirstName"].value,
-            LastName: form.elements["userlastName"].value,
-            UserName: form.elements["username"].value,
-            Bio: form.elements["userbio"].value
+            FirstName: firstName,
+            LastName: lastName,
+            UserName: username,
+            Bio: bio
         }
 
         console.log("Sending User Profile:", userProfile);
+
+        setUserFirstName(firstName);
+        setUserLastName(lastName);
+        setUserBio(bio);
 
         try {
             await axios.post("https://localhost:7085/UserAuth/updateuserprofile", userProfile, { withCredentials: true });
@@ -61,8 +66,9 @@ const EditProfilePage = () => {
                         required
                         type="text"
                         placeholder="First name"
-                        defaultValue={userfirstName}
-                        name="userfirstName"
+                        value={firstName}
+                        //name="userfirstName"
+                        onChange={(e) => setFirstName(e.target.value)}
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -72,8 +78,9 @@ const EditProfilePage = () => {
                         required
                         type="text"
                         placeholder="Last name"
-                        defaultValue={userlastName}
-                        name="userlastName"
+                        value={lastName}
+                        //name="userlastName"
+                        onChange={(e) => setLastName(e.target.value)}
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -99,9 +106,7 @@ const EditProfilePage = () => {
                         type="text"
                         placeholder={username}
                         value={username}
-                        aria-label=""
-                        required
-                        name="username"
+                        readOnly
                     />
                 </Form.Group>
             </Row>
@@ -110,8 +115,10 @@ const EditProfilePage = () => {
                     <Form.Label>Bio</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder={userbio}
-                        name="userbio"
+                        placeholder="Bio"
+                        value={bio}
+                        //name="userbio"
+                        onChange={(e) => setBio(e.target.value)}
                     />
                     {/* <Form.Control.Feedback type="invalid">
                             Please provide a valid Bio.
