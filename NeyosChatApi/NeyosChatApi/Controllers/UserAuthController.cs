@@ -107,15 +107,19 @@ namespace NeyosChatApi.Controllers
                 //if (await _userProfileContext.UserProfile.AnyAsync(u => u.UserName == profile.UserName))
                 //	return BadRequest("Username is already registered.");
                 Console.WriteLine($"In UpdateUserProfile: {profile.UserName}");
-                if (_fakeData.getUserProfile(profile.UserName) == null)
+                UserProfile user = _fakeData.getUserProfile(profile.UserName);
+                if (user == null)
                     return BadRequest("User does not exist.");
 
-                var user = new UserProfile
+                _fakeData.getUserProfile().Remove(user);
+
+                user = new UserProfile
                 {
                     FirstName = profile.FirstName,
                     LastName = profile.LastName,
                     UserName = profile.UserName,
-                    Bio = profile.Bio
+                    Bio = profile.Bio,
+                    Status = true
                 };
 
                 _fakeData.getUserProfile().Add(user);

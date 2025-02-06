@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { useState } from "react";
 
-import { Button, Form } from "react-bootstrap"
+import { Button, Form, Row, Col } from "react-bootstrap"
 
 //import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,8 @@ import { useMessage } from './components/MessageContext';
 import { useRecipientProfile } from './components/RecipientProfileContext';
 import { useUserProfile } from './components/UserProfileContext';
 import { useUser } from './components/UsernameContext';
+
+import { useEffect } from "react";
 
 const UserTab = ({ username, onTabClick }) => {
     return (
@@ -48,6 +50,8 @@ const ChatPortal = () => {
     const { setFirstName, setLastName, setBio } = useRecipientProfile();
     const { setUserFirstName, setUserLastName, setUserBio } = useUserProfile();
     const { username, setUsername, setIsAuthenticated } = useUser();  // Get Username
+
+    const [recipientArray, setRecipientArray] = useState([]);
 
     const joinChatLobby = async (user) => {
         try {
@@ -91,6 +95,14 @@ const ChatPortal = () => {
                 setNewMessages(messagesArray);
             })
 
+            connection.on("OldChatRecipientsList", (usersList) => {
+                console.log("In OldChatRecipientsList");
+                const parsedData = JSON.parse(usersList);
+                console.log("usersArray: ", parsedData);
+
+                setRecipientArray(parsedData);
+            })
+
             connection.on("RecipientProfileData", (data) => {
                 console.log("In RecipientProfileData");
                 const parsedData = JSON.parse(data);
@@ -127,6 +139,25 @@ const ChatPortal = () => {
             console.log(e);
         }
     }
+
+    useEffect(() => {
+        if (!chatLobbyFlag) {
+            console.log("In useEffect");
+            joinChatLobby(username);
+
+            console.log("UserMessages:", messages);
+        }
+    });
+
+    useEffect(() => {
+        return async () => {
+            if (connectionVariant) {
+                console.log("ChatLobbyFlagBefore:", chatLobbyFlag);
+                chatLobbyFlag = false;
+                console.log("Chat lobby status updated before leaving the page.", chatLobbyFlag);
+            }
+        };
+    }, []);
 
     // useEffect(() => {
     //     console.log("Messages updated:", messages);
@@ -173,8 +204,8 @@ const ChatPortal = () => {
     };
 
     const [sidebarWidth] = useState('250px');
-    
-    if(!chatLobbyFlag)
+
+    if (!chatLobbyFlag)
         joinChatLobby(username);
 
     return (
@@ -206,6 +237,14 @@ const ChatPortal = () => {
                             <UserTab username={u} onTabClick={() => handleTabClick(u)} />
                         </div>
                     )}
+                </div>
+
+                <div>
+                    {recipientArray.map((user, index) => (
+                        <Row key={index} md={4}>
+                            <div className="user-box">{user}</div>
+                        </Row>
+                    ))}
                 </div>
             </div>
         </div>
