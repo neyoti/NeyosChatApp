@@ -27,7 +27,8 @@ const UserProfile = () => {
                 <div className=" image d-flex flex-column justify-content-center align-items-center">
                     <button className="btn btn-secondary">
                         <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
-                    </button> <span className="name mt-3">{userfirstName} {userlastName}</span>
+                    </button> 
+                    <span className="name mt-3">{userfirstName} {userlastName}</span>
                     <span className="idd">@{username}</span>
                     {/* <div className="d-flex flex-row justify-content-center align-items-center gap-2">
                         <span className="idd1">Oxc4c16a645_b21a</span>

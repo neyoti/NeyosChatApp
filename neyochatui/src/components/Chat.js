@@ -20,7 +20,7 @@ const Chat = () => {
     
     const closeConnection = async () => {
         try {
-            await connection.stop();
+            //await connection.stop();
             navigate(-1);
         } catch (error) {
             console.error("Error closing connection:", error);
