@@ -66,35 +66,99 @@ hr.line {
   background-color: rgb(26, 142, 26);
 }
 
-.lobby {
-
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  width: 100%;
-}
-
-/* .user-list {
-  width: 18%;
-  height: 530px;
-  background-color: #414141;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: initial;
-  align-items: center;
-  overflow: auto;
-  scroll-behavior: smooth;
-} */
-
 .main-content {
   flex-grow: 1; /* Fills remaining space */
   display: flex;
-  flex-direction: row;
   align-items: center;
+  flex-direction: column;
   width: 100%;
   padding: 20px;
-  transition: margin-left 0.3s ease; /* Smooth transition when sidebar width changes */
+}
+
+.lobby {
+  position: fixed;
+  left: calc(170px + 28vh);
+  top: 0;
+  width: 80%;
+  height: 100vh;
+  background-color: red;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  transition: width 0.3s ease;
+}
+
+.chats-list{
+  position: fixed;
+  width: inherit;
+  height: 80vh;
+  top: 20vh;
+  background-color: darkslategrey;
+
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  overflow-y: auto; /* Enable scrolling if needed */
+}
+
+.profilebar{
+  position: inherit;
+  top: 1px;
+
+  display: flex;
+  width: inherit;
+  height: 8vh;
+  scroll-behavior: smooth;
+  background-color: orange;
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-button{
+  position: fixed;
+  right: 15px;
+  top: 15px;
+  border-radius: 20px;
+}
+
+.custom-tab-container {
+  position: relative;
+  border-bottom: 1px solid black;
+  height: 6vh;
+
+  width: 100%;
+  height: 9vh;
+
+  display: flex;
+  align-items: center;
+  justify-content:flex-start ;
+  margin-left: 10px;
+}
+
+.recipient-profile-inlobby {
+  background-image: url(../public/userImage2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover ;
+  background-position: center;
+
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border-style:solid ;
+  border-width: thin;
+  border-color: black;
+  margin-left: 7px;
+  margin-right: 7px;
+}
+
+.recipient-name-inlobby {
+  padding-left: 10px;
+  font-size: 23px ;
+  font-family:Arial;
+  font-weight:bold ;
 }
 
 /* Responsive Banner */
@@ -104,7 +168,6 @@ hr.line {
   padding: 30px 20px;
   background-color: gray;
   color: white;
-  border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
@@ -118,11 +181,12 @@ hr.line {
   position: fixed;
   left: 170px;
   top: 0;
-  width: 100px;
+  width: 28vh;
   max-width: 300px;
-  height: 530px;
-  background-color: #414141;
-  border-radius: 8px;
+  height: 100vh;
+  background-color: transparent;
+  border-radius: 20px;
+  border-style: solid;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -271,6 +335,7 @@ hr.line {
   background-color: white;
   overflow: auto;
   margin-bottom: 2px;
+  border-radius: 0 0 10px 10px;
 }
 
 .user-message {
@@ -326,8 +391,8 @@ hr.line {
 .input-grp{
   display: flex;
   flex-direction: row;
-  width:131vh ;
-  padding-left: 45px;
+  justify-content: left;
+  width:117vh ;
 }
 
 .input-grp input {

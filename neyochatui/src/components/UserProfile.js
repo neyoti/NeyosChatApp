@@ -1,11 +1,13 @@
 import { useUserProfile } from './UserProfileContext';
 import { useUser } from './UsernameContext';
+import { useConnection } from "./ConnectionContext";
 
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
     const navigate = useNavigate();
 
+    const { connection, setConnection } = useConnection();
     const { userfirstName, userlastName, userbio } = useUserProfile();
     const { username } = useUser();  // Get Username
 
@@ -22,25 +24,16 @@ const UserProfile = () => {
         }
     }
 
+    console.log("Connection:", connection);
+
     return <div className="container mt-4 mb-4 p-3 d-flex justify-content-center">
             <div className="card p-4">
                 <div className=" image d-flex flex-column justify-content-center align-items-center">
                     <button className="btn btn-secondary">
                         <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
-                    </button> <span className="name mt-3">{userfirstName} {userlastName}</span>
+                    </button> 
+                    <span className="name mt-3">{userfirstName} {userlastName}</span>
                     <span className="idd">@{username}</span>
-                    {/* <div className="d-flex flex-row justify-content-center align-items-center gap-2">
-                        <span className="idd1">Oxc4c16a645_b21a</span>
-                        <span><i className="fa fa-copy"></i></span>
-                    </div> */}
-                    {/* <div className="d-flex flex-row justify-content-center align-items-center mt-3">
-                        <span class="number">
-                            1069
-                            <span class="follow">
-                                Followers
-                            </span>
-                        </span>
-                    </div> */}
                     <div className=" d-flex mt-2">
                         <button className="btn1 btn-dark" onClick={() => handlerEditProfile()}>Edit Profile</button>
                     </div>

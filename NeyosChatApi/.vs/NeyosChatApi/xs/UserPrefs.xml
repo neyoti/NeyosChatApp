@@ -1,11 +1,17 @@
 ﻿<Properties StartupConfiguration="{A24EBB0C-C09E-4328-9F53-4331F61051A8}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.NeyosChatApi PreferredExecutionTarget="/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NeyosChatApi/Hubs/ChatHub.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NeyosChatApi/Data/FakeData.cs">
     <Files>
-      <File FileName="NeyosChatApi/Program.cs" Line="17" Column="43" />
-      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" Line="124" Column="64" />
-      <File FileName="NeyosChatApi/Data/FakeData.cs" />
-      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="56" Column="10" />
+      <File FileName="NeyosChatApi/Program.cs" />
+      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" Line="1" Column="1" />
+      <File FileName="NeyosChatApi/Data/FakeData.cs" Line="95" Column="55" />
+      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="278" Column="54" />
       <File FileName="NeyosChatApi/Services/OnlineUsersService.cs" />
       <File FileName="NeyosChatApi/Services/PasswordService.cs" />
       <File FileName="NeyosChatApi/Models/UserConn.cs" />
@@ -15,29 +21,5 @@
       <File FileName="NeyosChatApi/Models/UserProfile.cs" />
       <File FileName="NeyosChatApi/Models/UserData.cs" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="NeyosChatApi">
-            <Node name="NeyosChatApi" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Data" expanded="True" />
-              <Node name="Hubs" expanded="True">
-                <Node name="ChatHub.cs" selected="True" />
-              </Node>
-              <Node name="Models" expanded="True" />
-              <Node name="Properties" expanded="True" />
-              <Node name="Services" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

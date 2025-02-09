@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { useState } from "react";
 
-import { Button, Form, Row, Col } from "react-bootstrap"
+import { Button, Form, Row, Col, Nav, Tab } from "react-bootstrap"
 
 //import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -21,28 +21,51 @@ const UserTab = ({ username, onTabClick }) => {
     return (
         <div
             style={{
-                padding: "10px 20px",
+                padding: "10px 10px",
+                cursor: "pointer",
+                height: "6vh",
+                width: "85%",
+                height: "9vh",
+                display: "flex",
+                backgroundColor: "transparent",
+                alignItems: "center",
+                color: "black",
+                fontSize: "26px"
+}}
+onClick = { onTabClick }
+    >
+    { username }
+        </div >
+    );
+};
+
+const OnlineUserTab = ({ username, onTabClick }) => {
+    return (
+        <div
+            style={{
+                padding: "10px 80px",
                 cursor: "pointer",
                 border: "1px solid #ccc",
                 display: "inline-block",
                 borderRadius: "4px",
                 backgroundColor: "#f9f9f9",
-                color: "black"
-            }}
-            onClick={onTabClick}
-        >
-            {username}
-        </div>
+                color: "black",
+}}
+onClick = { onTabClick }
+    >
+    { username }
+        </div >
     );
 };
 
 var chatLobbyFlag = false;
 const ChatPortal = () => {
+    console.log("Flag:", chatLobbyFlag);
 
     //const location = useLocation();
     //const { username } = location.state || {};
 
-    const { setConnection } = useConnection();
+    const { connection, setConnection } = useConnection();
     const [connectionVariant, setConnectionVariant] = useState();
     const { messages, addMessage, setNewMessages } = useMessage();
     const [onlineUsers, setOnlineUsers] = useState([]);
@@ -147,7 +170,7 @@ const ChatPortal = () => {
 
             console.log("UserMessages:", messages);
         }
-    });
+    }, [username]);
 
     useEffect(() => {
         return async () => {
@@ -177,8 +200,10 @@ const ChatPortal = () => {
             }
             await connectionVariant.invoke("SetUserStatus", username, false);
             setIsAuthenticated(false);
+            chatLobbyFlag = false;
             setUsername('');
             navigate("/");
+            connectionVariant.stop();
         } catch (e) {
             console.log(e);
         }
@@ -203,46 +228,56 @@ const ChatPortal = () => {
         navigate('/chat', { state: { username, recipient } });
     };
 
+    const handleUserTabClick = async () => {
+
+    }
+
     const [sidebarWidth] = useState('250px');
 
     if (!chatLobbyFlag)
         joinChatLobby(username);
 
+    console.log("Connection:", connection);
+
     return (
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>
-            <div>
-                <button onClick={() => logOutSession()} >LogOut</button>
+            <div className='lobby'>
+                <div className='profilebar'>
+                    <div className='recipient-name-inlobby' >{username}</div>
+                    <button className='logout-button' onClick={() => logOutSession()} >LogOut</button>
+                </div>
 
-                <Form //className="lobby"
+                {/* <Form //className="lobby"
                     onSubmit={e => {
                         e.preventDefault();
                         joinChatLobby(username);
                     }} >
                     <Button variant="success" type="submit" className='connect-button' disabled={!username}>Connect</Button>
-                </Form>
+                </Form> */}
 
                 <div className="user-list">
-                    <h1>Yooo<br></br>
-                        .<br></br>
-                        .<br></br>
-                        .<br></br>
-                        .<br></br>
-                        .<br></br>
-                        .<br></br>
-                        .<br></br>
-                    </h1>
                     <h4>Online Users</h4>
-                    {onlineUsers.map((u) =>
-                        <div style={{ margin: "20px" }} key={u}>
-                            <UserTab username={u} onTabClick={() => handleTabClick(u)} />
-                        </div>
+                    {(onlineUsers.length === 1 && onlineUsers[0] === username) ? (
+                        <p>No one</p>
+                    ) : (
+                        onlineUsers.map((u) =>
+                            u !== username ? (
+                                <div style={{ margin: "20px" }} key={u}>
+                                    <OnlineUserTab username={u} onTabClick={() => handleTabClick(u)} />
+                                    {/* <div className='recipient-name-inlobby' >{u}</div> */}
+                                </div>
+                            ) : null
+                        )
                     )}
                 </div>
 
-                <div>
+                <div className='chats-list'>
                     {recipientArray.map((user, index) => (
-                        <Row key={index} md={4}>
-                            <div className="user-box">{user}</div>
+                        <Row>
+                            <div className="custom-tab-container">
+                            <div className='recipient-profile-inlobby'></div>
+                                <UserTab username={user} onTabClick={() => handleTabClick(user)} />
+                            </div>
                         </Row>
                     ))}
                 </div>
