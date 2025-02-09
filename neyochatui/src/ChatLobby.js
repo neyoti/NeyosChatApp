@@ -23,14 +23,14 @@ const UserTab = ({ username, onTabClick }) => {
             style={{
                 padding: "10px 10px",
                 cursor: "pointer",
-                borderBottom: "1px solid black",
                 height: "6vh",
                 width: "85%",
                 height: "9vh",
                 display: "flex",
-                backgroundColor: "#f9f9f9",
+                backgroundColor: "transparent",
                 alignItems: "center",
-                color: "black"
+                color: "black",
+                fontSize: "26px"
 }}
 onClick = { onTabClick }
     >
@@ -65,7 +65,7 @@ const ChatPortal = () => {
     //const location = useLocation();
     //const { username } = location.state || {};
 
-    const { setConnection } = useConnection();
+    const { connection, setConnection } = useConnection();
     const [connectionVariant, setConnectionVariant] = useState();
     const { messages, addMessage, setNewMessages } = useMessage();
     const [onlineUsers, setOnlineUsers] = useState([]);
@@ -236,6 +236,8 @@ const ChatPortal = () => {
 
     if (!chatLobbyFlag)
         joinChatLobby(username);
+
+    console.log("Connection:", connection);
 
     return (
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>

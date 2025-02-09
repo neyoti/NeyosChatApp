@@ -21,8 +21,10 @@ const Sidebar = ({ sidebarWidth }) => {
 
   const handleChatLobbyClick = async () => {
     try {
-      if (!connection)
+      if (!connection){
+        console.log("Connection is not valid.");
         await connection.stop();
+      }
 
       if (!username) {
         alert("Could not navigate to ChatLobby");
@@ -73,15 +75,6 @@ const Sidebar = ({ sidebarWidth }) => {
             </NavLink>
             <NavLink to="/userprofile" className={({ isActive }) => (isActive ? 'activeClicked' : '')}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink
-              to="/hero404"
-              target="_blank"
-              className={({ isActive }) => (isActive ? 'activeClicked' : '')}
-            >
-              <CDBSidebarMenuItem icon="exclamation-circle">
-                404 page
-              </CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>
