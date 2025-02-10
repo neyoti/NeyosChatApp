@@ -11,11 +11,13 @@ const SendMessageForm = ({ sendMessage, recipient }) => {
             setMessage("");
         }}>
         <InputGroup>
+            <div className="input-container">
             <div className="input-grp">
                 <FormControl placeholder="message..." onChange={e => setMessage(e.target.value)} value={message} />
             </div>
             <div>
                 <button className="input-grp-button" type="submit" disabled={!message} />
+            </div>
             </div>
         </InputGroup>
     </Form>

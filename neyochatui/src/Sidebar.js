@@ -54,15 +54,13 @@ const Sidebar = ({ sidebarWidth }) => {
       className='sidebar'
     >
       <CDBSidebar textColor="#fff" backgroundColor="#333" style={{ width: sidebarWidth }}>
-        {/* <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}> */}
         <CDBSidebarHeader>
-          {/* <a
-            //href="/"
+          {/* <div
             className="text-decoration-none"
-            style={{ color: 'inherit' }}
+            style={{ color: 'inherit', width: sidebarWidth }}
           > */}
           Sidebar
-          {/* </a> */}
+          {/* </div> */}
         </CDBSidebarHeader>
 
         <CDBSidebarContent className="sidebar-content">
