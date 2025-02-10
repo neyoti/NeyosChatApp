@@ -288,9 +288,9 @@ hr.line {
 .chat {
   background-color: transparent;
   color: white;
-  width: 1015px;
-  margin-right: 65px;
-  height: 100vh ;
+  width: 120vh /*970px*/ ;
+  margin-right: 65px ;
+  height: 99vh ;
   padding-left: 4px;
 }
 
@@ -304,6 +304,7 @@ hr.line {
   justify-content: center;
   align-items: center;
   position: relative;
+  border-radius: 10px 10px 0 0;
 }
 
 .profile-banner button {
@@ -340,34 +341,34 @@ hr.line {
 
 .user-message {
   text-align: right;
-  padding-right: 5px;
+  padding-right: 10px;
   font-size: 18px;
 }
 
 .user-message-theme {
   display: inline-flex;
   margin: 0px auto 0px auto;
-  padding: 5px;
+  padding: 10px;
   font-size: 18px;
   color: black;
-  border-radius: 20px;
+  border-radius: 5px;
   margin-top: 3px;
   background-color: rgb(72, 197, 0);
 }
 
 .recipient-message {
   text-align: left;
-  padding-left: 5px;
+  padding-left: 10px;
   font-size: 18px;
 }
 
 .recipient-message-theme {
   display: inline-flex;
   margin: 0px auto 0px auto;
-  padding: 5px;
+  padding: 10px;
   font-size: 18px;
   color: black;
-  border-radius: 20px;
+  border-radius: 5px;
   margin-top: 3px;
   background-color: rgb(5, 176, 176);
 }
@@ -388,11 +389,18 @@ hr.line {
   margin-left: 5px;
 }
 
+.input-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100% ;
+}
+
 .input-grp{
   display: flex;
   flex-direction: row;
   justify-content: left;
-  width:117vh ;
+  width: calc(120vh + 780px);
 }
 
 .input-grp input {

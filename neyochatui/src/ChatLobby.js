@@ -31,10 +31,10 @@ const UserTab = ({ username, onTabClick }) => {
                 alignItems: "center",
                 color: "black",
                 fontSize: "26px"
-}}
-onClick = { onTabClick }
-    >
-    { username }
+            }}
+            onClick={onTabClick}
+        >
+            {username}
         </div >
     );
 };
@@ -43,17 +43,19 @@ const OnlineUserTab = ({ username, onTabClick }) => {
     return (
         <div
             style={{
-                padding: "10px 80px",
+                width: "10vh",
+                height: "30px",
+                //padding: "10px 80px",
                 cursor: "pointer",
-                border: "1px solid #ccc",
+                border: "1px solid #000000",
                 display: "inline-block",
                 borderRadius: "4px",
                 backgroundColor: "#f9f9f9",
                 color: "black",
-}}
-onClick = { onTabClick }
-    >
-    { username }
+            }}
+            onClick={onTabClick}
+        >
+            {username}
         </div >
     );
 };
@@ -256,18 +258,19 @@ const ChatPortal = () => {
                 </Form> */}
 
                 <div className="user-list">
-                    <h4>Online Users</h4>
+                    <h4>Online Users</h4><br></br>
                     {(onlineUsers.length === 1 && onlineUsers[0] === username) ? (
                         <p>No one</p>
                     ) : (
-                        onlineUsers.map((u) =>
-                            u !== username ? (
-                                <div style={{ margin: "20px" }} key={u}>
-                                    <OnlineUserTab username={u} onTabClick={() => handleTabClick(u)} />
-                                    {/* <div className='recipient-name-inlobby' >{u}</div> */}
-                                </div>
-                            ) : null
-                        )
+                        onlineUsers
+                            .filter((u) => u !== username)
+                            .map((u) => (
+                                    <div style={{ margin: "3px" }} key={u}>
+                                        <OnlineUserTab username={u} onTabClick={() => handleTabClick(u)} />
+                                        {/* <div className='recipient-name-inlobby' >{u}</div> */}
+                                    </div>
+                                )
+                            )
                     )}
                 </div>
 
@@ -275,7 +278,7 @@ const ChatPortal = () => {
                     {recipientArray.map((user, index) => (
                         <Row>
                             <div className="custom-tab-container">
-                            <div className='recipient-profile-inlobby'></div>
+                                <div className='recipient-profile-inlobby'></div>
                                 <UserTab username={user} onTabClick={() => handleTabClick(user)} />
                             </div>
                         </Row>
