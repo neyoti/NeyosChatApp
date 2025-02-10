@@ -290,7 +290,7 @@ hr.line {
   color: white;
   width: 120vh /*970px*/ ;
   margin-right: 65px ;
-  height: 98vh ;
+  height: 99vh ;
   padding-left: 4px;
 }
 
@@ -393,14 +393,14 @@ hr.line {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: auto ;
+  width: 100% ;
 }
 
 .input-grp{
   display: flex;
   flex-direction: row;
   justify-content: left;
-  width: calc(inherit + 780px);
+  width: calc(120vh + 780px);
 }
 
 .input-grp input {
