@@ -10,6 +10,10 @@ import { useUser } from './UsernameContext';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
+import Card from 'react-bootstrap/Card';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import CloseButton from 'react-bootstrap/CloseButton';
+
 const EditProfilePage = () => {
 
     const navigate = useNavigate();
@@ -57,98 +61,68 @@ const EditProfilePage = () => {
         }
     };
 
+    const handleOnCloseClick = async () => {
+        navigate(-1);
+    }
+
     return (
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="validationCustom01">
-                    <Form.Label>First name</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="First name"
-                        value={firstName}
-                        //name="userfirstName"
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustom02">
-                    <Form.Label>Last name</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="Last name"
-                        value={lastName}
-                        //name="userlastName"
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-                {/* <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-                        <Form.Label>Username</Form.Label>
-                        <InputGroup hasValidation>
-                            <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+        <Card className="text-center">
+            <Card.Header>{username} : User Profile
+                <CloseButton variant="Danger" style={{ marginLeft: "330px" }} onClick={() => handleOnCloseClick()}/>
+            </Card.Header>
+
+            <Card.Body>
+
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} md="6" controlId="validationCustom01">
+                            <Form.Label>First Name</Form.Label>
                             <Form.Control
-                                type="text"
-                                placeholder="Username"
-                                aria-describedby="inputGroupPrepend"
                                 required
-                                defaultValue={username}
+                                type="text"
+                                placeholder="First Name"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
                             />
-                            <Form.Control.Feedback type="invalid">
-                                Please choose a username.
-                            </Form.Control.Feedback>
-                        </InputGroup>
-                    </Form.Group> */}
-                <Form.Group as={Col} md="4">
-                    <Form.Label>UserName</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder={username}
-                        value={username}
-                        readOnly
-                    />
-                </Form.Group>
-            </Row>
-            <Row className="mb-3">
-                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                    <Form.Label>Bio</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Bio"
-                        value={bio}
-                        //name="userbio"
-                        onChange={(e) => setBio(e.target.value)}
-                    />
-                    {/* <Form.Control.Feedback type="invalid">
-                            Please provide a valid Bio.
-                        </Form.Control.Feedback> */}
-                </Form.Group>
-                {/* <Form.Group as={Col} md="3" controlId="validationCustom04">
-                        <Form.Label>State</Form.Label>
-                        <Form.Control type="text" placeholder="State" required />
-                        <Form.Control.Feedback type="invalid">
-                            Please provide a valid state.
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md="3" controlId="validationCustom05">
-                        <Form.Label>Zip</Form.Label>
-                        <Form.Control type="text" placeholder="Zip" required />
-                        <Form.Control.Feedback type="invalid">
-                            Please provide a valid zip.
-                        </Form.Control.Feedback>
-                    </Form.Group> */}
-            </Row>
-            {/* <Form.Group className="mb-3">
-                    <Form.Check
-                        required
-                        label="Agree to terms and conditions"
-                        feedback="You must agree before submitting."
-                        feedbackType="invalid"
-                    />
-                </Form.Group> */}
-            <Button type="submit">Edit Profile</Button>
-        </Form>
+                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+
+                        </Form.Group>
+                        <Form.Group as={Col} md="6" controlId="validationCustom02">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control
+                                required
+                                type="text"
+                                placeholder="Last Name"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                            />
+                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        </Form.Group>
+
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} md="12" controlId="validationCustom03">
+
+                            <FloatingLabel controlId="floatingTextarea2" label="Bio">
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Enter Bios here"
+                                    style={{ height: '100px' }}
+                                    type="text"
+                                    value={bio}
+                                    onChange={(e) => setBio(e.target.value)}
+                                />
+                            </FloatingLabel>
+
+                        </Form.Group>
+                    </Row>
+                    <Button type="submit">Edit Profile</Button>
+                </Form>
+
+
+            </Card.Body>
+            <Card.Footer className="text-muted">NeYo's Chat Website</Card.Footer>
+        </Card>
     )
 }
 
