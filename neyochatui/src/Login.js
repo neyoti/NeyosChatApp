@@ -40,7 +40,7 @@ const Login = () => {
             if (!formData.username) newErrors.username = "Username is required.";
             else if (!regex.test(formData.username)) newErrors.username = "Invalid username! UserName must be an alphanumeric value.";
 
-            const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{4,10}$/; // Only alphanumeric characters
+            const passwordRegex = /^[a-zA-Z0-9]+$/;  // /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{4,10}$/;
             if (!formData.password) newErrors.password = "Password is required.";
             else if (!passwordRegex.test(formData.password)) newErrors.password = "Invalid password!\nPassword must contain at least 4 characters, 1 special character, 1 uppercase, 1 lowercase, 1 digit.";
         }

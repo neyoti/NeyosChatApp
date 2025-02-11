@@ -37,15 +37,15 @@ const Sidebar = ({ sidebarWidth }) => {
     }
   }
 
-  const dashBoard = async () => {
-    try {
-      alert("Your logged in session will be closed!!!");
-      setIsAuthenticated(false);
-      setUsername('');
-    } catch (error) {
-      console.error("Error when clicked on Sidebard dashboard icon", error);
-    }
-  }
+  // const dashBoard = async () => {
+  //   try {
+  //     alert("Your logged in session will be closed!!!");
+  //     setIsAuthenticated(false);
+  //     setUsername('');
+  //   } catch (error) {
+  //     console.error("Error when clicked on Sidebard dashboard icon", error);
+  //   }
+  // }
 
 
   return (
@@ -65,11 +65,8 @@ const Sidebar = ({ sidebarWidth }) => {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink to="/" className={({ isActive }) => (isActive ? 'activeClicked' : '')} onClick={() => dashBoard()}>
-              <CDBSidebarMenuItem icon="home">Dashboard</CDBSidebarMenuItem>
-            </NavLink>
             <NavLink to="/chatportal" className={({ isActive }) => (isActive ? 'activeClicked' : '')} onClick={() => handleChatLobbyClick()} >
-              <CDBSidebarMenuItem icon="table">Chat Lobby</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="comments">Chat Lobby</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/userprofile" className={({ isActive }) => (isActive ? 'activeClicked' : '')}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
