@@ -1,3 +1,46 @@
+/*CSS for login and sign up page design*/
+.background-radial-gradient {
+  background-color: hsl(218, 41%, 15%);
+  background-image: radial-gradient(650px circle at 0% 0%,
+      hsl(218, 41%, 35%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%),
+    radial-gradient(1250px circle at 100% 100%,
+      hsl(218, 41%, 45%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%);
+}
+
+#radius-shape-1 {
+  height: 220px;
+  width: 220px;
+  top: -60px;
+  left: -130px;
+  background: radial-gradient(#44006b, #ad1fff);
+  overflow: hidden;
+}
+
+#radius-shape-2 {
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  bottom: -60px;
+  right: -110px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(#44006b, #ad1fff);
+  overflow: hidden;
+}
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
+
+/* END CSS for login and sign up page design*/
+
 Form Button {
   width: 100%;
   margin-top: 4%;
@@ -32,39 +75,9 @@ hr.line {
   border-radius: 12px;
 }
 
-/* .banner {
-  position: absolute;
-  top: 50%;
-  left: 55%;
-  transform: translate(-50%, -50%);
-  width: 85%;
-  height: 85%;
-  padding: 30px 20px;
-  background-color: rebeccapurple;
-  color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.connect-button {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  width: auto;
-  background-color: #414141;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-} */
-
-.banner button:hover {
+/* .banner button:hover {
   background-color: rgb(26, 142, 26);
-}
+} */
 
 .main-content {
   flex-grow: 1; /* Fills remaining space */
@@ -122,6 +135,10 @@ hr.line {
   right: 15px;
   top: 15px;
   border-radius: 20px;
+}
+
+.logout-button:hover{
+  transform: scale(1.1); /* Increases size by 10% */
 }
 
 .custom-tab-container {

@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { useState } from "react";
 
-import { Button, Form, Row, Col, Nav, Tab } from "react-bootstrap"
+import { Button, Row } from "react-bootstrap"
 
 //import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +14,16 @@ import { useMessage } from './components/MessageContext';
 import { useRecipientProfile } from './components/RecipientProfileContext';
 import { useUserProfile } from './components/UserProfileContext';
 import { useUser } from './components/UsernameContext';
+import Modal from 'react-bootstrap/Modal';
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+
+const pageVariants = {
+    initial: { opacity: 0, x: -50 },
+    animate: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+    exit: { opacity: 0, x: 50, transition: { duration: 0.3 } },
+};
 
 const UserTab = ({ username, onTabClick }) => {
     return (
@@ -23,7 +31,6 @@ const UserTab = ({ username, onTabClick }) => {
             style={{
                 padding: "10px 10px",
                 cursor: "pointer",
-                height: "6vh",
                 width: "85%",
                 height: "9vh",
                 display: "flex",
@@ -77,6 +84,9 @@ const ChatPortal = () => {
     const { username, setUsername, setIsAuthenticated } = useUser();  // Get Username
 
     const [recipientArray, setRecipientArray] = useState([]);
+    const [show, setShow] = useState(false);
+
+    const [loading, setLoading] = useState(true);
 
     const joinChatLobby = async (user) => {
         try {
@@ -190,9 +200,24 @@ const ChatPortal = () => {
 
     const navigate = useNavigate();
 
+    const handleClose = () => setShow(false);
+
+    const yesButtonRef = useRef(null);
+
+    useEffect(() => {
+        if (show && yesButtonRef.current) {
+            yesButtonRef.current.focus(); // Automatically focus "Yes" button when modal opens
+        }
+    }, [show]); // Runs whenever `show` changes
+
+    const confirmLogOut = () => {
+        setShow(true);
+    }
+
     const logOutSession = async () => {
         try {
-            alert("Your logged in session will be closed!!!");
+            //alert("Your logged in session will be closed!!!");
+
             if (!connectionVariant) {
                 console.error("Connection is not established yet.");
                 return;
@@ -200,12 +225,14 @@ const ChatPortal = () => {
             else {
                 console.log("It's Fineeeee");
             }
+
             await connectionVariant.invoke("SetUserStatus", username, false);
             setIsAuthenticated(false);
             chatLobbyFlag = false;
             setUsername('');
             navigate("/");
             connectionVariant.stop();
+
         } catch (e) {
             console.log(e);
         }
@@ -230,10 +257,6 @@ const ChatPortal = () => {
         navigate('/chat', { state: { username, recipient } });
     };
 
-    const handleUserTabClick = async () => {
-
-    }
-
     const [sidebarWidth] = useState('250px');
 
     if (!chatLobbyFlag)
@@ -241,12 +264,43 @@ const ChatPortal = () => {
 
     console.log("Connection:", connection);
 
+    useEffect(() => {
+        setTimeout(() => setLoading(false), 2000); // Simulating API call
+    }, []);
+
     return (
+        <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+        >
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>
             <div className='lobby'>
+                <Modal
+                    show={show}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Attention</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Do you want to log out???
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button ref={yesButtonRef} variant="primary" onClick={() => logOutSession()}>Yes</Button>
+                    </Modal.Footer>
+                </Modal>
+
+
                 <div className='profilebar'>
                     <div className='recipient-name-inlobby' >{username}</div>
-                    <button className='logout-button' onClick={() => logOutSession()} >LogOut</button>
+                    <button className='logout-button' onClick={() => confirmLogOut()} >LogOut</button>
                 </div>
 
                 {/* <Form //className="lobby"
@@ -265,11 +319,11 @@ const ChatPortal = () => {
                         onlineUsers
                             .filter((u) => u !== username)
                             .map((u) => (
-                                    <div style={{ margin: "3px" }} key={u}>
-                                        <OnlineUserTab username={u} onTabClick={() => handleTabClick(u)} />
-                                        {/* <div className='recipient-name-inlobby' >{u}</div> */}
-                                    </div>
-                                )
+                                <div style={{ margin: "3px" }} key={u}>
+                                    <OnlineUserTab username={u} onTabClick={() => handleTabClick(u)} />
+                                    {/* <div className='recipient-name-inlobby' >{u}</div> */}
+                                </div>
+                            )
                             )
                     )}
                 </div>
@@ -286,6 +340,7 @@ const ChatPortal = () => {
                 </div>
             </div>
         </div>
+        </motion.div>
     );
 }
 
