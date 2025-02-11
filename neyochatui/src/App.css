@@ -1,3 +1,4 @@
+/*CSS for login and sign up page design*/
 .background-radial-gradient {
   background-color: hsl(218, 41%, 15%);
   background-image: radial-gradient(650px circle at 0% 0%,
@@ -38,6 +39,7 @@
   backdrop-filter: saturate(200%) blur(25px);
 }
 
+/* END CSS for login and sign up page design*/
 
 Form Button {
   width: 100%;
@@ -73,9 +75,9 @@ hr.line {
   border-radius: 12px;
 }
 
-.banner button:hover {
+/* .banner button:hover {
   background-color: rgb(26, 142, 26);
-}
+} */
 
 .main-content {
   flex-grow: 1; /* Fills remaining space */
@@ -133,6 +135,10 @@ hr.line {
   right: 15px;
   top: 15px;
   border-radius: 20px;
+}
+
+.logout-button:hover{
+  transform: scale(1.1); /* Increases size by 10% */
 }
 
 .custom-tab-container {

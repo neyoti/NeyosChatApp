@@ -58,7 +58,6 @@ const SignUp = () => {
         // <button onClick={() => {navigate(-1)} }>Back to Dashboard</button>
         // </div>
 
-
         <MDBContainer fluid className='p-4 background-radial-gradient overflow-hidden'>
 
             <MDBRow>
@@ -92,7 +91,7 @@ const SignUp = () => {
                                 <MDBCol col='6'>
                                     <MDBInput wrapperClass='mb-4' label='Last name' id='form2' type='text' onChange={handleChange} />
                                 </MDBCol>
-                                
+
                             </MDBRow>
 
                             <MDBInput wrapperClass='mb-4' label='Username' id='form3' type='text' onChange={handleChange} />
@@ -100,7 +99,7 @@ const SignUp = () => {
 
                             <MDBBtn className='w-100 mb-4' size='md' onClick={() => handleSignUp()} >Sign up</MDBBtn>
 
-                            <button onClick={() => {navigate(-1)} }>Back to Dashboard</button>
+                            <button onClick={() => { navigate(-1) }}>Back to Dashboard</button>
 
                         </MDBCardBody>
                     </MDBCard>
@@ -110,6 +109,7 @@ const SignUp = () => {
             </MDBRow>
 
         </MDBContainer>
+
     );
 };
 
