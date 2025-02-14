@@ -94,10 +94,10 @@ const SignUp = () => {
 
                             </MDBRow>
 
-                            <MDBInput wrapperClass='mb-4' label='Username' id='form3' type='text' onChange={handleChange} />
-                            <MDBInput wrapperClass='mb-4' label='Password' id='form4' type='password' onChange={handleChange} />
+                            <MDBInput wrapperClass='mb-4' name="username" label='Username' id='form3' type='text' onChange={handleChange} />
+                            <MDBInput wrapperClass='mb-4' name="password" label='Password' id='form4' type='password' onChange={handleChange} />
 
-                            <MDBBtn className='w-100 mb-4' size='md' onClick={() => handleSignUp()} >Sign up</MDBBtn>
+                            <MDBBtn className='w-100 mb-4' size='md' onClick={handleSignUp} >Sign up</MDBBtn>
 
                             <button onClick={() => { navigate(-1) }}>Back to Dashboard</button>
 

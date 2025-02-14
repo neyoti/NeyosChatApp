@@ -17,13 +17,6 @@ import { useUser } from './components/UsernameContext';
 import Modal from 'react-bootstrap/Modal';
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-
-const pageVariants = {
-    initial: { opacity: 0, x: -50 },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.5 } },
-    exit: { opacity: 0, x: 50, transition: { duration: 0.3 } },
-};
 
 const UserTab = ({ username, onTabClick }) => {
     return (
@@ -85,8 +78,6 @@ const ChatPortal = () => {
 
     const [recipientArray, setRecipientArray] = useState([]);
     const [show, setShow] = useState(false);
-
-    const [loading, setLoading] = useState(true);
 
     const joinChatLobby = async (user) => {
         try {
@@ -180,7 +171,7 @@ const ChatPortal = () => {
             console.log("In useEffect");
             joinChatLobby(username);
 
-            console.log("UserMessages:", messages);
+            console.log("UserName:", username);
         }
     }, [username]);
 
@@ -264,17 +255,7 @@ const ChatPortal = () => {
 
     console.log("Connection:", connection);
 
-    useEffect(() => {
-        setTimeout(() => setLoading(false), 2000); // Simulating API call
-    }, []);
-
     return (
-        <motion.div
-            variants={pageVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-        >
         <div className="main-content" style={{ marginLeft: sidebarWidth }}>
             <div className='lobby'>
                 <Modal
@@ -340,7 +321,6 @@ const ChatPortal = () => {
                 </div>
             </div>
         </div>
-        </motion.div>
     );
 }
 

@@ -16,12 +16,12 @@ const Sidebar = ({ sidebarWidth }) => {
 
   const { connection } = useConnection();
   const navigate = useNavigate();
-  const { username, setUsername, setIsAuthenticated } = useUser();  // Set Username
+  const { username } = useUser();  // Set Username
 
 
   const handleChatLobbyClick = async () => {
     try {
-      if (!connection){
+      if (!connection) {
         console.log("Connection is not valid.");
         await connection.stop();
       }
@@ -53,7 +53,7 @@ const Sidebar = ({ sidebarWidth }) => {
       style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}
       className='sidebar'
     >
-      <CDBSidebar textColor="#fff" backgroundColor="#333" style={{ width: sidebarWidth }}>
+      <CDBSidebar textColor="#fff" backgroundColor="#00000000" style={{ width: sidebarWidth }}>
         <CDBSidebarHeader>
           {/* <div
             className="text-decoration-none"
@@ -66,7 +66,7 @@ const Sidebar = ({ sidebarWidth }) => {
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
             <NavLink to="/chatportal" className={({ isActive }) => (isActive ? 'activeClicked' : '')} onClick={() => handleChatLobbyClick()} >
-              <CDBSidebarMenuItem icon="comments">Chat Lobby</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="comments" >Chat Lobby</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/userprofile" className={({ isActive }) => (isActive ? 'activeClicked' : '')}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>

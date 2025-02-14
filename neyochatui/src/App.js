@@ -88,17 +88,7 @@ const App = () => {
                       </motion.div>
                     } />
 
-                    <Route path="/chatportal" element={
-                      isAuthenticated ?
-                        <motion.div
-                          variants={pageVariants}
-                          initial="initial"
-                          animate="animate"
-                          exit="exit"
-                        >
-                          <ChatPortal />
-                        </motion.div> : <Dashboard />
-                    } />
+                    <Route path="/chatportal" element={isAuthenticated ? <ChatPortal /> : <Dashboard />} />
                     <Route path="/chat" element={isAuthenticated ? <Chat /> : <Dashboard />} />
                     <Route path="/userprofile" element={isAuthenticated ? <UserProfile /> : <Dashboard />} />
                     <Route path="/edituserprofile" element={isAuthenticated ? <EditProfilePage /> : <Dashboard />} />
