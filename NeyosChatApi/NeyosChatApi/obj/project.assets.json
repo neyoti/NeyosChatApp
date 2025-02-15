@@ -2860,11 +2860,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/NeyosChatApi.csproj",
+      "projectUniqueName": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApi/NeyosChatApi/NeyosChatApi.csproj",
       "projectName": "NeyosChatApi",
-      "projectPath": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/NeyosChatApi.csproj",
+      "projectPath": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApi/NeyosChatApi/NeyosChatApi.csproj",
       "packagesPath": "/Users/admin/.nuget/packages/",
-      "outputPath": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/",
+      "outputPath": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/admin/.nuget/NuGet/NuGet.Config"

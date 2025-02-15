@@ -90,9 +90,10 @@ hr.line {
 
 .lobby {
   position: fixed;
-  left: calc(170px + 28vh);
+  /* left: calc(170px + 28vh); */
+  right: 232px;
   top: 0;
-  width: 80%;
+  width: 71%;
   height: 100vh;
   background-color: transparent;
   color: white;
@@ -122,7 +123,7 @@ hr.line {
 
   display: flex;
   width: inherit;
-  height: 8vh;
+  height: 9vh;
   scroll-behavior: smooth;
   background: radial-gradient(circle,gray, black);
   color: white;
@@ -133,7 +134,7 @@ hr.line {
 
 .logout-button{
   position: fixed;
-  right: 15px;
+  right: calc(232px + 15px);
   top: 15px;
   border-radius: 20px;
 }
@@ -197,9 +198,11 @@ hr.line {
 /* Responsive User List */
 .user-list {
   position: fixed;
-  left: 170px;
+  /* left: 170px; */
+  right: 0;
   top: 0;
-  width: 28vh;
+  /* width: 28vh; */
+  width: 231px;
   max-width: 300px;
   height: 100vh;
   background-color: transparent;
@@ -229,9 +232,10 @@ hr.line {
   left: 0;
   top: 0;
   height: 100vh;
-  background-color: rgb(34, 146, 238);
+  background-color: rgb(108, 108, 108);
   color: white;
   transition: width 0.3s ease;
+  border-radius: 0 30px 0 0;
 }
 
 /* Adjusting layout for smaller screens */
