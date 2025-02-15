@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iW36YSCEjP7hF+t7obPR2/sqvbKf9OgiIQVinmVz8Wa8MLIltTfZ0AYoURQ243JHSUNN0zhMAlQ63RWBPVDzbA==",
+  "dgSpecHash": "QQIaMaMRjBoj3siKmFEoAzRpzG0euSMnAdQb2FCGOYtW3GcxGgSngZsSvUEJ4LvX1WqsKWb0xRT9KruuUt/htg==",
   "success": true,
-  "projectFilePath": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/NeyosChatApi.csproj",
+  "projectFilePath": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApi/NeyosChatApi/NeyosChatApi.csproj",
   "expectedPackageFiles": [
     "/Users/admin/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.2.0/microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "/Users/admin/.nuget/packages/microsoft.aspnetcore.authorization/2.2.0/microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
