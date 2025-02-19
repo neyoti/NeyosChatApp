@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ZBlGQDvTHPqeoEkrb7v0HtbJxBHo4xZHwSTVECE3P+s=",
+  "Source": "NeyosChatApi",
+  "BasePath": "_content/NeyosChatApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
