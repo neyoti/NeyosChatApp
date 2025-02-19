@@ -38,6 +38,7 @@ builder.Services.AddSingleton<IDictionary<string, UserConn>>(options => new Dict
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 builder.Services.AddAWSService<IAmazonDynamoDB>();
 builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
+builder.Services.AddScoped<DynamoDbService>();
 
 builder.Services.AddCors();
 

@@ -48,11 +48,11 @@ namespace NeyosChatApi.Services
 
         //private static Dictionary<string, List<string>> userChatList = new Dictionary<string, List<string>>();
 
-        public async Task<UserProfileData> getUserData(string pk)
+        public async Task<UserDataModel> getUserData(string pk)
         {
             //return userData;
 
-            return await _context.LoadAsync<UserProfileData>(pk);
+            return await _context.LoadAsync<UserDataModel>(pk, 1);
         }
 
         //public List<UserProfile> getUserProfile()
