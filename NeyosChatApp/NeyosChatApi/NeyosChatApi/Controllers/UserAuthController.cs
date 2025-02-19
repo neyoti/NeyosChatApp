@@ -13,14 +13,15 @@ namespace NeyosChatApi.Controllers
 	{
 		//private readonly UserProfileContext _userProfileContext;
 		private readonly PasswordService _passwordService;
+        private readonly FakeData _fakeData;
+        private readonly DynamoDbService _dynamoDbService;
 
-		private readonly FakeData _fakeData;
-
-		public UserAuthController(/*UserProfileContext userProfileContext,*/ PasswordService passwordService, FakeData fakeData)
+		public UserAuthController(/*UserProfileContext userProfileContext,*/ PasswordService passwordService, FakeData fakeData, DynamoDbService dynamoDbService)
 		{
 			//_userProfileContext = userProfileContext;
 			_passwordService = passwordService;
 			_fakeData = fakeData;
+            _dynamoDbService = dynamoDbService;
 		}
 
 		[HttpPost("login")]
@@ -54,11 +55,15 @@ namespace NeyosChatApi.Controllers
 		{
             try
             {
-				//if (await _userProfileContext.UserProfile.AnyAsync(u => u.UserName == profile.UserName))
-				//	return BadRequest("Username is already registered.");
+                //if (await _userProfileContext.UserProfile.AnyAsync(u => u.UserName == profile.UserName))
+                //	return BadRequest("Username is already registered.");
 
-				if ( _fakeData.getUserData().Where(u => u.UserName == profile.UserName).Count() != 0)
-					return BadRequest("Username is already registered.");
+                //if ( _fakeData.getUserData().Where(u => u.UserName == profile.UserName).Count() != 0)
+                //	return BadRequest("Username is already registered.");
+
+                var result = await _dynamoDbService.getUserData(profile.UserName);
+                if (result != null)
+                    return BadRequest("Username is already registered.");
 
                 var user = new UserData
 				{

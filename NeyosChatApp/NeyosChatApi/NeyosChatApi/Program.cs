@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NeyosChatApi.Data;
 using NeyosChatApi.Hubs;
@@ -34,6 +36,8 @@ builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<IDictionary<string, UserConn>>(options => new Dictionary<string, UserConn>());
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+builder.Services.AddAWSService<IAmazonDynamoDB>();
+builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 
 builder.Services.AddCors();
 

@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "H1XrFboQ5hBYR9jesPPT+ZWiyT5NHheh3RIyolfeiC1yA6QfapJo0GUc0j4wQXaVeJibwHma06efYdvng2M1pQ==",
+  "dgSpecHash": "BGmPrYQuUX8q+B6HSyET+gkwQLX++RhYlPZhs6iL8yT3hnkfMJU7Bebu3M3yYxSyEOtweyercFHhPH4Aojs2GA==",
   "success": true,
   "projectFilePath": "/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/NeyosChatApi.csproj",
   "expectedPackageFiles": [
     "/Users/admin/.nuget/packages/awssdk.core/3.7.402.3/awssdk.core.3.7.402.3.nupkg.sha512",
     "/Users/admin/.nuget/packages/awssdk.dynamodbv2/3.7.405.24/awssdk.dynamodbv2.3.7.405.24.nupkg.sha512",
+    "/Users/admin/.nuget/packages/awssdk.extensions.netcore.setup/3.7.400/awssdk.extensions.netcore.setup.3.7.400.nupkg.sha512",
     "/Users/admin/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.2.0/microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "/Users/admin/.nuget/packages/microsoft.aspnetcore.authorization/2.2.0/microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
     "/Users/admin/.nuget/packages/microsoft.aspnetcore.authorization.policy/2.2.0/microsoft.aspnetcore.authorization.policy.2.2.0.nupkg.sha512",
