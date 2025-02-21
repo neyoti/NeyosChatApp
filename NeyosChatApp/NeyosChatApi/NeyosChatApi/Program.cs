@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NeyosChatApi.Data;
 using NeyosChatApi.Hubs;
 using NeyosChatApi.Models;
+using NeyosChatApi.Repository;
 using NeyosChatApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,7 @@ builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 builder.Services.AddAWSService<IAmazonDynamoDB>();
 builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 builder.Services.AddScoped<DynamoDbService>();
+builder.Services.AddScoped(typeof(IUserProfileDataRepository<>), typeof(UserProfileDataRepository<>));
 
 builder.Services.AddCors();
 

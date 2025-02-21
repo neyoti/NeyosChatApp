@@ -2,6 +2,8 @@
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using Newtonsoft.Json.Linq;
 using NeyosChatApi.Models;
 
 namespace NeyosChatApi.Services
@@ -9,17 +11,20 @@ namespace NeyosChatApi.Services
     public class DynamoDbService
     {
         private readonly DynamoDBContext _context;
+        private readonly IDynamoDBContext dynamoDBContext;
 
-        public DynamoDbService()
+        public DynamoDbService(IDynamoDBContext dBContext)
         {
             var client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
             _context = new DynamoDBContext(client);
+            dynamoDBContext = dBContext;
         }
 
         public async Task<Product> GetProductAsync(string productId)
         {
             return await _context.LoadAsync<Product>(productId, "Amit");
         }
+
 
         //private static List<UserData> userData = new List<UserData>
         //{
@@ -48,12 +53,6 @@ namespace NeyosChatApi.Services
 
         //private static Dictionary<string, List<string>> userChatList = new Dictionary<string, List<string>>();
 
-        public async Task<UserDataModel> getUserData(string pk)
-        {
-            //return userData;
-
-            return await _context.LoadAsync<UserDataModel>(pk, 1);
-        }
 
         //public List<UserProfile> getUserProfile()
         //{

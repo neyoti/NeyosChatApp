@@ -4,7 +4,7 @@ using Amazon.DynamoDBv2.DataModel;
 namespace NeyosChatApi.Models
 {
     [DynamoDBTable("UserProfileData")]
-    public class UserDataModel
+    public class UserProfileDataModel
     {
         [DynamoDBHashKey]
         public string PK { get; set; }
@@ -19,6 +19,11 @@ namespace NeyosChatApi.Models
         public string LastName { get; set; }
 
         [DynamoDBProperty]
-        public string HashedPassword { get; set; }
+        public string Bio { get; set; }
+
+        [DynamoDBProperty]
+        public string Status { get; set; }
     }
 }
+
+

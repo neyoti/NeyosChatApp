@@ -20,11 +20,13 @@
     <None Remove="Models\" />
     <None Remove="Services\" />
     <None Remove="Data\" />
+    <None Remove="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hubs\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="Data\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 </Project>
