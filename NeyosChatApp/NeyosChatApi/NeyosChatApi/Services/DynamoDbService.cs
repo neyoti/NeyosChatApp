@@ -2,23 +2,73 @@
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using Newtonsoft.Json.Linq;
 using NeyosChatApi.Models;
+using NeyosChatApi.Repository;
 
 namespace NeyosChatApi.Services
 {
     public class DynamoDbService
     {
         private readonly DynamoDBContext _context;
+        private readonly IDynamoDBContext dynamoDBContext;
+        private readonly IUserProfileDataRepository<UserDataModel> _userProfileDataRepository;
 
-        public DynamoDbService()
+        public DynamoDbService(IDynamoDBContext dBContext, IUserProfileDataRepository<UserDataModel> userProfileDataRepository)
         {
             var client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
             _context = new DynamoDBContext(client);
+            dynamoDBContext = dBContext;
+            _userProfileDataRepository = userProfileDataRepository;
         }
 
         public async Task<Product> GetProductAsync(string productId)
         {
             return await _context.LoadAsync<Product>(productId, "Amit");
+        }
+
+        public async Task<bool> CheckIfUserExist(string pk, int sk)
+        {
+            var result = await _userProfileDataRepository.GetUserData(pk, sk);
+            if(result != null)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> AddUserData(UserDataModel userData)
+        {
+            if (await _userProfileDataRepository.SaveMetadata(userData))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<UserDataModel> GetUserData(string pk, int sk)
+        {
+            var result = await _userProfileDataRepository.GetUserData(pk, sk);
+            if (result != null)
+                return result;
+            else
+                return null;
+        }
+
+        public async Task<bool> UpdateUserProfileData(UserProfile userProfile)
+        {
+            var user = await _userProfileDataRepository.GetUserData(userProfile.UserName, 1);
+            if (user == null)
+                Console.WriteLine("User does not exist.");
+
+            //_fakeData.getUserProfile().Remove(user);
+
+            user.FirstName = userProfile.FirstName;
+            user.LastName = userProfile.LastName;
+            user.Bio = userProfile.Bio;
+
+            var result = await _userProfileDataRepository.UpdateUserSchemaData(user);
+            return result;
         }
 
         //private static List<UserData> userData = new List<UserData>
@@ -48,12 +98,6 @@ namespace NeyosChatApi.Services
 
         //private static Dictionary<string, List<string>> userChatList = new Dictionary<string, List<string>>();
 
-        public async Task<UserDataModel> getUserData(string pk)
-        {
-            //return userData;
-
-            return await _context.LoadAsync<UserDataModel>(pk, 1);
-        }
 
         //public List<UserProfile> getUserProfile()
         //{
