@@ -50,7 +50,8 @@ namespace NeyosChatApi.Controllers
             try
             {
                 if (await _dynamoDbService.CheckIfUserExist(profile.UserName, 1))
-                    return BadRequest("Username is already registered.");
+                    return StatusCode(500, new { error = "Username is already registered." });
+                    //return BadRequest("Username is already registered.");
 
                 var user = new UserDataModel
                 {

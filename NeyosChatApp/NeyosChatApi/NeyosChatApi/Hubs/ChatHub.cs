@@ -112,9 +112,10 @@ namespace NeyosChatApi.Hubs
                     foreach (var i in list)
                         Console.WriteLine($"MessageArray: {string.Join(",", list)}");
 
-                    _fakeData.SaveChats(conversationId, list);
+                    //_fakeData.SaveChats(conversationId, list);
+                    await _dynamoDbService.SaveChats(conversationId, list);
 
-                    string jsonElement = GetChatMessages(conversationId);
+                    string jsonElement = await GetChatMessages(conversationId);
 
                     await Clients.Group(conversationId).SendAsync("UpdateChatMessages", jsonElement);
                 }
@@ -127,12 +128,12 @@ namespace NeyosChatApi.Hubs
             }
         }
 
-        public string GetChatMessages(string conversationId)
+        public async Task<string> GetChatMessages(string conversationId)
         {
             try
             {
                 // Step 1: Create a List<string>
-                List<string> chatList =   //_fakeData.GetChatsForConversationId(conversationId);
+                List<string> chatList = await _dynamoDbService.GetChatsForConversationId(conversationId);  //_fakeData.GetChatsForConversationId(conversationId);
 
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(chatList);
@@ -181,12 +182,21 @@ namespace NeyosChatApi.Hubs
             return string.Empty;
         }
 
-        public string GetUserProfileData(string username)
+        public async Task<string> GetUserProfileData(string username)
         {
             try
             {
                 // Step 1: Create a List<string>
-                UserProfile userProfile = _fakeData.getUserProfile(username);
+                UserDataModel user = await _dynamoDbService.GetUserData(username, 1); //_fakeData.getUserProfile(username);
+
+                UserProfile userProfile = new UserProfile
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    UserName = user.PK,
+                    Status = user.Status,
+                    Bio = user.Bio
+                };
 
                 //foreach (var i in userProfile)
                 Console.WriteLine($"UserProfileInGetUserProfileData::{userProfile.FirstName}, {userProfile.LastName}, {userProfile.UserName}, {userProfile.Status}");
@@ -231,7 +241,7 @@ namespace NeyosChatApi.Hubs
                 await Clients.Group(conversationId).SendAsync("ReceiveMessage", _botUser, $"{sender} has joined the Chat");
 
                 // Code to get Recipient Profile data
-                string recipientProfileJsonElement = GetUserProfileData(recipient);
+                string recipientProfileJsonElement = await GetUserProfileData(recipient);
 
                 await Clients.Client(Context.ConnectionId).SendAsync("RecipientProfileData", recipientProfileJsonElement);
                 // end here
@@ -244,7 +254,7 @@ namespace NeyosChatApi.Hubs
 
 
                 // Code to get chats for conversation id
-                string jsonElement = GetChatMessages(conversationId);
+                string jsonElement = await GetChatMessages(conversationId);
 
                 await Clients.Group(conversationId).SendAsync("UpdateChatMessages", jsonElement);
                 // end here
@@ -261,27 +271,28 @@ namespace NeyosChatApi.Hubs
             //await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.User);
 
             //_conn[Context.ConnectionId] = userConnection;
+            Console.WriteLine("In JoinChatLobby");
             Console.WriteLine($"Conn Id:{Context.ConnectionId}, user: {userConnection.User}");
             _conn[Context.ConnectionId] = new UserConn { User = userConnection.User, ConnectionId = Context.ConnectionId };
 
-            _fakeData.setUserProfile(
-                new UserProfile()
-                {
-                    Status = true
-                }, userConnection.User);
+            //_fakeData.setUserProfile(
+            //    new UserProfile()
+            //    {
+            //        Status = true
+            //    }, userConnection.User);
 
             // Code to get User Profile data
-            string userProfileJsonElement = GetUserProfileData(userConnection.User);
+            string userProfileJsonElement = await GetUserProfileData(userConnection.User);
 
             await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
             // end here
 
 
-            // Code to get chats for conversation id
-            string jsonElement = GetOldChatRecipients(userConnection.User);
+            //// Code to get chats for conversation id
+            //string jsonElement = GetOldChatRecipients(userConnection.User);
 
-            await Clients.Client(Context.ConnectionId).SendAsync("OldChatRecipientsList", jsonElement);
-            // end here
+            //await Clients.Client(Context.ConnectionId).SendAsync("OldChatRecipientsList", jsonElement);
+            //// end here
 
 
             //await Clients.All.SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has joined the Chat");

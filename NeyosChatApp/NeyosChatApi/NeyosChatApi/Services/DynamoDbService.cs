@@ -72,9 +72,16 @@ namespace NeyosChatApi.Services
             return result;
         }
 
-        public async Task SaveChats(ChatSession chatSession)
+        public async Task SaveChats(string conversationId, List<string> chatArray)
         {
-            await _chatSessionRepository.SaveMetadata(chatSession);
+            var chatObject = await _chatSessionRepository.GetUserData(conversationId, 1);
+
+            if(chatObject != null)
+            {
+                chatObject.ChatMessageArray.AddRange(chatArray);
+            }
+
+            await _chatSessionRepository.SaveMetadata(chatObject);
         }
 
         public async Task<List<string>> GetChatsForConversationId(string conversationId)

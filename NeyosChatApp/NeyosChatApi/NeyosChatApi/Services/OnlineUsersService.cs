@@ -10,12 +10,18 @@ namespace NeyosChatApi.Services
 
         public OnlineUsersService(FakeData fakeData)
         {
-            _fakeData = fakeData;
+			_fakeData = fakeData;
         }
 
 		public IEnumerable<string> ListOfOnlineUsers()
 		{
-			return _fakeData.getUserProfile().Where(user => user.Status == true).Select(user => user.UserName);
+			IEnumerable<string> result = new List<string>
+			{
+				"Neyo",
+				"mel"
+			};
+
+			return result; //_fakeData.getUserProfile().Where(user => user.Status == true).Select(user => user.UserName);
 		}
 	}
 }
