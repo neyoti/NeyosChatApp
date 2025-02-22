@@ -5,6 +5,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Newtonsoft.Json.Linq;
 using NeyosChatApi.Models;
+using NeyosChatApi.Repository;
 
 namespace NeyosChatApi.Services
 {
@@ -12,12 +13,14 @@ namespace NeyosChatApi.Services
     {
         private readonly DynamoDBContext _context;
         private readonly IDynamoDBContext dynamoDBContext;
+        private readonly IUserProfileDataRepository<UserDataModel> _userProfileDataRepository;
 
-        public DynamoDbService(IDynamoDBContext dBContext)
+        public DynamoDbService(IDynamoDBContext dBContext, IUserProfileDataRepository<UserDataModel> userProfileDataRepository)
         {
             var client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
             _context = new DynamoDBContext(client);
             dynamoDBContext = dBContext;
+            _userProfileDataRepository = userProfileDataRepository;
         }
 
         public async Task<Product> GetProductAsync(string productId)
@@ -25,6 +28,32 @@ namespace NeyosChatApi.Services
             return await _context.LoadAsync<Product>(productId, "Amit");
         }
 
+        public async Task<bool> CheckIfUserExist(string pk, int sk)
+        {
+            var result = await _userProfileDataRepository.GetUserData(pk, sk);
+            if(result.Count == 1)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> AddUserData(UserDataModel userData)
+        {
+            if (await _userProfileDataRepository.SaveMetadata(userData))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<UserDataModel> GetUserData(string pk, int sk)
+        {
+            var result = await _userProfileDataRepository.GetUserData(pk, sk);
+            if (result.Count == 1)
+                return result.FirstOrDefault();
+            else
+                return null;
+        }
 
         //private static List<UserData> userData = new List<UserData>
         //{

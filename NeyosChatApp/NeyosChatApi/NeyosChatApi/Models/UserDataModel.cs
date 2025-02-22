@@ -20,5 +20,11 @@ namespace NeyosChatApi.Models
 
         [DynamoDBProperty]
         public string HashedPassword { get; set; }
+
+        [DynamoDBProperty]
+        public string Bio { get; set; }
+
+        [DynamoDBProperty]
+        public bool Status { get; set; }
     }
 }

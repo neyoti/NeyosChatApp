@@ -29,13 +29,15 @@ namespace NeyosChatApi.Controllers
 		{
 			try
 			{
-				//var user = await _userProfileContext.UserProfile.FirstOrDefaultAsync(u => u.UserName == profile.UserName);
-				//if (user == null || !_passwordService.VerifyPassword(user.HashedPassword, profile.Password))
-				//	return Unauthorized("Invalid Credentials");
+                //var user = await _userProfileContext.UserProfile.FirstOrDefaultAsync(u => u.UserName == profile.UserName);
+                //if (user == null || !_passwordService.VerifyPassword(user.HashedPassword, profile.Password))
+                //	return Unauthorized("Invalid Credentials");
 
-				//return Ok($"Welcome, {user.FirstName}");
+                //return Ok($"Welcome, {user.FirstName}");
 
-				var user = _fakeData.getUserNameData(profile.UserName); //getUserData().Where(u => u.UserName == profile.UserName).FirstOrDefault();
+                //var user = _fakeData.getUserNameData(profile.UserName); //getUserData().Where(u => u.UserName == profile.UserName).FirstOrDefault();
+
+                var user = await _dynamoDbService.GetUserData(profile.UserName, 1);
                 if (user == null || !_passwordService.VerifyPassword(user.HashedPassword, profile.Password))
                     return Unauthorized("Invalid Credentials");
 
@@ -61,34 +63,38 @@ namespace NeyosChatApi.Controllers
                 //if ( _fakeData.getUserData().Where(u => u.UserName == profile.UserName).Count() != 0)
                 //	return BadRequest("Username is already registered.");
 
-                var result = await _dynamoDbService.getUserData(profile.UserName);
-                if (result != null)
+                if (await _dynamoDbService.CheckIfUserExist(profile.UserName, 1))
                     return BadRequest("Username is already registered.");
 
-                var user = new UserData
-				{
-					FirstName = profile.FirstName,
-					LastName = profile.LastName,
-					UserName = profile.UserName,
-					HashedPassword = _passwordService.HashPassword(profile.Password),
-				};
-
-				_fakeData.getUserData().Add(user);
-
-                var userProfile = new UserProfile
+                var user = new UserDataModel
                 {
+                    PK = profile.UserName,
+                    SK = 1,
                     FirstName = profile.FirstName,
                     LastName = profile.LastName,
-                    UserName = profile.UserName,
-					Status = true
-                };
+					HashedPassword = _passwordService.HashPassword(profile.Password),
+                    Bio = "",
+                    Status = true
+				};
 
-				_fakeData.getUserProfile().Add(userProfile);
+                if (!await _dynamoDbService.AddUserData(user))
+                    return StatusCode(500, new { error = "User Sign in failed."});
+                else
+                    return Ok("User registered successfully");
+
+                //_fakeData.getUserData().Add(user);
+
+                //           var userProfile = new UserProfile
+                //           {
+                //               FirstName = profile.FirstName,
+                //               LastName = profile.LastName,
+                //               UserName = profile.UserName,
+                //Status = true
+                //           };
+
+                //_fakeData.getUserProfile().Add(userProfile);
                 //_userProfileContext.Add(user);
                 //await _userProfileContext.SaveChangesAsync();
-
-                return Ok("User registered successfully");
-
             }
             catch (Exception ex)
             {
@@ -98,19 +104,19 @@ namespace NeyosChatApi.Controllers
 			return Ok();
         }
 
-        [HttpGet("GetAllUsers")]
-        public async Task<List<UserProfile>> GetAllUsers()
-        {
-            var service = new DynamoDbService();
-            Console.Write("Enter ProductId: ");
-            string productId = "A";
+        //[HttpGet("GetAllUsers")]
+        //public async Task<List<UserProfile>> GetAllUsers()
+        //{
+        //    var service = new DynamoDbService();
+        //    Console.Write("Enter ProductId: ");
+        //    string productId = "A";
 
-            var l = await service.GetProductAsync(productId);
+        //    var l = await service.GetProductAsync(productId);
 
-            Console.WriteLine($"Data:{l}");
+        //    Console.WriteLine($"Data:{l}");
 
-            return _fakeData.getUserProfile();
-        }
+        //    return _fakeData.getUserProfile();
+        //}
 
 		[HttpPost("updateuserprofile")]
 		public async Task<ActionResult> UpdateUserProfile([FromBody] UserProfile profile)
