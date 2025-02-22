@@ -20,14 +20,17 @@ namespace NeyosChatApi.Hubs
 
         private readonly FakeData _fakeData;
 
+        private readonly DynamoDbService _dynamoDbService;
+
         public ChatHub(IDictionary<string, UserConn> conn,  OnlineUsersService onlineUsersService,
-            ConversationService conversationService, FakeData fakeData)
+            ConversationService conversationService, DynamoDbService dynamoDbService, FakeData fakeData)
 		{
 			_botUser = "Amit";
 			_onlineUsersService = onlineUsersService;
 			_conn = conn;
             _conversationService = conversationService;
             _fakeData = fakeData;
+            _dynamoDbService = dynamoDbService;
         }
 
         //public override async Task OnConnectedAsync()
@@ -129,7 +132,7 @@ namespace NeyosChatApi.Hubs
             try
             {
                 // Step 1: Create a List<string>
-                List<string> chatList = _fakeData.GetChatsForConversationId(conversationId);
+                List<string> chatList =   //_fakeData.GetChatsForConversationId(conversationId);
 
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(chatList);

@@ -55,7 +55,7 @@ namespace NeyosChatApi.Repository
         {
             try
             {
-                dynamoDBContext.SaveAsync<T>(userData);
+                await dynamoDBContext.SaveAsync<T>(userData);
                 return true;
             }
             catch (Exception ex)

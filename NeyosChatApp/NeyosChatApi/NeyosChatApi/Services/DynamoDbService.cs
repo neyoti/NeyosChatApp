@@ -14,6 +14,7 @@ namespace NeyosChatApi.Services
         private readonly DynamoDBContext _context;
         private readonly IDynamoDBContext dynamoDBContext;
         private readonly IUserProfileDataRepository<UserDataModel> _userProfileDataRepository;
+        private readonly IUserProfileDataRepository<ChatSession> _chatSessionRepository;
 
         public DynamoDbService(IDynamoDBContext dBContext, IUserProfileDataRepository<UserDataModel> userProfileDataRepository)
         {
@@ -69,6 +70,17 @@ namespace NeyosChatApi.Services
 
             var result = await _userProfileDataRepository.UpdateUserSchemaData(user);
             return result;
+        }
+
+        public async Task SaveChats(ChatSession chatSession)
+        {
+            await _chatSessionRepository.SaveMetadata(chatSession);
+        }
+
+        public async Task<List<string>> GetChatsForConversationId(string conversationId)
+        {
+            var result = await _chatSessionRepository.GetUserData(conversationId, 1);
+            return result.ChatMessageArray;
         }
 
         //private static List<UserData> userData = new List<UserData>
