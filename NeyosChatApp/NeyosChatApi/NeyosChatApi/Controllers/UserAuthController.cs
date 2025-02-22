@@ -126,27 +126,33 @@ namespace NeyosChatApi.Controllers
                 //if (await _userProfileContext.UserProfile.AnyAsync(u => u.UserName == profile.UserName))
                 //	return BadRequest("Username is already registered.");
                 Console.WriteLine($"In UpdateUserProfile: {profile.UserName}");
-                UserProfile user = _fakeData.getUserProfile(profile.UserName);
+                //UserProfile user = _fakeData.getUserProfile(profile.UserName);
+
+                var user = await _dynamoDbService.GetUserData(profile.UserName, 1);
                 if (user == null)
                     return BadRequest("User does not exist.");
 
-                _fakeData.getUserProfile().Remove(user);
+                //_fakeData.getUserProfile().Remove(user);
 
-                user = new UserProfile
+                user = new UserDataModel
                 {
                     FirstName = profile.FirstName,
                     LastName = profile.LastName,
-                    UserName = profile.UserName,
+                    PK = profile.UserName,
+                    SK = 1,
                     Bio = profile.Bio,
                     Status = true
                 };
 
-                _fakeData.getUserProfile().Add(user);
+                if (!await _dynamoDbService.UpdateUserProfileData(profile))
+                    return StatusCode(500, new { error = "Error while updating the user." });
+                else
+                    return Ok("User profile updated successfully");
+
+                //_fakeData.getUserProfile().Add(user);
 
                 //_userProfileContext.Add(user);
                 //await _userProfileContext.SaveChangesAsync();
-
-                return Ok("User profile updated successfully");
 
             }
             catch (Exception ex)

@@ -31,7 +31,7 @@ namespace NeyosChatApi.Services
         public async Task<bool> CheckIfUserExist(string pk, int sk)
         {
             var result = await _userProfileDataRepository.GetUserData(pk, sk);
-            if(result.Count == 1)
+            if(result != null)
                 return true;
             else
                 return false;
@@ -49,10 +49,26 @@ namespace NeyosChatApi.Services
         public async Task<UserDataModel> GetUserData(string pk, int sk)
         {
             var result = await _userProfileDataRepository.GetUserData(pk, sk);
-            if (result.Count == 1)
-                return result.FirstOrDefault();
+            if (result != null)
+                return result;
             else
                 return null;
+        }
+
+        public async Task<bool> UpdateUserProfileData(UserProfile userProfile)
+        {
+            var user = await _userProfileDataRepository.GetUserData(userProfile.UserName, 1);
+            if (user == null)
+                Console.WriteLine("User does not exist.");
+
+            //_fakeData.getUserProfile().Remove(user);
+
+            user.FirstName = userProfile.FirstName;
+            user.LastName = userProfile.LastName;
+            user.Bio = userProfile.Bio;
+
+            var result = await _userProfileDataRepository.UpdateUserSchemaData(user);
+            return result;
         }
 
         //private static List<UserData> userData = new List<UserData>

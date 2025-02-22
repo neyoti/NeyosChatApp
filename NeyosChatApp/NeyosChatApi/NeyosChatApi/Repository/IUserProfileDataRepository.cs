@@ -5,8 +5,9 @@ namespace NeyosChatApi.Repository
 {
 	public interface IUserProfileDataRepository<T>
 	{
-		public Task<List<T>> GetUserData(string pk, int sk);
+		public Task<T> GetUserData(string pk, int sk);
 		public Task<bool> SaveMetadata(T userData);
+		public Task<bool> UpdateUserSchemaData(T userData);
     }
 }
 
