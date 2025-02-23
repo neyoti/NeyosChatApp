@@ -25,23 +25,6 @@ namespace NeyosChatApi.Repository
         {
             try
             {
-                //var queryConfig = new QueryOperationConfig
-                //{
-                //    KeyExpression = new Expression
-                //    {
-                //        ExpressionStatement = "PK = :pk AND SK = :sk", // Query by PK & SK
-                //        ExpressionAttributeValues = new Dictionary<string, DynamoDBEntry>
-                //        {
-                //            {":pk", pkValue},
-                //            {":sk", skValue}
-                //        }
-                //    },
-                //    ConsistentRead = true // Ensures latest data is fetched
-                //};
-
-                //var query = dynamoDBContext.FromQueryAsync<T>(queryConfig);
-                //return await query.GetRemainingAsync();
-
                 return await dynamoDBContext.LoadAsync<T>(pkValue, skValue);
             }
             catch (Exception ex)

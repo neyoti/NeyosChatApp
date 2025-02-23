@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
@@ -16,12 +17,14 @@ namespace NeyosChatApi.Services
         private readonly IUserProfileDataRepository<UserDataModel> _userProfileDataRepository;
         private readonly IUserProfileDataRepository<ChatSession> _chatSessionRepository;
 
-        public DynamoDbService(IDynamoDBContext dBContext, IUserProfileDataRepository<UserDataModel> userProfileDataRepository)
+        public DynamoDbService(IDynamoDBContext dBContext, IUserProfileDataRepository<UserDataModel> userProfileDataRepository,
+            IUserProfileDataRepository<ChatSession> chatSessionRepository)
         {
             var client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
             _context = new DynamoDBContext(client);
             dynamoDBContext = dBContext;
             _userProfileDataRepository = userProfileDataRepository;
+            _chatSessionRepository = chatSessionRepository;
         }
 
         public async Task<Product> GetProductAsync(string productId)
@@ -76,18 +79,41 @@ namespace NeyosChatApi.Services
         {
             var chatObject = await _chatSessionRepository.GetUserData(conversationId, 1);
 
-            if(chatObject != null)
+            if (chatObject != null)
             {
                 chatObject.ChatMessageArray.AddRange(chatArray);
             }
-
+            else
+            {
+                chatObject = new ChatSession()
+                {
+                    PK = conversationId,
+                    SK = 1,
+                    ChatMessageArray = chatArray
+                };
+            }
             await _chatSessionRepository.SaveMetadata(chatObject);
         }
 
         public async Task<List<string>> GetChatsForConversationId(string conversationId)
         {
-            var result = await _chatSessionRepository.GetUserData(conversationId, 1);
-            return result.ChatMessageArray;
+            try
+            {
+                var result = await _chatSessionRepository.GetUserData(conversationId, 1);
+                if(result == null)
+                {
+                    return new List<string>(){
+                        "{\"user\":\"AMIT\",\"message\":\"Welcome User\"}"
+                    };
+                }
+
+                return result.ChatMessageArray;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in GetChatsForConversationId:{ex}");
+            }
+            return new List<string>();
         }
 
         //private static List<UserData> userData = new List<UserData>

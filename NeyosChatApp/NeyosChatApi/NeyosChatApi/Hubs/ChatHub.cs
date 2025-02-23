@@ -135,6 +135,7 @@ namespace NeyosChatApi.Hubs
                 // Step 1: Create a List<string>
                 List<string> chatList = await _dynamoDbService.GetChatsForConversationId(conversationId);  //_fakeData.GetChatsForConversationId(conversationId);
 
+                Console.WriteLine($"chatList:{string.Join(",", chatList)}");
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(chatList);
 
@@ -299,7 +300,7 @@ namespace NeyosChatApi.Hubs
 
             await SendOnlineUsers();
 
-            await SendConnectedUsers(userConnection.User);
+            //await SendConnectedUsers(userConnection.User);
         }
 
         public async Task SetUserStatus(string sender, bool userStatus)

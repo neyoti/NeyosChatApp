@@ -10,7 +10,7 @@ namespace NeyosChatApi.Models
         public string PK { get; set; }
 
         [DynamoDBRangeKey]
-        public string SK { get; set; }
+        public int SK { get; set; }
 
         [DynamoDBProperty]
         public List<string> ChatMessageArray { get; set; }
