@@ -145,11 +145,14 @@ namespace NeyosChatApi.Services
                 }
                 else
                 {
+                    result.ChatMessageArray.Sort((dict1, dict2) => string.Compare(dict1["timestamp"], dict2["timestamp"]));
+
                     foreach (var item in result.ChatMessageArray)
                     {
-                        Console.WriteLine($"C Item:{item.Keys} - {item.Values}");
-
-                        // Sort messages according to timestamp
+                        foreach (var i in item.Keys)
+                        {
+                            Console.WriteLine($"A Item:{i} - {item[i]}");
+                        }
 
                         var serializedData = JsonSerializer.Serialize(item);
                         chatList.Add(serializedData);
