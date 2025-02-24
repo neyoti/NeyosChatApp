@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
@@ -79,18 +80,47 @@ namespace NeyosChatApi.Services
         {
             var chatObject = await _chatSessionRepository.GetUserData(conversationId, 1);
 
+            Console.WriteLine($"chatArray:{string.Join("--", chatArray)}");
+            Dictionary<string, string> chatMessageDictionary = JsonSerializer.Deserialize<Dictionary<string, string>>(chatArray.FirstOrDefault());
+
+            chatMessageDictionary["timestamp"] = DateTime.Now.ToString();
+
+            foreach (var item in chatMessageDictionary)
+            {
+                Console.WriteLine($"D Item:{item.Key} - {item.Value}");
+            }
+
             if (chatObject != null)
             {
-                chatObject.ChatMessageArray.AddRange(chatArray);
+                var newList = new List<Dictionary<string, string>>();
+
+                newList.Add(chatMessageDictionary);
+                chatObject.ChatMessageArray.AddRange(newList);
             }
             else
             {
+                //chatObject = new ChatSession()
+                //{
+                //    PK = conversationId,
+                //    SK = 1,
+                //    ChatMessageArray = chatArray
+                //};
+
+                var newList = new List<Dictionary<string, string>>();
+
+                newList.Add(chatMessageDictionary);
+                Console.WriteLine($"newList:{string.Join("--", newList)}");
                 chatObject = new ChatSession()
                 {
                     PK = conversationId,
                     SK = 1,
-                    ChatMessageArray = chatArray
+                    ChatMessageArray = newList
                 };
+
+                foreach (var item in chatObject.ChatMessageArray[0])
+                {
+                    Console.WriteLine($"D Item:{item.Key} - {item.Value}");
+                }
             }
             await _chatSessionRepository.SaveMetadata(chatObject);
         }
@@ -99,15 +129,40 @@ namespace NeyosChatApi.Services
         {
             try
             {
+                List<string> chatList = new List<string>();
                 var result = await _chatSessionRepository.GetUserData(conversationId, 1);
-                if(result == null)
+
+                if (result == null)
                 {
-                    return new List<string>(){
-                        "{\"user\":\"AMIT\",\"message\":\"Welcome User\"}"
+                    var messageDictionary = new Dictionary<string, string>()
+                    {
+                        { "user", "AMIT" },
+                        { "message", "Welcome User." }
                     };
+
+                    chatList.Add(JsonSerializer.Serialize(messageDictionary));
+                    return chatList;
+                }
+                else
+                {
+                    foreach (var item in result.ChatMessageArray)
+                    {
+                        Console.WriteLine($"C Item:{item.Keys} - {item.Values}");
+
+                        // Sort messages according to timestamp
+
+                        var serializedData = JsonSerializer.Serialize(item);
+                        chatList.Add(serializedData);
+                    }
                 }
 
-                return result.ChatMessageArray;
+                //var s = JsonSerializer.Serialize(result.ChatMessageArray[0]);
+
+                //Console.WriteLine($"S: {s}");
+
+                //chatList.Add(s);
+
+                return chatList;
             }
             catch (Exception ex)
             {
