@@ -53,6 +53,9 @@
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/NeyosChatApi.runtimeconfig.json
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/NeyosChatApi.dll
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/NeyosChatApi.pdb
+/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/AWSSDK.Core.dll
+/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/AWSSDK.DynamoDBv2.dll
+/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/AWSSDK.Extensions.NETCore.Setup.dll
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Relational.dll
@@ -94,6 +97,3 @@
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/Debug/net6.0/NeyosChatApi.pdb
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/Debug/net6.0/NeyosChatApi.genruntimeconfig.cache
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/Debug/net6.0/ref/NeyosChatApi.dll
-/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/AWSSDK.Core.dll
-/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/AWSSDK.DynamoDBv2.dll
-/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/AWSSDK.Extensions.NETCore.Setup.dll

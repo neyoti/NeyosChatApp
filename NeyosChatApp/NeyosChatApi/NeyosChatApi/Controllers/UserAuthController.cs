@@ -29,14 +29,6 @@ namespace NeyosChatApi.Controllers
 		{
 			try
 			{
-                //var user = await _userProfileContext.UserProfile.FirstOrDefaultAsync(u => u.UserName == profile.UserName);
-                //if (user == null || !_passwordService.VerifyPassword(user.HashedPassword, profile.Password))
-                //	return Unauthorized("Invalid Credentials");
-
-                //return Ok($"Welcome, {user.FirstName}");
-
-                //var user = _fakeData.getUserNameData(profile.UserName); //getUserData().Where(u => u.UserName == profile.UserName).FirstOrDefault();
-
                 var user = await _dynamoDbService.GetUserData(profile.UserName, 1);
                 if (user == null || !_passwordService.VerifyPassword(user.HashedPassword, profile.Password))
                     return Unauthorized("Invalid Credentials");
@@ -57,14 +49,9 @@ namespace NeyosChatApi.Controllers
 		{
             try
             {
-                //if (await _userProfileContext.UserProfile.AnyAsync(u => u.UserName == profile.UserName))
-                //	return BadRequest("Username is already registered.");
-
-                //if ( _fakeData.getUserData().Where(u => u.UserName == profile.UserName).Count() != 0)
-                //	return BadRequest("Username is already registered.");
-
                 if (await _dynamoDbService.CheckIfUserExist(profile.UserName, 1))
-                    return BadRequest("Username is already registered.");
+                    return StatusCode(500, new { error = "Username is already registered." });
+                    //return BadRequest("Username is already registered.");
 
                 var user = new UserDataModel
                 {
@@ -73,28 +60,14 @@ namespace NeyosChatApi.Controllers
                     FirstName = profile.FirstName,
                     LastName = profile.LastName,
 					HashedPassword = _passwordService.HashPassword(profile.Password),
-                    Bio = "",
-                    Status = true
+                    Bio = ""
+                    //Status = true
 				};
 
                 if (!await _dynamoDbService.AddUserData(user))
                     return StatusCode(500, new { error = "User Sign in failed."});
                 else
                     return Ok("User registered successfully");
-
-                //_fakeData.getUserData().Add(user);
-
-                //           var userProfile = new UserProfile
-                //           {
-                //               FirstName = profile.FirstName,
-                //               LastName = profile.LastName,
-                //               UserName = profile.UserName,
-                //Status = true
-                //           };
-
-                //_fakeData.getUserProfile().Add(userProfile);
-                //_userProfileContext.Add(user);
-                //await _userProfileContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -123,37 +96,12 @@ namespace NeyosChatApi.Controllers
 		{
             try
             {
-                //if (await _userProfileContext.UserProfile.AnyAsync(u => u.UserName == profile.UserName))
-                //	return BadRequest("Username is already registered.");
                 Console.WriteLine($"In UpdateUserProfile: {profile.UserName}");
-                //UserProfile user = _fakeData.getUserProfile(profile.UserName);
-
-                var user = await _dynamoDbService.GetUserData(profile.UserName, 1);
-                if (user == null)
-                    return BadRequest("User does not exist.");
-
-                //_fakeData.getUserProfile().Remove(user);
-
-                user = new UserDataModel
-                {
-                    FirstName = profile.FirstName,
-                    LastName = profile.LastName,
-                    PK = profile.UserName,
-                    SK = 1,
-                    Bio = profile.Bio,
-                    Status = true
-                };
 
                 if (!await _dynamoDbService.UpdateUserProfileData(profile))
                     return StatusCode(500, new { error = "Error while updating the user." });
                 else
                     return Ok("User profile updated successfully");
-
-                //_fakeData.getUserProfile().Add(user);
-
-                //_userProfileContext.Add(user);
-                //await _userProfileContext.SaveChangesAsync();
-
             }
             catch (Exception ex)
             {

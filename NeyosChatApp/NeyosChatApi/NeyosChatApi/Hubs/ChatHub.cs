@@ -20,14 +20,17 @@ namespace NeyosChatApi.Hubs
 
         private readonly FakeData _fakeData;
 
+        private readonly DynamoDbService _dynamoDbService;
+
         public ChatHub(IDictionary<string, UserConn> conn,  OnlineUsersService onlineUsersService,
-            ConversationService conversationService, FakeData fakeData)
+            ConversationService conversationService, DynamoDbService dynamoDbService, FakeData fakeData)
 		{
 			_botUser = "Amit";
 			_onlineUsersService = onlineUsersService;
 			_conn = conn;
             _conversationService = conversationService;
             _fakeData = fakeData;
+            _dynamoDbService = dynamoDbService;
         }
 
         //public override async Task OnConnectedAsync()
@@ -40,19 +43,22 @@ namespace NeyosChatApi.Hubs
         //    await base.OnConnectedAsync();
         //}
 
-        public override Task OnDisconnectedAsync(Exception? exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
 			if(_conn.TryGetValue(Context.ConnectionId, out UserConn? userConnection))
 			{
-                Console.WriteLine($"Conn Id:{Context.ConnectionId}, user: {userConnection.User}");
+                Console.WriteLine($"In OnDisconnectedAsync\nConn Id:{Context.ConnectionId}, user: {userConnection.User}");
+                var userData = await _dynamoDbService.GetUserData(userConnection.User, 1);
+
+                await _dynamoDbService.RemoveUserFromListOfOnlineUsers(userConnection.User);
                 _conn.Remove(Context.ConnectionId);
 				//Clients.Group(userConnection.Room).SendAsync("ReceiveMessage", _botUser, $"{userConnection.User} has left the chat.");
 
                 //SendConnectedUsers(userConnection.Room);
-                SendOnlineUsers();
+                //SendOnlineUsers();
             }
 
-			return base.OnDisconnectedAsync(exception);
+			//return base.OnDisconnectedAsync(exception);
         }
 
         public async Task SendMessage(string message, string recipient)
@@ -109,9 +115,10 @@ namespace NeyosChatApi.Hubs
                     foreach (var i in list)
                         Console.WriteLine($"MessageArray: {string.Join(",", list)}");
 
-                    _fakeData.SaveChats(conversationId, list);
+                    //_fakeData.SaveChats(conversationId, list);
+                    await _dynamoDbService.SaveChats(conversationId, list, userconnection.User, recipient);
 
-                    string jsonElement = GetChatMessages(conversationId);
+                    string jsonElement = await GetChatMessages(conversationId);
 
                     await Clients.Group(conversationId).SendAsync("UpdateChatMessages", jsonElement);
                 }
@@ -124,13 +131,14 @@ namespace NeyosChatApi.Hubs
             }
         }
 
-        public string GetChatMessages(string conversationId)
+        public async Task<string> GetChatMessages(string conversationId)
         {
             try
             {
                 // Step 1: Create a List<string>
-                List<string> chatList = _fakeData.GetChatsForConversationId(conversationId);
+                List<string> chatList = await _dynamoDbService.GetChatsForConversationId(conversationId);  //_fakeData.GetChatsForConversationId(conversationId);
 
+                Console.WriteLine($"chatList:{string.Join(",", chatList)}");
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(chatList);
 
@@ -151,12 +159,15 @@ namespace NeyosChatApi.Hubs
             return string.Empty;
         }
 
-        public string GetOldChatRecipients(string username)
+        public async Task<string> GetOldChatRecipients(string username)
         {
             try
             {
                 // Step 1: Create a List<string>
-                List<string> chatList = _fakeData.GetOldChatRecipientsOfUser(username);
+                List<string> chatList = await _dynamoDbService.GetOldChatRecipientsOfUser(username); //_fakeData.GetOldChatRecipientsOfUser(username);
+
+                if (chatList == null)
+                    return string.Empty;
 
                 // Step 2: Serialize the list to JSON
                 string jsonString = JsonSerializer.Serialize(chatList);
@@ -172,18 +183,27 @@ namespace NeyosChatApi.Hubs
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception in GetChatMessages:", ex.ToString());
+                Console.WriteLine("Exception in GetOldChatRecipients:", ex.ToString());
                 Console.WriteLine(ex.StackTrace);
             }
             return string.Empty;
         }
 
-        public string GetUserProfileData(string username)
+        public async Task<string> GetUserProfileData(string username)
         {
             try
             {
                 // Step 1: Create a List<string>
-                UserProfile userProfile = _fakeData.getUserProfile(username);
+                UserDataModel user = await _dynamoDbService.GetUserData(username, 1); //_fakeData.getUserProfile(username);
+
+                UserProfile userProfile = new UserProfile
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    UserName = user.PK,
+                    //Status = user.Status,
+                    Bio = user.Bio
+                };
 
                 //foreach (var i in userProfile)
                 Console.WriteLine($"UserProfileInGetUserProfileData::{userProfile.FirstName}, {userProfile.LastName}, {userProfile.UserName}, {userProfile.Status}");
@@ -217,7 +237,7 @@ namespace NeyosChatApi.Hubs
                 Console.WriteLine($"{recipient}");
 
                 // Generate the conversation ID for the group
-                var conversationId = _conversationService.GetConversationId(_conn[Context.ConnectionId].User, recipient);
+                var conversationId = $"{Constants.ChatSessionPkPrefix}{_conversationService.GetConversationId(_conn[Context.ConnectionId].User, recipient)}";
               
                 _conn[Context.ConnectionId].Room = conversationId;
 
@@ -228,20 +248,19 @@ namespace NeyosChatApi.Hubs
                 await Clients.Group(conversationId).SendAsync("ReceiveMessage", _botUser, $"{sender} has joined the Chat");
 
                 // Code to get Recipient Profile data
-                string recipientProfileJsonElement = GetUserProfileData(recipient);
+                string recipientProfileJsonElement = await GetUserProfileData(recipient);
 
                 await Clients.Client(Context.ConnectionId).SendAsync("RecipientProfileData", recipientProfileJsonElement);
                 // end here
 
                 //// Code to get User Profile data
-                //string userProfileJsonElement = GetUserProfileData(sender);
+                //string userProfileJsonElement = await GetUserProfileData(sender);
 
                 //await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
                 //// end here
 
-
                 // Code to get chats for conversation id
-                string jsonElement = GetChatMessages(conversationId);
+                string jsonElement = await GetChatMessages(conversationId);
 
                 await Clients.Group(conversationId).SendAsync("UpdateChatMessages", jsonElement);
                 // end here
@@ -258,26 +277,29 @@ namespace NeyosChatApi.Hubs
             //await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.User);
 
             //_conn[Context.ConnectionId] = userConnection;
+            Console.WriteLine("In JoinChatLobby");
             Console.WriteLine($"Conn Id:{Context.ConnectionId}, user: {userConnection.User}");
             _conn[Context.ConnectionId] = new UserConn { User = userConnection.User, ConnectionId = Context.ConnectionId };
 
-            _fakeData.setUserProfile(
-                new UserProfile()
-                {
-                    Status = true
-                }, userConnection.User);
+            //_fakeData.setUserProfile(
+            //    new UserProfile()
+            //    {
+            //        Status = true
+            //    }, userConnection.User);
 
             // Code to get User Profile data
-            string userProfileJsonElement = GetUserProfileData(userConnection.User);
+            string userProfileJsonElement = await GetUserProfileData(userConnection.User);
 
             await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
             // end here
 
+            _dynamoDbService.AddUserToListOfOnlineUsers(userConnection.User);
 
-            // Code to get chats for conversation id
-            string jsonElement = GetOldChatRecipients(userConnection.User);
+            // Code to get old chats recipient list for user
+            string jsonElement = await GetOldChatRecipients(userConnection.User);
 
-            await Clients.Client(Context.ConnectionId).SendAsync("OldChatRecipientsList", jsonElement);
+            if(jsonElement != string.Empty)
+                await Clients.Client(Context.ConnectionId).SendAsync("OldChatRecipientsList", jsonElement);
             // end here
 
 
@@ -285,31 +307,30 @@ namespace NeyosChatApi.Hubs
 
             await SendOnlineUsers();
 
-            await SendConnectedUsers(userConnection.User);
+            //await SendConnectedUsers(userConnection.User);
         }
 
-        public async Task SetUserStatus(string sender, bool userStatus)
+        public async Task LogOutSession(string username)
         {
-            _fakeData.setUserProfile(
-                new UserProfile()
-                {
-                    Status = userStatus
-                }, sender);
+            var userData = await _dynamoDbService.GetUserData(username, 1);
+
+            await _dynamoDbService.RemoveUserFromListOfOnlineUsers(username);
         }
 
-        public Task SendConnectedUsers(string username)
+        //public Task SendConnectedUsers(string username)
+        //{
+        //    var users = _conn.Values
+        //        .Where(user => user.User == username);
+
+        //    return Clients.Group(username).SendAsync("UsersInRoom", users);
+        //}
+
+        public async Task SendOnlineUsers()
         {
-            var users = _conn.Values
-                .Where(user => user.User == username);
+            var users = await _dynamoDbService.GetListOfOnlineUsers(); //_onlineUsersService.ListOfOnlineUsers();
 
-            return Clients.Group(username).SendAsync("UsersInRoom", users);
-        }
-
-        public Task SendOnlineUsers()
-        {
-			var users = _onlineUsersService.ListOfOnlineUsers();
-
-			return Clients.All.SendAsync("OnlineUsers", users);
+            if(users != null)
+			    await Clients.All.SendAsync("OnlineUsers", users);
         }
 
     }

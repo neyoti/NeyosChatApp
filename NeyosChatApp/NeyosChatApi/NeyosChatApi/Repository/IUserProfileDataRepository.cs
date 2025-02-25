@@ -8,6 +8,7 @@ namespace NeyosChatApi.Repository
 		public Task<T> GetUserData(string pk, int sk);
 		public Task<bool> SaveMetadata(T userData);
 		public Task<bool> UpdateUserSchemaData(T userData);
+		//public Task<List<T>> GetSpecificPKandSKDataForConversationId(string pkValue, int skValue, string username);
     }
 }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
@@ -14,13 +16,18 @@ namespace NeyosChatApi.Services
         private readonly DynamoDBContext _context;
         private readonly IDynamoDBContext dynamoDBContext;
         private readonly IUserProfileDataRepository<UserDataModel> _userProfileDataRepository;
+        private readonly IUserProfileDataRepository<ChatSession> _chatSessionRepository;
+        private readonly IUserProfileDataRepository<OnlineUsersModel> _onlineUserRepository;
 
-        public DynamoDbService(IDynamoDBContext dBContext, IUserProfileDataRepository<UserDataModel> userProfileDataRepository)
+        public DynamoDbService(IDynamoDBContext dBContext, IUserProfileDataRepository<UserDataModel> userProfileDataRepository,
+            IUserProfileDataRepository<ChatSession> chatSessionRepository, IUserProfileDataRepository<OnlineUsersModel> onlineUserRepository)
         {
             var client = new AmazonDynamoDBClient(RegionEndpoint.USEast1);
             _context = new DynamoDBContext(client);
             dynamoDBContext = dBContext;
             _userProfileDataRepository = userProfileDataRepository;
+            _chatSessionRepository = chatSessionRepository;
+            _onlineUserRepository = onlineUserRepository;
         }
 
         public async Task<Product> GetProductAsync(string productId)
@@ -71,86 +78,192 @@ namespace NeyosChatApi.Services
             return result;
         }
 
-        //private static List<UserData> userData = new List<UserData>
-        //{
-        //    new UserData()
-        //    {
-        //        Id = 1,
-        //        FirstName = "Amit",
-        //        LastName = "Shinde",
-        //        UserName = "Neyo",
-        //        HashedPassword = "AQAAAAEAACcQAAAAELB95Zl3Akly90gb6GfvshO6StaT9qu/XndDS1VwjinPhTYZBM9ChGZyZBNW9wiVQw==",
-        //    }
-        //};
+        public async Task SaveChats(string conversationId, List<string> chatArray, string username, string recipient)
+        {
+            string pkValue = $"{Constants.ChatSessionPkPrefix}{conversationId}";
 
-        //private static List<UserProfile> userProfile = new List<UserProfile>
-        //{
-        //    new UserProfile()
-        //    {
-        //        Id = 1,
-        //        FirstName = "Amit",
-        //        LastName = "Shinde",
-        //        UserName = "Neyo",
-        //        Bio = "Yat Bhavo, Tat Bhavati",
-        //        Status = true
-        //    }
-        //};
+            var chatObject = await _chatSessionRepository.GetUserData(pkValue, 1);
 
-        //private static Dictionary<string, List<string>> userChatList = new Dictionary<string, List<string>>();
+            Console.WriteLine($"chatArray:{string.Join("--", chatArray)}");
+            Dictionary<string, string> chatMessageDictionary = JsonSerializer.Deserialize<Dictionary<string, string>>(chatArray.FirstOrDefault());
 
+            chatMessageDictionary["timestamp"] = DateTime.Now.ToString();
 
-        //public List<UserProfile> getUserProfile()
-        //{
-        //    return userProfile;
-        //}
+            foreach (var item in chatMessageDictionary)
+            {
+                Console.WriteLine($"D Item:{item.Key} - {item.Value}");
+            }
 
-        //public UserData getUserNameData(string userName)
-        //{
-        //    return userData.FirstOrDefault(x => x.UserName == userName);// Where(x => x.UserName == userName).ToList();
-        //}
+            if (chatObject != null)
+            {
+                var newList = new List<Dictionary<string, string>>();
 
-        //public UserProfile getUserProfile(string userName)
-        //{
-        //    //foreach(var i in userProfile)
-        //    var user = userProfile.FirstOrDefault(x => x.UserName == userName);
-        //    Console.WriteLine($"UserProfile::{user.FirstName}, {user.LastName}, {user.UserName}, {user.Status}");
-        //    return user;
-        //}
+                newList.Add(chatMessageDictionary);
+                chatObject.ChatMessageArray.AddRange(newList);
+            }
+            else
+            {
+                var newList = new List<Dictionary<string, string>>();
 
-        //public void setUserProfile(UserProfile profile, string userName)
-        //{
-        //    var user = userProfile.FirstOrDefault(x => x.UserName == userName);
-        //    user.Status = profile.Status;
+                newList.Add(chatMessageDictionary);
+                Console.WriteLine($"newList:{string.Join("--", newList)}");
+                chatObject = new ChatSession()
+                {
+                    PK = pkValue,
+                    SK = 1,
+                    ChatMessageArray = newList
+                };
 
-        //    foreach (var i in userProfile)
-        //        Console.WriteLine($"UserProfile::{i.FirstName}, {i.LastName}, {i.UserName}, {i.Status}");
-        //}
+                foreach (var item in chatObject.ChatMessageArray[0])
+                {
+                    Console.WriteLine($"D Item:{item.Key} - {item.Value}");
+                }
+            }
+            await _chatSessionRepository.SaveMetadata(chatObject);
 
-        //public void SaveChats(string conversationId, List<string?> chatList)
-        //{
-        //    if (userChatList.TryGetValue(conversationId, out List<string> list))
-        //    {
-        //        userChatList[conversationId].AddRange(chatList);
-        //    }
-        //    else
-        //        userChatList[conversationId] = chatList;
+            var userObject = await _userProfileDataRepository.GetUserData(username, 1);
 
-        //    Console.WriteLine($"Chats:{string.Join(Environment.NewLine, userChatList.Select(kvp => $"Key: {kvp.Key}, Value: {string.Join(",", kvp.Value)}"))}");
-        //}
+            if (userObject.ListOfRecipients == null)
+                userObject.ListOfRecipients = new List<string> { recipient };
+            else
+            {
+                if(!userObject.ListOfRecipients.Contains(recipient))
+                    userObject.ListOfRecipients.Add(recipient);
+            }
 
-        //public List<string> GetChatsForConversationId(string conversationId)
-        //{
-        //    if (userChatList.ContainsKey(conversationId))
-        //        return userChatList[conversationId];
-        //    else
-        //    {
-        //        List<string> list = new List<string>();
-        //        list.Add("{\"user\":\"AMIT\",\"message\":\"Welcome User\"}");
-        //        Console.WriteLine($"First list: {string.Join(",", list)}");
+            await _userProfileDataRepository.SaveMetadata(userObject);
+        }
 
-        //        return list;
-        //    }
-        //}
+        public async Task<List<string>> GetChatsForConversationId(string conversationId)
+        {
+            try
+            {
+                List<string> chatList = new List<string>();
+                var result = await _chatSessionRepository.GetUserData(conversationId, 1);
+
+                if (result == null)
+                {
+                    var messageDictionary = new Dictionary<string, string>()
+                    {
+                        { "user", "AMIT" },
+                        { "message", "Welcome User." }
+                    };
+
+                    chatList.Add(JsonSerializer.Serialize(messageDictionary));
+                    //return chatList;
+                }
+                else
+                {
+                    //result.ChatMessageArray.Sort((dict1, dict2) => string.Compare(dict1["timestamp"], dict2["timestamp"]));
+
+                    foreach (var item in result.ChatMessageArray)
+                    {
+                        foreach (var i in item.Keys)
+                        {
+                            Console.WriteLine($"A Item:{i} - {item[i]}");
+                        }
+
+                        var serializedData = JsonSerializer.Serialize(item);
+                        chatList.Add(serializedData);
+                    }
+                }
+
+                //var s = JsonSerializer.Serialize(result.ChatMessageArray[0]);
+
+                //Console.WriteLine($"S: {s}");
+
+                //chatList.Add(s);
+
+                return chatList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in GetChatsForConversationId:{ex}");
+            }
+            return new List<string>();
+        }
+
+        public async Task<List<string>> GetOldChatRecipientsOfUser(string username)
+        {
+            try
+            {
+                var userObject = await _userProfileDataRepository.GetUserData(username, 1);
+
+                return userObject.ListOfRecipients;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Exception in GetOldChatRecipientsOfUser: {ex}");
+                throw;
+            }
+        }
+
+        public async Task<List<string>> GetListOfOnlineUsers()
+        {
+            try
+            {
+                var onlineUsersListObject = await _onlineUserRepository.GetUserData("OnlineUsers", 1);
+
+                if (onlineUsersListObject.OnlineUsersList == null)
+                    return null;
+
+                return onlineUsersListObject.OnlineUsersList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in getListOfOnlineUsers: {ex}");
+                throw;
+            }
+        }
+
+        public async Task AddUserToListOfOnlineUsers(string userName)
+        {
+            try
+            {
+                var onlineUsersListObject = await _onlineUserRepository.GetUserData("OnlineUsers", 1);
+
+                if (onlineUsersListObject == null || onlineUsersListObject.OnlineUsersList == null)
+                {
+
+                    onlineUsersListObject = new OnlineUsersModel()
+                    {
+                        PK = "OnlineUsers",
+                        SK = 1,
+                        OnlineUsersList = new List<string>() { userName }
+                    };
+                    await _onlineUserRepository.SaveMetadata(onlineUsersListObject);
+                }
+                else if( !onlineUsersListObject.OnlineUsersList.Contains(userName) )
+                {
+                    onlineUsersListObject.OnlineUsersList.Add(userName);
+                    await _onlineUserRepository.SaveMetadata(onlineUsersListObject);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in AddUserToListOfOnlineUsers: {ex}");
+                throw;
+            }
+        }
+
+        public async Task RemoveUserFromListOfOnlineUsers(string userName)
+        {
+            try
+            {
+                var onlineUsersListObject = await _onlineUserRepository.GetUserData("OnlineUsers", 1);
+
+                if (onlineUsersListObject != null || onlineUsersListObject.OnlineUsersList != null)
+                {
+                    onlineUsersListObject.OnlineUsersList.Remove(userName);
+                    await _onlineUserRepository.SaveMetadata(onlineUsersListObject);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in RemoveUserFromListOfOnlineUsers: {ex}");
+                throw;
+            }
+        }
 
         //public List<string> GetOldChatRecipientsOfUser(string username)
         //{
