@@ -6,6 +6,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Newtonsoft.Json.Linq;
 using NeyosChatApi.Models;
 
@@ -61,6 +62,45 @@ namespace NeyosChatApi.Repository
                 throw;
             }
         }
+
+        //public async Task<List<T>> GetSpecificPKandSKDataForConversationId(string pkValue, int skValue, string username)
+        //{
+        //    try
+        //    {
+        //        var queryConfig = new QueryOperationConfig
+        //        {
+        //            KeyExpression = new Expression
+        //            {
+        //                ExpressionStatement = "begins_with(PK, :pkValue) AND SK = :skValue",
+        //                ExpressionAttributeValues = new Dictionary<string, DynamoDBEntry>
+        //                {
+        //                    {":pkValue", pkValue},
+        //                    {":skValue", skValue }
+        //                }
+        //            },
+        //            FilterExpression = new Expression
+        //            {
+        //                ExpressionStatement = "contains(PK, :username)",
+        //                ExpressionAttributeValues = new Dictionary<string, DynamoDBEntry>
+        //                {
+        //                    { ":username", username }
+        //                }
+        //            },
+        //            Select = SelectValues.SpecificAttributes,
+        //            AttributesToGet = new List<string> { "PK"}
+        //        };
+
+        //        var query = dynamoDBContext.FromQueryAsync<T>(queryConfig);
+        //        return await query.GetRemainingAsync();
+
+        //        //return await dynamoDBContext.LoadAsync<T>(pkValue, skValue);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Exception at GetSpecificPKandSKDataForConversationId: {ex}");
+        //        throw;
+        //    }
+        //}
     }
 }
 

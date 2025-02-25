@@ -215,15 +215,14 @@ const ChatPortal = () => {
             }
             else {
                 console.log("It's Fineeeee");
+
+                await connectionVariant.invoke("LogOutSession", username);
+                setIsAuthenticated(false);
+                chatLobbyFlag = false;
+                setUsername('');
+                navigate("/");
+                //connectionVariant.stop();
             }
-
-            await connectionVariant.invoke("SetUserStatus", username, false);
-            setIsAuthenticated(false);
-            chatLobbyFlag = false;
-            setUsername('');
-            navigate("/");
-            connectionVariant.stop();
-
         } catch (e) {
             console.log(e);
         }

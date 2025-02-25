@@ -60,8 +60,8 @@ namespace NeyosChatApi.Controllers
                     FirstName = profile.FirstName,
                     LastName = profile.LastName,
 					HashedPassword = _passwordService.HashPassword(profile.Password),
-                    Bio = "",
-                    Status = true
+                    Bio = ""
+                    //Status = true
 				};
 
                 if (!await _dynamoDbService.AddUserData(user))
