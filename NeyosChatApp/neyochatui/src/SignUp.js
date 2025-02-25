@@ -35,6 +35,9 @@ const SignUp = () => {
             const isAuthenticated = true;
 
             if (isAuthenticated) {
+                console.log("F:", formData.firstName);
+                console.log("L:", formData.lastName);
+
                 await axios.post("https://localhost:7085/UserAuth/signup", formData, { withCredentials: true });
                 alert("User registered successfully");
                 setIsAuthenticated(isAuthenticated);
@@ -47,17 +50,6 @@ const SignUp = () => {
     };
 
     return (
-        // <div>
-        // <form onSubmit={handleSubmit}>
-        //     <input name="firstName" placeholder="First Name" onChange={handleChange} />
-        //     <input name="lastName" placeholder="Last Name" onChange={handleChange} />
-        //     <input name="username" placeholder="UserName" onChange={handleChange} />
-        //     <input name="password" type="password" placeholder="Password" onChange={handleChange} />
-        //     <button type="submit">Sign Up</button>
-        // </form>
-        // <button onClick={() => {navigate(-1)} }>Back to Dashboard</button>
-        // </div>
-
         <MDBContainer fluid className='p-4 background-radial-gradient overflow-hidden'>
 
             <MDBRow>
@@ -85,11 +77,11 @@ const SignUp = () => {
 
                             <MDBRow>
                                 <MDBCol col='6'>
-                                    <MDBInput wrapperClass='mb-4' label='First name' id='form1' type='text' onChange={handleChange} />
+                                    <MDBInput wrapperClass='mb-4' name="firstName" label='First name' id='form1' type='text' onChange={handleChange} />
                                 </MDBCol>
 
                                 <MDBCol col='6'>
-                                    <MDBInput wrapperClass='mb-4' label='Last name' id='form2' type='text' onChange={handleChange} />
+                                    <MDBInput wrapperClass='mb-4' name="lastname" label='Last name' id='form2' type='text' onChange={handleChange} />
                                 </MDBCol>
 
                             </MDBRow>

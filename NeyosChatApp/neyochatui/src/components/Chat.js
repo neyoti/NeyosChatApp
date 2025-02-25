@@ -11,7 +11,7 @@ import { useRecipientProfile } from './RecipientProfileContext';
 const Chat = () => {
 
     const { messages } = useMessage();
-    const { firstName, lastName, status } = useRecipientProfile();
+    const { firstName, lastName, bio } = useRecipientProfile();
 
     const location = useLocation();
     const { username, recipient } = location.state || {};
@@ -56,9 +56,8 @@ const Chat = () => {
                         <div className="recipient-profile">
                             <h4>  {firstName} {lastName}</h4>
                             <h3>{recipient}</h3>
-                            <h3>{status ? "Online" : "Offline"}</h3>
                             <h3>Bio</h3>
-                            <h4>Havya Havyashya Sandhi</h4>
+                            <h4>{bio}</h4>
                         </div>
                     </div>
                     <div className="chat">

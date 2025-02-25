@@ -151,6 +151,10 @@ const ChatPortal = () => {
                 setUserBio(parsedData['Bio']);
             })
 
+            connection.on("ReceiveRefreshSignal", () => {
+                setIsAuthenticated(true);
+              });
+
             connection.onclose(e => {
                 setConnection();
                 // setMessages([]);
