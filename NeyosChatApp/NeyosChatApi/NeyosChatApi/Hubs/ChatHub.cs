@@ -259,7 +259,6 @@ namespace NeyosChatApi.Hubs
                 //await Clients.Client(Context.ConnectionId).SendAsync("UserProfileData", userProfileJsonElement);
                 //// end here
 
-
                 // Code to get chats for conversation id
                 string jsonElement = await GetChatMessages(conversationId);
 

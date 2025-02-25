@@ -103,13 +103,6 @@ namespace NeyosChatApi.Services
             }
             else
             {
-                //chatObject = new ChatSession()
-                //{
-                //    PK = conversationId,
-                //    SK = 1,
-                //    ChatMessageArray = chatArray
-                //};
-
                 var newList = new List<Dictionary<string, string>>();
 
                 newList.Add(chatMessageDictionary);
@@ -157,7 +150,7 @@ namespace NeyosChatApi.Services
                     };
 
                     chatList.Add(JsonSerializer.Serialize(messageDictionary));
-                    return chatList;
+                    //return chatList;
                 }
                 else
                 {
