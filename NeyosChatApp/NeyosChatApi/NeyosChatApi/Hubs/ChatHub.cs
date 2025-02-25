@@ -76,8 +76,10 @@ namespace NeyosChatApi.Hubs
 
                     Console.WriteLine($"Sender: {userconnection.User}, Recipient: {recipient}, Message: {message}");
 
-                    // Broadcast the message to all users in the group
+                    // Broadcast the message to user with conversation id
                     await Clients.Group(conversationId).SendAsync("ReceiveMessage", userconnection.User, message);
+
+                    await Clients.Group(conversationId).SendAsync("ReceiveRefreshSignal");
                 }
                 else
                     Console.WriteLine("Yooooooo");
@@ -120,7 +122,8 @@ namespace NeyosChatApi.Hubs
 
                     string jsonElement = await GetChatMessages(conversationId);
 
-                    await Clients.Group(conversationId).SendAsync("UpdateChatMessages", jsonElement);
+                    if(jsonElement != string.Empty)
+                        await Clients.Group(conversationId).SendAsync("UpdateChatMessages", jsonElement);
                 }
                 else
                     Console.WriteLine("Yooooooo");
@@ -138,17 +141,20 @@ namespace NeyosChatApi.Hubs
                 // Step 1: Create a List<string>
                 List<string> chatList = await _dynamoDbService.GetChatsForConversationId(conversationId);  //_fakeData.GetChatsForConversationId(conversationId);
 
-                Console.WriteLine($"chatList:{string.Join(",", chatList)}");
-                // Step 2: Serialize the list to JSON
-                string jsonString = JsonSerializer.Serialize(chatList);
-
-                // Step 3: Parse the JSON string into a JsonDocument
-                using JsonDocument doc = JsonDocument.Parse(jsonString);
-
-                using(JsonDocument d = JsonDocument.Parse(jsonString))
+                if (chatList != null)
                 {
-                    Console.WriteLine("JsonElement got it");
-                    return d.RootElement.GetRawText();
+                    Console.WriteLine($"chatList:{string.Join(",", chatList)}");
+                    // Step 2: Serialize the list to JSON
+                    string jsonString = JsonSerializer.Serialize(chatList);
+
+                    // Step 3: Parse the JSON string into a JsonDocument
+                    using JsonDocument doc = JsonDocument.Parse(jsonString);
+
+                    using (JsonDocument d = JsonDocument.Parse(jsonString))
+                    {
+                        Console.WriteLine("JsonElement got it");
+                        return d.RootElement.GetRawText();
+                    }
                 }
             }
             catch (Exception ex)
@@ -245,7 +251,7 @@ namespace NeyosChatApi.Hubs
 
                 Console.WriteLine($"In JoinChat Conn Id:{Context.ConnectionId}, user: {sender}");
 
-                await Clients.Group(conversationId).SendAsync("ReceiveMessage", _botUser, $"{sender} has joined the Chat");
+                //await Clients.Group(conversationId).SendAsync("ReceiveMessage", _botUser, $"{sender} has joined the Chat");
 
                 // Code to get Recipient Profile data
                 string recipientProfileJsonElement = await GetUserProfileData(recipient);

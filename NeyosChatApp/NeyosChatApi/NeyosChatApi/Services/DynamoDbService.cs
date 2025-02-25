@@ -89,11 +89,6 @@ namespace NeyosChatApi.Services
 
             chatMessageDictionary["timestamp"] = DateTime.Now.ToString();
 
-            foreach (var item in chatMessageDictionary)
-            {
-                Console.WriteLine($"D Item:{item.Key} - {item.Value}");
-            }
-
             if (chatObject != null)
             {
                 var newList = new List<Dictionary<string, string>>();
@@ -106,18 +101,12 @@ namespace NeyosChatApi.Services
                 var newList = new List<Dictionary<string, string>>();
 
                 newList.Add(chatMessageDictionary);
-                Console.WriteLine($"newList:{string.Join("--", newList)}");
                 chatObject = new ChatSession()
                 {
                     PK = pkValue,
                     SK = 1,
                     ChatMessageArray = newList
                 };
-
-                foreach (var item in chatObject.ChatMessageArray[0])
-                {
-                    Console.WriteLine($"D Item:{item.Key} - {item.Value}");
-                }
             }
             await _chatSessionRepository.SaveMetadata(chatObject);
 
@@ -143,14 +132,7 @@ namespace NeyosChatApi.Services
 
                 if (result == null)
                 {
-                    var messageDictionary = new Dictionary<string, string>()
-                    {
-                        { "user", "AMIT" },
-                        { "message", "Welcome User." }
-                    };
-
-                    chatList.Add(JsonSerializer.Serialize(messageDictionary));
-                    //return chatList;
+                    return null;
                 }
                 else
                 {
@@ -158,21 +140,10 @@ namespace NeyosChatApi.Services
 
                     foreach (var item in result.ChatMessageArray)
                     {
-                        foreach (var i in item.Keys)
-                        {
-                            Console.WriteLine($"A Item:{i} - {item[i]}");
-                        }
-
                         var serializedData = JsonSerializer.Serialize(item);
                         chatList.Add(serializedData);
                     }
                 }
-
-                //var s = JsonSerializer.Serialize(result.ChatMessageArray[0]);
-
-                //Console.WriteLine($"S: {s}");
-
-                //chatList.Add(s);
 
                 return chatList;
             }
