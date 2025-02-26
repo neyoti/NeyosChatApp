@@ -1,8 +1,7 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.S3;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
-using NeyosChatApi.Data;
 using NeyosChatApi.Hubs;
 using NeyosChatApi.Models;
 using NeyosChatApi.Repository;
@@ -17,8 +16,6 @@ var builder = WebApplication.CreateBuilder(args);
 //ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
 builder.Services.AddScoped<PasswordService>();
-builder.Services.AddSingleton<FakeData>();
-builder.Services.AddSingleton<OnlineUsersService>();
 builder.Services.AddTransient<ConversationService>();
 
 ////Load URL from configuration
@@ -38,8 +35,10 @@ builder.Services.AddSignalR();
 builder.Services.AddSingleton<IDictionary<string, UserConn>>(options => new Dictionary<string, UserConn>());
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 builder.Services.AddAWSService<IAmazonDynamoDB>();
+builder.Services.AddAWSService<IAmazonS3>();
 builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 builder.Services.AddScoped<DynamoDbService>();
+builder.Services.AddScoped<S3Service>();
 builder.Services.AddScoped(typeof(IUserProfileDataRepository<>), typeof(UserProfileDataRepository<>));
 
 builder.Services.AddCors();

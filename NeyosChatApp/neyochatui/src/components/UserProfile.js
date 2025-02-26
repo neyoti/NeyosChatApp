@@ -11,6 +11,8 @@ const UserProfile = () => {
     const { userfirstName, userlastName, userbio } = useUserProfile();
     const { username } = useUser();  // Get Username
 
+    
+
     const handlerEditProfile = () => {
         try {
 
@@ -29,9 +31,13 @@ const UserProfile = () => {
     return <div className="container mt-4 mb-4 p-3 d-flex justify-content-center">
         <div className="card p-4">
             <div className=" image d-flex flex-column justify-content-center align-items-center">
-                <button className="btn btn-secondary">
+
+                {/* <button className="btn btn-secondary">
                     <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
-                </button>
+                </button> */}
+
+
+
                 <span className="name mt-3">{userfirstName} {userlastName}</span>
                 <span className="idd">@{username}</span>
                 <div className=" d-flex mt-2">

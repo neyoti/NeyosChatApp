@@ -1,7 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NeyosChatApi.Data;
 using NeyosChatApi.Models;
 using NeyosChatApi.Services;
 
@@ -13,15 +11,16 @@ namespace NeyosChatApi.Controllers
 	{
 		//private readonly UserProfileContext _userProfileContext;
 		private readonly PasswordService _passwordService;
-        private readonly FakeData _fakeData;
         private readonly DynamoDbService _dynamoDbService;
+        private readonly S3Service _s3Service;
 
-		public UserAuthController(/*UserProfileContext userProfileContext,*/ PasswordService passwordService, FakeData fakeData, DynamoDbService dynamoDbService)
+		public UserAuthController(/*UserProfileContext userProfileContext,*/ PasswordService passwordService,
+            DynamoDbService dynamoDbService, S3Service s3Service)
 		{
 			//_userProfileContext = userProfileContext;
 			_passwordService = passwordService;
-			_fakeData = fakeData;
             _dynamoDbService = dynamoDbService;
+            _s3Service = s3Service;
 		}
 
 		[HttpPost("login")]
@@ -109,6 +108,30 @@ namespace NeyosChatApi.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost("uploadProfilePic")]
+        public async Task<ActionResult> UpdateProfilePic([FromForm] IFormFile file, [FromForm] string username)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            var bucketName = "neyo-site-user-profile-pic";
+
+            try
+            {
+                if(await _s3Service.UploadFileToS3(username, file, bucketName))
+                    return Ok($"File uploaded successfully: {file.FileName}");
+                else
+                    return StatusCode(500, $"Failed to upload the file: {file.FileName}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in UpdateProfilePic:{ex}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
     }

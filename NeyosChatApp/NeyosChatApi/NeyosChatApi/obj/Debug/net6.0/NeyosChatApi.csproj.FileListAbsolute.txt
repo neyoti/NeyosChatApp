@@ -97,3 +97,4 @@
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/Debug/net6.0/NeyosChatApi.pdb
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/Debug/net6.0/NeyosChatApi.genruntimeconfig.cache
 /Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/obj/Debug/net6.0/ref/NeyosChatApi.dll
+/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/bin/Debug/net6.0/AWSSDK.S3.dll
