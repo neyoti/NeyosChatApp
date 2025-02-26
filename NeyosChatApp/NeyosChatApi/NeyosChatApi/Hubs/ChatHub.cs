@@ -190,7 +190,6 @@ namespace NeyosChatApi.Hubs
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     UserName = user.PK,
-                    //Status = user.Status,
                     Bio = user.Bio
                 };
 

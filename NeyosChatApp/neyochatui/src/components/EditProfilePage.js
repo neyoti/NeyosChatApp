@@ -46,13 +46,13 @@ const EditProfilePage = () => {
         formData.append("username", username);
 
         try {
-            const response = await axios.post("https://localhost:7085/UserAuth/uploadProfilePic", 
+            const response = await axios.post("https://localhost:7085/UserAuth/uploadProfilePic",
                 formData, {
-                    headers: { "Content-Type": "multipart/form-data"},
-                    withCredentials: true,
-                });
+                headers: { "Content-Type": "multipart/form-data" },
+                withCredentials: true,
+            });
 
-            alert("File uploaded successfully: " + response.data);
+            alert(response.data);
         } catch (error) {
             console.error("Upload failed", error);
             alert("Upload failed");
@@ -107,7 +107,16 @@ const EditProfilePage = () => {
             <Card.Body>
 
                 <div>
+                    {/* <img
+                        alt="not found"
+                        width={"250px"}
+                        src={URL.createObjectURL(file)}
+                    /> */}
+                    
+                    <br/>
                     <input type="file" onChange={handleFileChange} />
+                    
+                    <br/>
                     <button onClick={handleUpload}>Upload</button>
                 </div>
 

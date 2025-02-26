@@ -1,42 +1,41 @@
 ﻿<Properties StartupConfiguration="{A24EBB0C-C09E-4328-9F53-4331F61051A8}|Default">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Repository/UserProfileDataRepository.cs" relfile="NeyosChatApi/Repository/UserProfileDataRepository.cs" line="33" column="1" />
       <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Repository/UserProfileDataRepository.cs" relfile="NeyosChatApi/Repository/UserProfileDataRepository.cs" line="69" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NeyosChatApi/Services/DynamoDbService.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NeyosChatApi/Controllers/UserAuthController.cs">
     <Files>
-      <File FileName="NeyosChatApi/Program.cs" />
-      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" Line="67" Column="1" />
-      <File FileName="NeyosChatApi/Data/FakeData.cs" />
+      <File FileName="NeyosChatApi/Program.cs" Line="16" Column="69" />
+      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" Line="119" Column="14" />
       <File FileName="NeyosChatApi/Services/DynamoDbService.cs" Line="135" Column="33" />
-      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="232" Column="50" />
-      <File FileName="NeyosChatApi/Models/UserDataModel.cs" Line="13" Column="36" />
-      <File FileName="NeyosChatApi/Models/ChatSession.cs" Line="16" Column="48" />
-      <File FileName="NeyosChatApi/Repository/UserProfileDataRepository.cs" Line="43" Column="1" />
-      <File FileName="NeyosChatApi/Repository/IUserProfileDataRepository.cs" Line="11" Column="5" />
+      <File FileName="NeyosChatApi/Models/UserDataModel.cs" Line="17" Column="1" />
+      <File FileName="NeyosChatApi/Models/ChatSession.cs" />
+      <File FileName="NeyosChatApi/Repository/UserProfileDataRepository.cs" />
+      <File FileName="NeyosChatApi/Repository/IUserProfileDataRepository.cs" />
       <File FileName="NeyosChatApi/Models/UserProfileDataModel.cs" />
-      <File FileName="NeyosChatApi/Models/Constants.cs" Line="7" Column="35" />
-      <File FileName="NeyosChatApi/Services/ConversationService.cs" Line="6" Column="16" />
-      <File FileName="NeyosChatApi/Models/UserProfile.cs" />
-      <File FileName="NeyosChatApi/Services/OnlineUsersService.cs" />
-      <File FileName="NeyosChatApi/Models/OnlineUsersModel.cs" Line="16" Column="44" />
+      <File FileName="NeyosChatApi/Models/Constants.cs" />
+      <File FileName="NeyosChatApi/Services/ConversationService.cs" />
+      <File FileName="NeyosChatApi/Models/UserProfile.cs" Line="10" Column="45" />
+      <File FileName="NeyosChatApi/Models/OnlineUsersModel.cs" />
+      <File FileName="NeyosChatApi/Services/S3Service.cs" Line="27" Column="71" />
+      <File FileName="NeyosChatApi/Services/CustomerUserIdProvider.cs" Line="10" Column="1" />
+      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="186" Column="72" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NeyosChatApi">
             <Node name="NeyosChatApi">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Models" expanded="True" />
-              <Node name="Repository" expanded="True" />
-              <Node name="Services">
-                <Node name="DynamoDbService.cs" selected="True" />
+              <Node name="Controllers">
+                <Node name="UserAuthController.cs" selected="True" />
               </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Services" expanded="True" />
             </Node>
           </Node>
         </State>

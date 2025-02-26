@@ -123,7 +123,9 @@ namespace NeyosChatApi.Controllers
             try
             {
                 if(await _s3Service.UploadFileToS3(username, file, bucketName))
+                {
                     return Ok($"File uploaded successfully: {file.FileName}");
+                }
                 else
                     return StatusCode(500, $"Failed to upload the file: {file.FileName}");
             }
