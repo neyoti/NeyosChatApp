@@ -13,20 +13,19 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.405.24" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.400" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.415.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Hubs\" />
     <None Remove="Models\" />
     <None Remove="Services\" />
-    <None Remove="Data\" />
     <None Remove="Repository\" />
+    <None Remove="Hubs\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Hubs\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
-    <Folder Include="Data\" />
     <Folder Include="Repository\" />
+    <Folder Include="Hubs\" />
   </ItemGroup>
 </Project>

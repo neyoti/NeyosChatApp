@@ -19,12 +19,45 @@ const EditProfilePage = () => {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
 
-    const { userfirstName, userlastName, userbio, setUserFirstName, setUserLastName, setUserBio } = useUserProfile();
+    const { userfirstName, userlastName, userbio, userprofilepic, setUserFirstName, setUserLastName, setUserBio, setUserProfilePic } = useUserProfile();
     const { username } = useUser();  // Get Username
 
     const [firstName, setFirstName] = useState(userfirstName || "");
     const [lastName, setLastName] = useState(userlastName || "");
     const [bio, setBio] = useState(userbio || "");
+    const [profilepic, setProfilePic] = useState(userprofilepic || "");
+
+    //const [selectedImage, setSelectedImage] = useState(null);
+
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
+
+    const handleUpload = async () => {
+        if (!file) {
+            alert("Please select a file first.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("username", username);
+
+        try {
+            const response = await axios.post("https://localhost:7085/UserAuth/uploadProfilePic",
+                formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+                withCredentials: true,
+            });
+
+            alert(response.data);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Upload failed");
+        }
+    };
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
@@ -68,10 +101,24 @@ const EditProfilePage = () => {
     return (
         <Card className="text-center">
             <Card.Header>{username} : User Profile
-                <CloseButton variant="Danger" style={{ marginLeft: "330px" }} onClick={() => handleOnCloseClick()}/>
+                <CloseButton variant="Danger" style={{ marginLeft: "330px" }} onClick={() => handleOnCloseClick()} />
             </Card.Header>
 
             <Card.Body>
+
+                <div>
+                    {/* <img
+                        alt="not found"
+                        width={"250px"}
+                        src={URL.createObjectURL(file)}
+                    /> */}
+                    
+                    <br/>
+                    <input type="file" onChange={handleFileChange} />
+                    
+                    <br/>
+                    <button onClick={handleUpload}>Upload</button>
+                </div>
 
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row className="mb-3">
@@ -85,8 +132,8 @@ const EditProfilePage = () => {
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-
                         </Form.Group>
+
                         <Form.Group as={Col} md="6" controlId="validationCustom02">
                             <Form.Label>Last Name</Form.Label>
                             <Form.Control

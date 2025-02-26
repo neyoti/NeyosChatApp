@@ -10,6 +10,7 @@
         "dependencies": {
           "AWSSDK.DynamoDBv2": "3.7.405.24",
           "AWSSDK.Extensions.NETCore.Setup": "3.7.400",
+          "AWSSDK.S3": "3.7.415.6",
           "Microsoft.AspNetCore.SignalR": "1.1.0",
           "Microsoft.EntityFrameworkCore": "7.0.20",
           "Pomelo.EntityFrameworkCore.MySql": "7.0.0",
@@ -19,17 +20,17 @@
           "NeyosChatApi.dll": {}
         }
       },
-      "AWSSDK.Core/3.7.402.3": {
+      "AWSSDK.Core/3.7.402.7": {
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.Core.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.402.3"
+            "fileVersion": "3.7.402.7"
           }
         }
       },
       "AWSSDK.DynamoDBv2/3.7.405.24": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.402.3"
+          "AWSSDK.Core": "3.7.402.7"
         },
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.DynamoDBv2.dll": {
@@ -40,7 +41,7 @@
       },
       "AWSSDK.Extensions.NETCore.Setup/3.7.400": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.402.3",
+          "AWSSDK.Core": "3.7.402.7",
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0"
@@ -49,6 +50,17 @@
           "lib/netcoreapp3.1/AWSSDK.Extensions.NETCore.Setup.dll": {
             "assemblyVersion": "3.3.0.0",
             "fileVersion": "3.7.400.0"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.415.6": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.402.7"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.415.6"
           }
         }
       },
@@ -517,12 +529,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AWSSDK.Core/3.7.402.3": {
+    "AWSSDK.Core/3.7.402.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-VY9L2P++0+jULNNNQhM98hFfC3PBTq3VdVWY37p4Gx18ar/sJ4Xt2Mo4FbYiilT3xsrff1e2ngS+1rHAKnYvDA==",
-      "path": "awssdk.core/3.7.402.3",
-      "hashPath": "awssdk.core.3.7.402.3.nupkg.sha512"
+      "sha512": "sha512-e/rPN5tJ2iJ+nyHmvDBpNm4eorgGdXxPiXRa1yz7PEIRC/xXGxwYP4rgOwYUxkhawh5IfhlWNveJ75UmZjPdEg==",
+      "path": "awssdk.core/3.7.402.7",
+      "hashPath": "awssdk.core.3.7.402.7.nupkg.sha512"
     },
     "AWSSDK.DynamoDBv2/3.7.405.24": {
       "type": "package",
@@ -537,6 +549,13 @@
       "sha512": "sha512-i4ta6n+QuGKt1RBCIbRU2wohz5DYJ+wRPR9EI7YkzC8eaWSbmMXTNL+s4HpYUsoxM7uyUrYoW0gC52/9KnK7xw==",
       "path": "awssdk.extensions.netcore.setup/3.7.400",
       "hashPath": "awssdk.extensions.netcore.setup.3.7.400.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.415.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-msWn1DjfQvuH4t/cmNtQF37fXQT5bAtJdXP9M6om3+3A8u9ryOYxzjakJRlYcgkGebtHEPymjiYz++8eDhzpBw==",
+      "path": "awssdk.s3/3.7.415.6",
+      "hashPath": "awssdk.s3.3.7.415.6.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.Abstractions/2.2.0": {
       "type": "package",
