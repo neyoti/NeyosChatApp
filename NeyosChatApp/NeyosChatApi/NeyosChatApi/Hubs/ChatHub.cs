@@ -291,7 +291,7 @@ namespace NeyosChatApi.Hubs
 
         public async Task LogOutSession(string username)
         {
-            var userData = await _dynamoDbService.GetUserData(username, 1);
+            //var userData = await _dynamoDbService.GetUserData(username, 1);
 
             await _dynamoDbService.RemoveUserFromListOfOnlineUsers(username);
         }

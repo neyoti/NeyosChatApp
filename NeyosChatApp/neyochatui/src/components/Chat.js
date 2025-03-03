@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useMessage } from './MessageContext';
 import { useRecipientProfile } from './RecipientProfileContext';
+import ProfileImageDisplay from './ProfileImageDisplay';
 
 const Chat = () => {
 
@@ -54,6 +55,7 @@ const Chat = () => {
                 <div>
                     <div className="recipient-details">
                         <div className="recipient-profile">
+                        < ProfileImageDisplay username={recipient} />
                             <h4>  {firstName} {lastName}</h4>
                             <h3>{recipient}</h3>
                             <h3>Bio</h3>

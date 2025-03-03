@@ -3,6 +3,7 @@ import { useUser } from './UsernameContext';
 import { useConnection } from "./ConnectionContext";
 
 import { useNavigate } from 'react-router-dom';
+import ProfileImageDisplay from './ProfileImageDisplay';
 
 const UserProfile = () => {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ const UserProfile = () => {
     const { userfirstName, userlastName, userbio } = useUserProfile();
     const { username } = useUser();  // Get Username
 
-    
+
 
     const handlerEditProfile = () => {
         try {
@@ -32,11 +33,7 @@ const UserProfile = () => {
         <div className="card p-4">
             <div className=" image d-flex flex-column justify-content-center align-items-center">
 
-                {/* <button className="btn btn-secondary">
-                    <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" />
-                </button> */}
-
-
+                < ProfileImageDisplay username={username} />
 
                 <span className="name mt-3">{userfirstName} {userlastName}</span>
                 <span className="idd">@{username}</span>

@@ -59,7 +59,7 @@ const Sidebar = ({ sidebarWidth }) => {
             className="text-decoration-none"
             style={{ color: 'inherit', width: sidebarWidth }}
           > */}
-          123456789
+          Chit-Chat
           {/* </div> */}
         </CDBSidebarHeader>
 
@@ -82,7 +82,7 @@ const Sidebar = ({ sidebarWidth }) => {
               padding: '20px 5px',
             }}
           >
-            Sidebar Footer
+            
           </div>
         </CDBSidebarFooter>
       </CDBSidebar>

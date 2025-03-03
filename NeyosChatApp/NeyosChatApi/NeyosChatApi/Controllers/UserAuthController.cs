@@ -1,4 +1,6 @@
 ﻿using System;
+using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
+using Amazon.S3.Model;
 using Microsoft.AspNetCore.Mvc;
 using NeyosChatApi.Models;
 using NeyosChatApi.Services;
@@ -118,13 +120,18 @@ namespace NeyosChatApi.Controllers
                 return BadRequest("No file uploaded.");
             }
 
-            var bucketName = "neyo-site-user-profile-pic";
+            var bucketName = Constants.S3BucketName;
 
             try
             {
-                if(await _s3Service.UploadFileToS3(username, file, bucketName))
+                var result = await _s3Service.UploadFileToS3(username, file, bucketName);
+                if (result != string.Empty)
                 {
-                    return Ok($"File uploaded successfully: {file.FileName}");
+                    var userDataObject = await _dynamoDbService.GetUserData(username, 1);
+                    userDataObject.ProfilePicName = result;
+                    await _dynamoDbService.AddUserData(userDataObject);
+
+                    return Ok($"{result}");
                 }
                 else
                     return StatusCode(500, $"Failed to upload the file: {file.FileName}");
@@ -132,6 +139,32 @@ namespace NeyosChatApi.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception in UpdateProfilePic:{ex}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("getImageUrl/{username}")]
+        public async Task<IActionResult> GetImageUrl(string username)
+        {
+            var bucketName = Constants.S3BucketName;
+
+            try
+            {
+                var userDataObject = await _dynamoDbService.GetUserData(username, 1);
+                if(userDataObject != null && userDataObject.ProfilePicName != null)
+                {
+                    var s3FilePreSignedUrl = await _s3Service.GetS3ObjectPreSignedURL(userDataObject.ProfilePicName, bucketName);
+                    Console.WriteLine($"Got s3FilePreSignedUrl: {s3FilePreSignedUrl}");
+                    Response.Headers["Cache-Control"] = "public, max-age=60"; // Cache for 1 min
+                    return Ok(new { imageUrl = s3FilePreSignedUrl });
+                }
+
+                return Ok(new { imageUrl = "" });
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Exception in GetImageUrl:{ex}");
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }

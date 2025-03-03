@@ -2,6 +2,7 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NeyosChatApi.Models;
@@ -20,7 +21,7 @@ namespace NeyosChatApi.Services
             _userProfileDataRepository = userProfileDataRepository;
         }
 
-        public async Task<bool> UploadFileToS3(string username, IFormFile file, string bucketName)
+        public async Task<string> UploadFileToS3(string username, IFormFile file, string bucketName)
         {
             try
             {
@@ -42,13 +43,35 @@ namespace NeyosChatApi.Services
                     await transferUtility.UploadAsync(uploadRequest);
                 }
 
-                return true;
+                return key;
             }
             catch(Exception ex)
             {
                 Console.WriteLine($"Exception in UploadFileToS3:{ex}");
             }
-            return false;
+            return string.Empty;
+        }
+
+        public async Task<string> GetS3ObjectPreSignedURL(string fileName, string bucketName)
+        {
+            try
+            {
+                var request = new GetPreSignedUrlRequest
+                {
+                    BucketName = bucketName,
+                    Key = fileName, // Filename in S3
+                    Expires = DateTime.UtcNow.AddMinutes(1), // URL expires in 10 minutes
+                };
+
+                var url = await _s3Client.GetPreSignedURLAsync(request);
+                return url;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in UploadFileToS3:{ex}");
+            }
+            return string.Empty;
         }
     }
 }

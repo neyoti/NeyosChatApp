@@ -17,6 +17,7 @@ import { useUser } from './components/UsernameContext';
 import Modal from 'react-bootstrap/Modal';
 
 import { useEffect, useRef } from "react";
+import ProfileImageDisplay from './components/ProfileImageDisplay';
 
 const UserTab = ({ username, onTabClick }) => {
     return (
@@ -316,7 +317,8 @@ const ChatPortal = () => {
                     {recipientArray.map((user, index) => (
                         <Row>
                             <div className="custom-tab-container">
-                                <div className='recipient-profile-inlobby'></div>
+                                {/* <div className='recipient-profile-inlobby'></div> */}
+                                < ProfileImageDisplay username={user} source={"chatlobby"}/>
                                 <UserTab username={user} onTabClick={() => handleTabClick(user)} />
                             </div>
                         </Row>

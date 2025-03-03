@@ -1,46 +1,52 @@
 ﻿<Properties StartupConfiguration="{A24EBB0C-C09E-4328-9F53-4331F61051A8}|Default">
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Repository/UserProfileDataRepository.cs" relfile="NeyosChatApi/Repository/UserProfileDataRepository.cs" line="33" column="1" />
-      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Repository/UserProfileDataRepository.cs" relfile="NeyosChatApi/Repository/UserProfileDataRepository.cs" line="69" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NeyosChatApi/Controllers/UserAuthController.cs">
+  <MonoDevelop.Ide.ItemProperties.NeyosChatApi PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NeyosChatApi/Services/DynamoDbService.cs">
     <Files>
-      <File FileName="NeyosChatApi/Program.cs" Line="16" Column="69" />
-      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" Line="119" Column="14" />
-      <File FileName="NeyosChatApi/Services/DynamoDbService.cs" Line="135" Column="33" />
-      <File FileName="NeyosChatApi/Models/UserDataModel.cs" Line="17" Column="1" />
+      <File FileName="NeyosChatApi/Program.cs" />
+      <File FileName="NeyosChatApi/Controllers/UserAuthController.cs" Line="158" Column="97" />
+      <File FileName="NeyosChatApi/Services/DynamoDbService.cs" Line="236" Column="62" />
+      <File FileName="NeyosChatApi/Services/S3Service.cs" />
+      <File FileName="NeyosChatApi/Models/UserDataModel.cs" />
       <File FileName="NeyosChatApi/Models/ChatSession.cs" />
-      <File FileName="NeyosChatApi/Repository/UserProfileDataRepository.cs" />
+      <File FileName="NeyosChatApi/Repository/UserProfileDataRepository.cs" Line="40" Column="16" />
       <File FileName="NeyosChatApi/Repository/IUserProfileDataRepository.cs" />
       <File FileName="NeyosChatApi/Models/UserProfileDataModel.cs" />
       <File FileName="NeyosChatApi/Models/Constants.cs" />
       <File FileName="NeyosChatApi/Services/ConversationService.cs" />
-      <File FileName="NeyosChatApi/Models/UserProfile.cs" Line="10" Column="45" />
-      <File FileName="NeyosChatApi/Models/OnlineUsersModel.cs" />
-      <File FileName="NeyosChatApi/Services/S3Service.cs" Line="27" Column="71" />
-      <File FileName="NeyosChatApi/Services/CustomerUserIdProvider.cs" Line="10" Column="1" />
-      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="186" Column="72" />
+      <File FileName="NeyosChatApi/Models/UserProfile.cs" />
+      <File FileName="NeyosChatApi/Models/OnlineUsersModel.cs" Line="14" Column="1" />
+      <File FileName="NeyosChatApi/Services/CustomerUserIdProvider.cs" />
+      <File FileName="NeyosChatApi/Hubs/ChatHub.cs" Line="296" Column="1" />
+      <File FileName="NeyosChatApi/Models/UserData.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="NeyosChatApi">
+          <Node name="NeyosChatApi" expanded="True">
             <Node name="NeyosChatApi">
-              <Node name="Controllers">
-                <Node name="UserAuthController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True" />
-              <Node name="Services" expanded="True" />
+              <Node name="Repository" expanded="True" />
+              <Node name="Services" expanded="True">
+                <Node name="DynamoDbService.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.NeyosChatApi PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Repository/UserProfileDataRepository.cs" relfile="NeyosChatApi/Repository/UserProfileDataRepository.cs" line="33" column="1" />
+      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Repository/UserProfileDataRepository.cs" relfile="NeyosChatApi/Repository/UserProfileDataRepository.cs" line="69" column="1" />
+      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Hubs/ChatHub.cs" relfile="NeyosChatApi/Hubs/ChatHub.cs" line="296" column="1" />
+      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Services/DynamoDbService.cs" relfile="NeyosChatApi/Services/DynamoDbService.cs" line="245" column="1" />
+      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Services/DynamoDbService.cs" relfile="NeyosChatApi/Services/DynamoDbService.cs" line="247" column="1" />
+      <Breakpoint file="/Users/admin/Desktop/FAANG-Prep/Amit/SDE-2 Prep/Projects/NeyosChatApp/NeyosChatApp/NeyosChatApi/NeyosChatApi/Services/DynamoDbService.cs" relfile="NeyosChatApi/Services/DynamoDbService.cs" line="248" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>
