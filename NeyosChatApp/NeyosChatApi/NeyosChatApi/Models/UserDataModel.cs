@@ -25,6 +25,9 @@ namespace NeyosChatApi.Models
         public string Bio { get; set; }
 
         [DynamoDBProperty]
+        public string ProfilePicName { get; set; }
+
+        [DynamoDBProperty]
         public List<string> ListOfRecipients { get; set; }
     }
 }

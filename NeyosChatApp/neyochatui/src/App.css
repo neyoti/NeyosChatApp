@@ -125,7 +125,7 @@ hr.line {
   width: inherit;
   height: 9vh;
   scroll-behavior: smooth;
-  background: radial-gradient(circle,gray, black);
+  background: linear-gradient(to right, rgb(97, 15, 130), rgb(187, 89, 228));
   color: white;
   align-items: center;
   justify-content: center;
@@ -157,7 +157,7 @@ hr.line {
   margin-left: 10px;
 }
 
-.recipient-profile-inlobby {
+/* .recipient-profile-inlobby {
   background-image: url(../public/userImage2.jpg);
   background-repeat: no-repeat;
   background-size: cover ;
@@ -171,7 +171,7 @@ hr.line {
   border-color: black;
   margin-left: 7px;
   margin-right: 7px;
-}
+} */
 
 .recipient-name-inlobby {
   padding-left: 10px;
@@ -185,7 +185,7 @@ hr.line {
   width: 100%;
   height: 100vh;
   padding: 30px 20px;
-  background: linear-gradient(to right, rgb(144, 200, 230), blue);
+  background: rgb(212, 200, 215);
   color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -213,6 +213,7 @@ hr.line {
   align-items: center;
   overflow: auto;
   scroll-behavior: smooth;
+  color: black;
   /* margin-top: 20px; */
 }
 
@@ -232,7 +233,7 @@ hr.line {
   left: 0;
   top: 0;
   height: 100vh;
-  background-color: rgb(108, 108, 108);
+  background-color: rgb(97, 15, 130);  /* rgb(129, 198, 27);*/
   color: white;
   transition: width 0.3s ease;
   border-radius: 0 30px 0 0;
@@ -274,10 +275,10 @@ hr.line {
 }
 
 .recipient-profile{
-  background-image: url(../public/userImage2.jpg);
+  /* background-image: url(../public/userImage2.jpg);
   background-repeat: no-repeat;
   background-size: cover ;
-  background-position: center;
+  background-position: center; */
 
   display: flex;
   position: relative;

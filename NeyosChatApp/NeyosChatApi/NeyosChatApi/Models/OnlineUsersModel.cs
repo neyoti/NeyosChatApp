@@ -13,6 +13,6 @@ namespace NeyosChatApi.Models
         public int SK { get; set; }
 
         [DynamoDBProperty]
-        public List<string> OnlineUsersList { get; set; }
+        public List<string> OnlineUsersList { get; set; } = null;
     }
 }

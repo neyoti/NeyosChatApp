@@ -13,6 +13,7 @@ import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import CloseButton from 'react-bootstrap/CloseButton';
+import ProfileImageDisplay from './ProfileImageDisplay';
 
 const EditProfilePage = () => {
 
@@ -26,6 +27,8 @@ const EditProfilePage = () => {
     const [lastName, setLastName] = useState(userlastName || "");
     const [bio, setBio] = useState(userbio || "");
     const [profilepic, setProfilePic] = useState(userprofilepic || "");
+
+    const [refresh, setRefresh] = useState(false);
 
     //const [selectedImage, setSelectedImage] = useState(null);
 
@@ -53,6 +56,8 @@ const EditProfilePage = () => {
             });
 
             alert(response.data);
+            //setProfilePic(response.data);
+            setRefresh(prev => !prev);
         } catch (error) {
             console.error("Upload failed", error);
             alert("Upload failed");
@@ -75,7 +80,8 @@ const EditProfilePage = () => {
             FirstName: firstName,
             LastName: lastName,
             UserName: username,
-            Bio: bio
+            Bio: bio,
+            ProfilePicName: profilepic
         }
 
         console.log("Sending User Profile:", userProfile);
@@ -107,6 +113,8 @@ const EditProfilePage = () => {
             <Card.Body>
 
                 <div>
+                    < ProfileImageDisplay key={refresh} username={username} />
+
                     {/* <img
                         alt="not found"
                         width={"250px"}

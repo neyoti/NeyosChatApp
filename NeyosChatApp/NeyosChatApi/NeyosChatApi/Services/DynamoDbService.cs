@@ -110,6 +110,8 @@ namespace NeyosChatApi.Services
             }
             await _chatSessionRepository.SaveMetadata(chatObject);
 
+            //------------------------------------------------------------------
+
             var userObject = await _userProfileDataRepository.GetUserData(username, 1);
 
             if (userObject.ListOfRecipients == null)
@@ -121,6 +123,20 @@ namespace NeyosChatApi.Services
             }
 
             await _userProfileDataRepository.SaveMetadata(userObject);
+
+            //------------------------------------------------------------------
+
+            var recipientObject = await _userProfileDataRepository.GetUserData(recipient, 1);
+
+            if (recipientObject.ListOfRecipients == null)
+                recipientObject.ListOfRecipients = new List<string> { username };
+            else
+            {
+                if (!recipientObject.ListOfRecipients.Contains(username))
+                    recipientObject.ListOfRecipients.Add(username);
+            }
+
+            await _userProfileDataRepository.SaveMetadata(recipientObject);
         }
 
         public async Task<List<string>> GetChatsForConversationId(string conversationId)
@@ -225,7 +241,10 @@ namespace NeyosChatApi.Services
 
                 if (onlineUsersListObject != null || onlineUsersListObject.OnlineUsersList != null)
                 {
-                    onlineUsersListObject.OnlineUsersList.Remove(userName);
+                    if(onlineUsersListObject.OnlineUsersList.Count() > 1)
+                        onlineUsersListObject.OnlineUsersList.Remove(userName);
+                    else if(onlineUsersListObject.OnlineUsersList.Count() == 1 )
+                        onlineUsersListObject.OnlineUsersList = null;
                     await _onlineUserRepository.SaveMetadata(onlineUsersListObject);
                 }
             }
